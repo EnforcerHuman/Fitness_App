@@ -42,27 +42,62 @@ Future<void> edituserdetails({
 
 ///---------------------------------------------------------------------------------------------------
 
+// Future<void> addschedule(Schedule value) async {
+//   final scheduledb = await Hive.openBox<Schedule>('schedules');
+//   scheduledb.put(value.date, value);
+//   print('added ');
+// }
+
+// Future<void> retriveschedules() async {
+//   final scheduledb = await Hive.openBox<Schedule>('schedules');
+
+//   // Retrieve all schedules using the values property
+//   List<Schedule> allSchedules = scheduledb.values.toList();
+
+//   // Print all retrieved schedules
+//   for (var i = 0; i < allSchedules.length; i++) {
+//     print(allSchedules[i]);
+//   }
+//   print('Length is ${allSchedules.length}');
+// }
+
+// Future<void> retriveDate(date) async {
+//   final scheduledb = await Hive.openBox<Schedule>('schedules');
+//   final test = scheduledb.get(date);
+//   print(test);
+// }
 Future<void> addschedule(Schedule value) async {
-  final scheduledb = await Hive.openBox<Schedule>('schedules');
-  scheduledb.put(value.date, value);
-  print('added ');
-}
+  final scheduledb = await Hive.openBox<List>('schedules');
+  final dateKey = value
+      .date; // Ensure this is a string or a format that can be used as a key.
+  List<Schedule> schedulesForDate = [];
 
-Future<void> retriveschedules() async {
-  final scheduledb = await Hive.openBox<Schedule>('schedules');
-
-  // Retrieve all schedules using the values property
-  List<Schedule> allSchedules = scheduledb.values.toList();
-
-  // Print all retrieved schedules
-  for (var i = 0; i < allSchedules.length; i++) {
-    print(allSchedules[i]);
+  // Check if there's already a list for that date
+  if (scheduledb.containsKey(dateKey)) {
+    final existingSchedules = scheduledb.get(dateKey);
+    schedulesForDate.addAll(existingSchedules!.cast<Schedule>());
   }
-  print('Length is ${allSchedules.length}');
+
+  // Add the new schedule to the list
+  schedulesForDate.add(value);
+
+  // Put the updated list back into the box
+  await scheduledb.put(dateKey, schedulesForDate);
+  print('Schedule added');
 }
 
-Future<void> retriveDate(date) async {
-  final scheduledb = await Hive.openBox<Schedule>('schedules');
-  final test = scheduledb.get(date);
-  print(test);
+Future<List?> retrieveSchedulesForDate(String date) async {
+  final scheduledb = await Hive.openBox<List>('schedules');
+  final schedulesForDate = scheduledb.get(date);
+
+  if (schedulesForDate != null) {
+    List<Schedule> schedules = schedulesForDate.cast<Schedule>();
+    // Process your schedules list
+    for (Schedule schedule in schedules) {
+      print(schedule); // Or however you want to handle the schedule object
+    }
+  }
+  return schedulesForDate;
 }
+
+Future<void> deleteSchedule() async {}

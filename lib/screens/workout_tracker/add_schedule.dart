@@ -21,8 +21,7 @@ class _AddScheduleViewState extends State<AddScheduleView> {
   void initState() {
     String formattedDate = DateFormat('yyyy-MM-dd').format(widget.date);
     // TODO: implement initState
-    retriveschedules();
-    retriveDate(formattedDate);
+    retrieveSchedulesForDate(formattedDate);
   }
 
   var list = ['Full body', 'Upper body', 'AB workout'];
@@ -208,7 +207,7 @@ class _AddScheduleViewState extends State<AddScheduleView> {
                 await addschedule(
                   scheduleadd,
                 );
-                await retriveschedules();
+                await retrieveSchedulesForDate(formattedDate);
               }),
           const SizedBox(
             height: 20,
