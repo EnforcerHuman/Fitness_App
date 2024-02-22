@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'dart:math';
 
 import 'package:calendar_agenda/calendar_agenda.dart';
@@ -9,10 +11,11 @@ import 'package:strongify/db/db_functions.dart';
 import 'package:strongify/screens/workout_tracker/add_schedule.dart';
 
 class WorkoutScheduleScreen extends StatefulWidget {
-  const WorkoutScheduleScreen({super.key});
+  final String? currentdate;
+  final DateTime? currentDate;
+  const WorkoutScheduleScreen({super.key, this.currentdate, this.currentDate});
 
   @override
-  // ignore: library_private_types_in_public_api
   _WorkoutScheduleScreenState createState() => _WorkoutScheduleScreenState();
 }
 
@@ -24,11 +27,26 @@ class _WorkoutScheduleScreenState extends State<WorkoutScheduleScreen> {
   late var dayschedules = [];
   Random random = Random();
   late String time;
-
   @override
   void initState() {
     super.initState();
     _selectedDateAppBBar = DateTime.now();
+    _loadSchedulesForSelectedDate();
+  }
+
+  Future<void> _loadSchedulesForSelectedDate() async {
+    String formattedDate;
+    if (widget.currentdate != null) {
+      formattedDate = widget.currentdate!;
+    } else {
+      formattedDate = DateFormat('yyyy-MM-dd').format(_selectedDateAppBBar);
+    }
+    var schedules = await retrieveSchedulesForDate(formattedDate);
+    print('sendig date to retive $formattedDate');
+    print('widget.date ${widget.currentdate}');
+    setState(() {
+      dayschedules = schedules ?? [];
+    });
   }
 
   @override
@@ -52,14 +70,16 @@ class _WorkoutScheduleScreenState extends State<WorkoutScheduleScreen> {
             Icons.arrow_back_ios_new,
             color: Colors.white,
           ),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
         ),
         weekDay: WeekDay.long,
         fullCalendarScroll: FullCalendarScroll.horizontal,
         fullCalendarDay: WeekDay.long,
         selectedDateColor: Colors.green.shade900,
         locale: 'en',
-        initialDate: DateTime.now(),
+        initialDate: widget.currentDate ?? DateTime.now(),
         calendarEventColor: Colors.green,
         firstDate: DateTime.now().subtract(Duration(days: 140)),
         lastDate: DateTime.now().add(const Duration(days: 60)),
@@ -82,14 +102,17 @@ class _WorkoutScheduleScreenState extends State<WorkoutScheduleScreen> {
               itemCount: dayschedules.length,
               itemBuilder: (context, index) {
                 final schedule = dayschedules[index];
-                if (schedule) {}
+
                 return ListTile(
-                  leading: const Icon(Icons.fitness_center), // Example icon
-                  title: Text('Workout :${schedule.workout}'),
-                  subtitle: Text('Time :${schedule.time.toString()}'),
+                  leading: const Icon(Icons.fitness_center),
+                  title: Text('Workout: ${schedule.workout}'),
+                  subtitle: Text('Time: ${schedule.time.toString()}'),
                   trailing: IconButton(
-                      onPressed: () {},
-                      icon: const Icon(Icons.delete_forever_outlined)),
+                    onPressed: () {
+                      // Handle delete logic here
+                    },
+                    icon: const Icon(Icons.delete_forever_outlined),
+                  ),
                 );
               },
             )

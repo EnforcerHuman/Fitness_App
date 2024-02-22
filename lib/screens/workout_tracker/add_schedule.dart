@@ -2,8 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:strongify/common/color_extension.dart';
+import 'package:strongify/common_widget/show_warning.dart';
 import 'package:strongify/db/db_functions.dart';
 import 'package:strongify/db_model/model.dart';
+import 'package:strongify/screens/workout_tracker/workout_schedule.dart';
 import '../../common/common.dart';
 import '../../common_widget/round_button.dart';
 
@@ -211,7 +213,19 @@ class _AddScheduleViewState extends State<AddScheduleView> {
                 await addschedule(
                   scheduleadd,
                 );
-                await retrieveSchedulesForDate(formattedDate);
+                // await retrieveSchedulesForDate(formattedDate);
+
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (ctx) => WorkoutScheduleScreen(
+                          currentDate: widget.date,
+                          currentdate: formattedDate,
+                        )));
+                showWarningDialog(
+                    context,
+                    'you have added a $selectedOption workout  on ${newdate} @ $actualtime',
+                    '', () {
+                  Navigator.of(context).pop();
+                });
               }),
           const SizedBox(
             height: 20,
