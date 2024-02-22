@@ -1,6 +1,6 @@
 # strongify
 
- Fitness App with Kit 2-in-1 fitness tracker. It helps you track your workout and sleep - making it easy to see your overall progress.
+ Fitness App with  2-in-1 fitness tracker. It helps you track your workout and sleep - making it easy to see your overall progress.
 
 ## Getting Started
 
