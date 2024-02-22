@@ -61,7 +61,7 @@ class ScheduleAdapter extends TypeAdapter<Schedule> {
     };
     return Schedule(
       date: fields[0] as String,
-      time: fields[1] as DateTime,
+      time: fields[1] as String,
       workout: fields[2] as String,
     );
   }

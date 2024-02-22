@@ -28,6 +28,7 @@ class _AddScheduleViewState extends State<AddScheduleView> {
   String selectedOption = 'Full body';
   // ignore: prefer_typing_uninitialized_variables
   late DateTime time;
+  late String actualtime;
   @override
   Widget build(BuildContext context) {
     var newdate = dateToString(widget.date, formatStr: " dd MMMM yyyy");
@@ -190,6 +191,7 @@ class _AddScheduleViewState extends State<AddScheduleView> {
                 if (time != null) {
                   int hour = time!.hour;
                   int minute = time!.minute;
+                  actualtime = '$hour:$minute';
                   print('Selected Time: $hour:$minute');
                   print(
                       'you have added a wrrkout for $selectedOption on ${newdate} @ $hour:$minute');
@@ -203,7 +205,9 @@ class _AddScheduleViewState extends State<AddScheduleView> {
                 print('formatted date : $formattedDate ');
                 // print('formated time $formattedTime');
                 final scheduleadd = Schedule(
-                    date: formattedDate, time: time, workout: selectedOption);
+                    date: formattedDate,
+                    time: actualtime,
+                    workout: selectedOption);
                 await addschedule(
                   scheduleadd,
                 );

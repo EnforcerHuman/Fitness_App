@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 part 'model.g.dart';
 
@@ -6,6 +5,7 @@ part 'model.g.dart';
 class UserDetails {
   @HiveField(0)
   final String gender;
+
   @HiveField(1)
   final int age;
   @HiveField(2)
@@ -24,7 +24,7 @@ class Schedule {
   @HiveField(0)
   final String date;
   @HiveField(1)
-  final DateTime time;
+  final String time;
   @HiveField(2)
   final String workout;
   Schedule({required this.date, required this.time, required this.workout});

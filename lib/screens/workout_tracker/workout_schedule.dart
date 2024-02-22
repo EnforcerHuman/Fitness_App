@@ -3,12 +3,13 @@ import 'dart:math';
 import 'package:calendar_agenda/calendar_agenda.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:strongify/common/color_extension.dart';
 import 'package:strongify/db/db_functions.dart';
 
 import 'package:strongify/screens/workout_tracker/add_schedule.dart';
 
 class WorkoutScheduleScreen extends StatefulWidget {
-  WorkoutScheduleScreen({super.key});
+  const WorkoutScheduleScreen({super.key});
 
   @override
   // ignore: library_private_types_in_public_api
@@ -22,6 +23,7 @@ class _WorkoutScheduleScreenState extends State<WorkoutScheduleScreen> {
   late DateTime _selectedDateAppBBar;
   late var dayschedules = [];
   Random random = Random();
+  late String time;
 
   @override
   void initState() {
@@ -33,6 +35,8 @@ class _WorkoutScheduleScreenState extends State<WorkoutScheduleScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
+        focusColor: Tcolor.secondryColor1,
+        backgroundColor: Tcolor.secondryColor2,
         onPressed: () {
           Navigator.of(context).push(MaterialPageRoute(
               builder: (ctx) => AddScheduleView(date: _selectedDateAppBBar)));
@@ -78,17 +82,18 @@ class _WorkoutScheduleScreenState extends State<WorkoutScheduleScreen> {
               itemCount: dayschedules.length,
               itemBuilder: (context, index) {
                 final schedule = dayschedules[index];
+                if (schedule) {}
                 return ListTile(
-                  leading: Icon(Icons.fitness_center), // Example icon
-                  title: Text(schedule.workout),
-                  subtitle: Text(schedule.time.toString()),
+                  leading: const Icon(Icons.fitness_center), // Example icon
+                  title: Text('Workout :${schedule.workout}'),
+                  subtitle: Text('Time :${schedule.time.toString()}'),
                   trailing: IconButton(
                       onPressed: () {},
-                      icon: Icon(Icons.delete_forever_outlined)),
+                      icon: const Icon(Icons.delete_forever_outlined)),
                 );
               },
             )
-          : Center(
+          : const Center(
               child: Text("No schedules for this date."),
             ),
     );
