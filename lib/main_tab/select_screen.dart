@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:strongify/common_widget/round_button.dart';
+import 'package:strongify/screens/sleep_tracker/sleep_tracker_screen.dart';
 import 'package:strongify/screens/workout_tracker/workout_tracker_screen.dart';
 
 class SelectScreen extends StatelessWidget {
@@ -44,12 +45,12 @@ class SelectScreen extends StatelessWidget {
             RoundButton(
                 title: "Sleep Tracker",
                 onPressed: () {
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //     builder: (context) => const SleepTrackerView(),
-                  //   ),
-                  // );
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const SleepTrackerScreen(),
+                    ),
+                  );
                 })
           ],
         ),
