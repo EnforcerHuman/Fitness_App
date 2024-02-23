@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:readmore/readmore.dart';
 import 'package:strongify/common/color_extension.dart';
-import 'package:strongify/screens/workout_tracker/workout_timer.dart';
 import 'package:strongify/test.dart';
 import 'package:strongify/utilities/excercise_steps.dart';
 
@@ -305,6 +304,7 @@ class _ExercisesStepDetailsState extends State<ExercisesStepDetails> {
                         builder: (ctx) => TimerApp(
                               miunutes: minutes,
                               seconds: seconds,
+                              workout: widget.eObj['title'],
                             )));
                     // Navigator.of(context).push(MaterialPageRoute(
                     //     builder: (ctx) => WorkoutTimerScreen(
