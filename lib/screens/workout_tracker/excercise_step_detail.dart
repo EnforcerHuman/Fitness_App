@@ -293,10 +293,23 @@ class _ExercisesStepDetailsState extends State<ExercisesStepDetails> {
                   title: "Start",
                   elevation: 0,
                   onPressed: () {
+                    double time = widget.eObj[
+                        'time']; // Assuming 2.30 represents 2 minutes and 30 seconds
+
+                    int minutes =
+                        time.toInt(); // Extracting the integer part as minutes
+                    int seconds = ((time - minutes) * 100)
+                        .round(); // Extracting the decimal part as seconds
+
                     Navigator.of(context).push(MaterialPageRoute(
-                        builder: (ctx) => WorkoutTimerScreen(
-                              duration: widget.eObj['time'],
+                        builder: (ctx) => TimerApp(
+                              miunutes: minutes,
+                              seconds: seconds,
                             )));
+                    // Navigator.of(context).push(MaterialPageRoute(
+                    //     builder: (ctx) => WorkoutTimerScreen(
+                    //           duration: widget.eObj['time'],
+                    //         )));
                   }),
               const SizedBox(
                 height: 15,

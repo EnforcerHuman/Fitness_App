@@ -53,6 +53,7 @@ dependencies:
   time_planner: ^0.1.2+1
   calendar_agenda: ^0.0.2+3
   intl: ^0.17.0
+  timer_builder: ^2.0.0
 
 dev_dependencies:
   flutter_test:
