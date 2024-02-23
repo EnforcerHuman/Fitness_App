@@ -310,15 +310,15 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen> {
                     ],
                   ),
                 ),
-                SafeArea(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      RoundButton(title: "Start Workout", onPressed: () {})
-                    ],
-                  ),
-                )
+                // SafeArea(
+                //   child: Column(
+                //     mainAxisSize: MainAxisSize.max,
+                //     mainAxisAlignment: MainAxisAlignment.end,
+                //     children: [
+                //       RoundButton(title: "Start Workout", onPressed: () {})
+                //     ],
+                //   ),
+                // )
               ],
             ),
           ),

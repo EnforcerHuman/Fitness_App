@@ -66,7 +66,7 @@ class _FinishedWorkoutViewState extends State<FinishedWorkoutView> {
               ),
               const Spacer(),
               RoundButton(
-                  title: "Back To Home",
+                  title: "Next Workout",
                   onPressed: () {
                     Navigator.pop(context);
                   }),

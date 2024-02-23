@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:readmore/readmore.dart';
 import 'package:strongify/common/color_extension.dart';
-import 'package:strongify/test.dart';
+import 'package:strongify/screens/workout_tracker/workout_timer.dart';
 import 'package:strongify/utilities/excercise_steps.dart';
 
 import '../../common_widget/round_button.dart';
@@ -300,16 +300,13 @@ class _ExercisesStepDetailsState extends State<ExercisesStepDetails> {
                     int seconds = ((time - minutes) * 100)
                         .round(); // Extracting the decimal part as seconds
 
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (ctx) => TimerApp(
+                    Navigator.of(context).pushReplacement(MaterialPageRoute(
+                        builder: (ctx) => WorkoutTimerScreen(
                               miunutes: minutes,
                               seconds: seconds,
                               workout: widget.eObj['title'],
+                              value: widget.eObj['value'],
                             )));
-                    // Navigator.of(context).push(MaterialPageRoute(
-                    //     builder: (ctx) => WorkoutTimerScreen(
-                    //           duration: widget.eObj['time'],
-                    //         )));
                   }),
               const SizedBox(
                 height: 15,

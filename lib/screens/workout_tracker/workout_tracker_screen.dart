@@ -15,6 +15,7 @@ class WorkoutTrackerScreen extends StatefulWidget {
 }
 
 class _WorkoutTrackerScreenState extends State<WorkoutTrackerScreen> {
+  int touchedIndex = -1;
   List latestArr = [
     {
       "image": "assets/img/Workout1.png",
@@ -110,7 +111,7 @@ class _WorkoutTrackerScreenState extends State<WorkoutTrackerScreen> {
                       fit: BoxFit.contain,
                     ),
                   ),
-                )
+                ),
               ],
             ),
           ];
@@ -138,6 +139,157 @@ class _WorkoutTrackerScreenState extends State<WorkoutTrackerScreen> {
                   ),
                   SizedBox(
                     height: media.width * 0.05,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Workout Progress",
+                        style: TextStyle(
+                            color: Tcolor.black,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w700),
+                      ),
+                      Container(
+                          height: 30,
+                          padding: const EdgeInsets.symmetric(horizontal: 8),
+                          decoration: BoxDecoration(
+                            gradient:
+                                LinearGradient(colors: Tcolor.primaryGradient),
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          child: DropdownButtonHideUnderline(
+                            child: DropdownButton(
+                              items: ["Weekly", "Monthly"]
+                                  .map((name) => DropdownMenuItem(
+                                        value: name,
+                                        child: Text(
+                                          name,
+                                          style: TextStyle(
+                                              color: Tcolor.gray, fontSize: 14),
+                                        ),
+                                      ))
+                                  .toList(),
+                              onChanged: (value) {},
+                              icon:
+                                  Icon(Icons.expand_more, color: Tcolor.white),
+                              hint: Text(
+                                "Weekly",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    color: Tcolor.white, fontSize: 12),
+                              ),
+                            ),
+                          )),
+                    ],
+                  ),
+                  SizedBox(
+                    height: media.width * 0.05,
+                  ),
+                  Container(
+                    height: media.width * 0.5,
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 15, horizontal: 0),
+                    decoration: BoxDecoration(
+                        color: Tcolor.white,
+                        borderRadius: BorderRadius.circular(15),
+                        boxShadow: const [
+                          BoxShadow(color: Colors.black12, blurRadius: 3)
+                        ]),
+                    child: BarChart(BarChartData(
+                      barTouchData: BarTouchData(
+                        touchTooltipData: BarTouchTooltipData(
+                          tooltipBgColor: Colors.grey,
+                          tooltipHorizontalAlignment:
+                              FLHorizontalAlignment.right,
+                          tooltipMargin: 10,
+                          getTooltipItem: (group, groupIndex, rod, rodIndex) {
+                            String weekDay;
+                            switch (group.x) {
+                              case 0:
+                                weekDay = 'Monday';
+                                break;
+                              case 1:
+                                weekDay = 'Tuesday';
+                                break;
+                              case 2:
+                                weekDay = 'Wednesday';
+                                break;
+                              case 3:
+                                weekDay = 'Thursday';
+                                break;
+                              case 4:
+                                weekDay = 'Friday';
+                                break;
+                              case 5:
+                                weekDay = 'Saturday';
+                                break;
+                              case 6:
+                                weekDay = 'Sunday';
+                                break;
+                              default:
+                                throw Error();
+                            }
+                            return BarTooltipItem(
+                              '$weekDay\n',
+                              const TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 14,
+                              ),
+                              children: <TextSpan>[
+                                TextSpan(
+                                  text: (rod.toY - 1).toString(),
+                                  style: TextStyle(
+                                    color: Tcolor.white,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ],
+                            );
+                          },
+                        ),
+                        touchCallback: (FlTouchEvent event, barTouchResponse) {
+                          setState(() {
+                            if (!event.isInterestedForInteractions ||
+                                barTouchResponse == null ||
+                                barTouchResponse.spot == null) {
+                              touchedIndex = -1;
+                              return;
+                            }
+                            touchedIndex =
+                                barTouchResponse.spot!.touchedBarGroupIndex;
+                          });
+                        },
+                      ),
+                      titlesData: FlTitlesData(
+                        show: true,
+                        rightTitles: AxisTitles(
+                          sideTitles: SideTitles(showTitles: false),
+                        ),
+                        topTitles: AxisTitles(
+                          sideTitles: SideTitles(showTitles: false),
+                        ),
+                        bottomTitles: AxisTitles(
+                          sideTitles: SideTitles(
+                            showTitles: true,
+                            getTitlesWidget: getTitles,
+                            reservedSize: 38,
+                          ),
+                        ),
+                        leftTitles: AxisTitles(
+                          sideTitles: SideTitles(
+                            showTitles: false,
+                          ),
+                        ),
+                      ),
+                      borderData: FlBorderData(
+                        show: false,
+                      ),
+                      barGroups: showingGroups(),
+                      gridData: FlGridData(show: false),
+                    )),
                   ),
                   Container(
                     padding: const EdgeInsets.symmetric(
@@ -168,7 +320,8 @@ class _WorkoutTrackerScreenState extends State<WorkoutTrackerScreen> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => WorkoutScheduleScreen(),
+                                  builder: (context) =>
+                                      const WorkoutScheduleScreen(),
                                 ),
                               );
                             },
@@ -190,16 +343,6 @@ class _WorkoutTrackerScreenState extends State<WorkoutTrackerScreen> {
                             fontSize: 16,
                             fontWeight: FontWeight.w700),
                       ),
-                      // TextButton(
-                      //   onPressed: () {},
-                      //   child: Text(
-                      //     "See More",
-                      //     style: TextStyle(
-                      //         color: Tcolor.gray,
-                      //         fontSize: 14,
-                      //         fontWeight: FontWeight.w700),
-                      //   ),
-                      // )
                     ],
                   ),
                   ListView.builder(
@@ -259,6 +402,106 @@ class _WorkoutTrackerScreenState extends State<WorkoutTrackerScreen> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget getTitles(double value, TitleMeta meta) {
+    var style = TextStyle(
+      color: Tcolor.gray,
+      fontWeight: FontWeight.w500,
+      fontSize: 12,
+    );
+    Widget text;
+    switch (value.toInt()) {
+      case 0:
+        text = Text('Sun', style: style);
+        break;
+      case 1:
+        text = Text('Mon', style: style);
+        break;
+      case 2:
+        text = Text('Tue', style: style);
+        break;
+      case 3:
+        text = Text('Wed', style: style);
+        break;
+      case 4:
+        text = Text('Thu', style: style);
+        break;
+      case 5:
+        text = Text('Fri', style: style);
+        break;
+      case 6:
+        text = Text('Sat', style: style);
+        break;
+      default:
+        text = Text('', style: style);
+        break;
+    }
+    return SideTitleWidget(
+      axisSide: meta.axisSide,
+      space: 16,
+      child: text,
+    );
+  }
+
+  List<BarChartGroupData> showingGroups() => List.generate(7, (i) {
+        switch (i) {
+          case 0:
+            return makeGroupData(0, 33.33, Tcolor.primaryGradient,
+                isTouched: i == touchedIndex);
+          case 1:
+            return makeGroupData(1, 10.5, Tcolor.secondryGradient,
+                isTouched: i == touchedIndex);
+          case 2:
+            return makeGroupData(2, 5, Tcolor.primaryGradient,
+                isTouched: i == touchedIndex);
+          case 3:
+            return makeGroupData(3, 7.5, Tcolor.secondryGradient,
+                isTouched: i == touchedIndex);
+          case 4:
+            return makeGroupData(4, 15, Tcolor.primaryGradient,
+                isTouched: i == touchedIndex);
+          case 5:
+            return makeGroupData(5, 5.5, Tcolor.secondryGradient,
+                isTouched: i == touchedIndex);
+          case 6:
+            return makeGroupData(6, 8.5, Tcolor.primaryGradient,
+                isTouched: i == touchedIndex);
+          default:
+            return throw Error();
+        }
+      });
+
+  BarChartGroupData makeGroupData(
+    int x,
+    double y,
+    List<Color> barColor, {
+    bool isTouched = false,
+    double width = 22,
+    List<int> showTooltips = const [],
+  }) {
+    return BarChartGroupData(
+      x: x,
+      barRods: [
+        BarChartRodData(
+          toY: isTouched ? y + 1 : y,
+          gradient: LinearGradient(
+              colors: barColor,
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter),
+          width: width,
+          borderSide: isTouched
+              ? const BorderSide(color: Colors.green)
+              : const BorderSide(color: Colors.white, width: 0),
+          backDrawRodData: BackgroundBarChartRodData(
+            show: true,
+            toY: 20,
+            color: Tcolor.lightGray,
+          ),
+        ),
+      ],
+      showingTooltipIndicators: showTooltips,
     );
   }
 }
