@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+
 import 'package:strongify/common/color_extension.dart';
 import 'package:strongify/common_widget/round_button.dart';
-import 'package:strongify/db/db_functions.dart';
-import 'package:strongify/db_model/model.dart';
+
 import 'package:strongify/screens/workout_tracker/finished_workout_screen.dart';
 import 'package:timer_builder/timer_builder.dart';
 
@@ -29,7 +29,7 @@ class _WorkoutTimerScreenState extends State<WorkoutTimerScreen> {
   int setMinutes = 0;
   bool isPaused = false;
   int setSeconds = 0;
-
+  double progressvalue = 0;
   @override
   void initState() {
     super.initState();
@@ -60,7 +60,7 @@ class _WorkoutTimerScreenState extends State<WorkoutTimerScreen> {
                 padding: const EdgeInsets.only(bottom: 10),
                 child: Text(
                   'complete your ${widget.workout} for ${widget.value}',
-                  style: TextStyle(color: Colors.white, fontSize: 20),
+                  style: const TextStyle(color: Colors.white, fontSize: 20),
                 ),
               ),
               TimerBuilder.periodic(const Duration(seconds: 1),
@@ -70,9 +70,12 @@ class _WorkoutTimerScreenState extends State<WorkoutTimerScreen> {
                 }
                 int remainingTime = (setSeconds + setMinutes * 60) - seconds;
                 if (remainingTime <= 0) {
-                  final progress = WorkoutProgres(20, 'date');
-                  addprogress(progress);
-                  retriveprogress();
+                  // setprogressvalue();
+                  // String date = DateFormat('yyyy-MM-dd').format(DateTime.now());
+                  // final progress = WorkoutProgres(progressvalue, '2024-02-21');
+                  // addprogress(progress);
+                  // retriveprogress();
+                  // addProgress(progress);
                   Future.delayed(const Duration(seconds: 1), () {
                     Navigator.of(context).pushReplacement(MaterialPageRoute(
                         builder: (ctx) => const FinishedWorkoutView()));

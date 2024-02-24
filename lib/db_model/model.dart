@@ -41,7 +41,8 @@ class WorkoutProgres {
   @HiveField(1)
   final String Date;
   WorkoutProgres(this.progress, this.Date);
-  String toString() {
-    return 'Date : $Date ,Progress : $progress';
-  }
+  // @override
+  // String toString() {
+  //   return 'Date : $Date ,Progress : $progress';
+  // }
 }

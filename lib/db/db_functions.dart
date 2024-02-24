@@ -9,7 +9,6 @@ Future<void> adduserdetails(UserDetails value) async {
 Future<List> retriveData() async {
   final userDetailsBox = await Hive.openBox<UserDetails>('user_details');
   final List<UserDetails> users = userDetailsBox.values.toList();
-  print(users[0].gender);
   return users;
 }
 
@@ -102,15 +101,74 @@ Future<List?> retrieveSchedulesForDate(String date) async {
 
 Future<void> deleteSchedule() async {}
 
-//Progress database functions
+//******Progress database functions********//
+
 Future<void> addprogress(WorkoutProgres value) async {
   final progressdb = await Hive.openBox<WorkoutProgres>('progress');
   progressdb.put(value.Date, value);
-  // await progressdb.close();
 }
 
-Future<void> retriveprogress() async {
+Future<double> retriveprogress() async {
   final progressdb = await Hive.openBox<WorkoutProgres>('progress');
-  final progresslist = progressdb.values.toList();
-  print('progresslist $progresslist');
+  final progressList = progressdb.values.toList();
+  // print('progresslist $progresslist');
+
+  print('Stored Progress:');
+  for (var progress in progressList) {
+    print('${progress.Date}: ${progress.progress}');
+  }
+  return progressList[0].progress;
+}
+
+Future<List<WorkoutProgres>> retrieveLast7DaysProgress(
+    String currentDate) async {
+  final progressdb = await Hive.openBox<WorkoutProgres>('progress');
+
+  // Convert currentDate to DateTime
+  final currentDateDateTime = DateTime.parse(currentDate);
+
+  // Calculate the date 7 days ago
+  final last7Days = currentDateDateTime.subtract(const Duration(days: 7));
+
+  // Retrieve progress list for the last 7 days
+  final progressList = progressdb.values.where((progress) {
+    try {
+      final progressDate = DateTime.parse(progress.Date);
+      return progressDate.isAfter(last7Days) &&
+          progressDate.isBefore(currentDateDateTime);
+    } catch (e) {
+      print('Error parsing date: ${progress.Date}');
+      return false;
+    }
+  }).toList();
+
+  print('Stored Progress for 7 days:');
+  for (var progress in progressList) {
+    print('${progress.Date}: ${progress.progress}');
+  }
+
+  await progressdb.close();
+
+  return progressList;
+}
+
+Future<double> retrieveProgressForSpecificDay(String targetDate) async {
+  final progressdb = await Hive.openBox<WorkoutProgres>('progress');
+
+  final targetDateTime = DateTime.parse(targetDate);
+
+  final progress = progressdb.values.firstWhere(
+    (progress) =>
+        DateTime.parse(progress.Date).isAtSameMomentAs(targetDateTime),
+  );
+
+  // ignore: unnecessary_null_comparison
+  if (progress != null) {
+    print('Progress for $targetDate: ${progress.progress}');
+    print(progress.progress);
+    return progress.progress;
+  } else {
+    print('No progress found for $targetDate');
+    return 0;
+  }
 }

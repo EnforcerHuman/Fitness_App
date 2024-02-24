@@ -81,7 +81,7 @@ class _WorkoutScheduleScreenState extends State<WorkoutScheduleScreen> {
         locale: 'en',
         initialDate: widget.currentDate ?? DateTime.now(),
         calendarEventColor: Colors.green,
-        firstDate: DateTime.now().subtract(Duration(days: 140)),
+        firstDate: DateTime.now().subtract(const Duration(days: 140)),
         lastDate: DateTime.now().add(const Duration(days: 60)),
         events: List.generate(
             100,

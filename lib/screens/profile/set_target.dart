@@ -101,7 +101,8 @@ class _SetTargetSCreenState extends State<SetTargetSCreen> {
                                 watertargetcontroller.text);
                             Navigator.of(context).pushReplacement(
                                 MaterialPageRoute(
-                                    builder: (ctx) => ActivityTrackerScreen()));
+                                    builder: (ctx) =>
+                                        const ActivityTrackerScreen()));
                           }),
                     ],
                   ),

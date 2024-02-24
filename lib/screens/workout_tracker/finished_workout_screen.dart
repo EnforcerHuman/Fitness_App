@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:strongify/common/color_extension.dart';
+import 'package:strongify/db/db_functions.dart';
+import 'package:strongify/db_model/model.dart';
 
 import '../../common_widget/round_button.dart';
 
@@ -11,6 +14,15 @@ class FinishedWorkoutView extends StatefulWidget {
 }
 
 class _FinishedWorkoutViewState extends State<FinishedWorkoutView> {
+  double progressvalue = 2;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    setprogressvalue();
+  }
+
   @override
   Widget build(BuildContext context) {
     var media = MediaQuery.of(context).size;
@@ -78,5 +90,25 @@ class _FinishedWorkoutViewState extends State<FinishedWorkoutView> {
         ),
       ),
     );
+  }
+
+  String formatTime(int timeInSeconds) {
+    int minutes = timeInSeconds ~/ 60;
+    int seconds = timeInSeconds % 60;
+    return '$minutes:${seconds.toString().padLeft(2, '0')}';
+  }
+
+  Future<void> setprogressvalue() async {
+    String date = DateFormat('yyyy-MM-dd').format(DateTime.now());
+    double existingprogressvalue =
+        await retrieveProgressForSpecificDay('2024-02-23');
+    print('existingprogressvalue $existingprogressvalue');
+    setState(() {
+      progressvalue = existingprogressvalue + 3.33;
+      print('added progress value $progressvalue');
+    });
+    final progress = WorkoutProgres(progressvalue, '2024-02-23');
+    addprogress(progress);
+    retriveprogress();
   }
 }

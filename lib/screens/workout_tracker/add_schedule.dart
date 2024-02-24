@@ -21,8 +21,9 @@ class AddScheduleView extends StatefulWidget {
 class _AddScheduleViewState extends State<AddScheduleView> {
   @override
   void initState() {
+    super.initState();
     String formattedDate = DateFormat('yyyy-MM-dd').format(widget.date);
-    // TODO: implement initState
+
     retrieveSchedulesForDate(formattedDate);
   }
 
@@ -190,6 +191,7 @@ class _AddScheduleViewState extends State<AddScheduleView> {
               onPressed: () async {
                 // TimeOfDay timeOnly = TimeOfDay.fromDateTime(time);
                 // String formattedTime = '${timeOnly.hour}:${timeOnly.minute}';
+                // ignore: unnecessary_null_comparison
                 if (time != null) {
                   int hour = time!.hour;
                   int minute = time!.minute;
