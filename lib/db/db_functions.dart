@@ -101,3 +101,16 @@ Future<List?> retrieveSchedulesForDate(String date) async {
 }
 
 Future<void> deleteSchedule() async {}
+
+//Progress database functions
+Future<void> addprogress(WorkoutProgres value) async {
+  final progressdb = await Hive.openBox<WorkoutProgres>('progress');
+  progressdb.put(value.Date, value);
+  // await progressdb.close();
+}
+
+Future<void> retriveprogress() async {
+  final progressdb = await Hive.openBox<WorkoutProgres>('progress');
+  final progresslist = progressdb.values.toList();
+  print('progresslist $progresslist');
+}

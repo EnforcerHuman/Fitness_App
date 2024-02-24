@@ -33,3 +33,15 @@ class Schedule {
     return 'Schedule(date: $date, time: $time, workout: $workout)';
   }
 }
+
+@HiveType(typeId: 3)
+class WorkoutProgres {
+  @HiveField(0)
+  final double progress;
+  @HiveField(1)
+  final String Date;
+  WorkoutProgres(this.progress, this.Date);
+  String toString() {
+    return 'Date : $Date ,Progress : $progress';
+  }
+}

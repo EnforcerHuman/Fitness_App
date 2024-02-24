@@ -448,7 +448,7 @@ class _WorkoutTrackerScreenState extends State<WorkoutTrackerScreen> {
   List<BarChartGroupData> showingGroups() => List.generate(7, (i) {
         switch (i) {
           case 0:
-            return makeGroupData(0, 33.33, Tcolor.primaryGradient,
+            return makeGroupData(0, 20, Tcolor.primaryGradient,
                 isTouched: i == touchedIndex);
           case 1:
             return makeGroupData(1, 10.5, Tcolor.secondryGradient,

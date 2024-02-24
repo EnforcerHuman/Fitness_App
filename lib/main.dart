@@ -15,6 +15,9 @@ Future<void> main() async {
   if (!Hive.isAdapterRegistered(ScheduleAdapter().typeId)) {
     Hive.registerAdapter(ScheduleAdapter());
   }
+  if (!Hive.isAdapterRegistered(WorkoutProgresAdapter().typeId)) {
+    Hive.registerAdapter(WorkoutProgresAdapter());
+  }
   runApp(const MyApp());
 }
 
