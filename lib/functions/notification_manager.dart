@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
+int notificationintervel = 1;
 late FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin;
 
 Future<void> initLocalNotifications() async {
@@ -8,7 +9,7 @@ Future<void> initLocalNotifications() async {
   const AndroidInitializationSettings androidSettings =
       AndroidInitializationSettings('welocome');
 
-  final InitializationSettings initializationSettings = InitializationSettings(
+  InitializationSettings initializationSettings = const InitializationSettings(
     android: androidSettings,
   );
 
@@ -20,14 +21,14 @@ Future<void> initLocalNotifications() async {
 Future<void> showNotification() async {
   const AndroidNotificationDetails androidPlatformChannelSpecifics =
       AndroidNotificationDetails(
-    '1', //   unique ID for  channel
+    '1',
     'water_reminder',
     importance: Importance.defaultImportance,
     priority: Priority.defaultPriority,
     actions: [
       AndroidNotificationAction(
         'action_button_id',
-        'Action Button',
+        '',
       ),
     ],
   );
@@ -36,17 +37,17 @@ Future<void> showNotification() async {
       NotificationDetails(android: androidPlatformChannelSpecifics);
 
   await _flutterLocalNotificationsPlugin.show(
-    0, // Notification ID
+    0,
     'Hello, user!',
-    'Its time to DRINK WATER',
+    'Its time to DRINK WATER ',
     platformChannelSpecifics,
     payload: 'notification_payload',
   );
 }
 
 void startPeriodicTimer() {
-  Timer.periodic(Duration(hours: 1), (timer) {
-    // Show the notification every hour later change it considering user preference
+  Timer.periodic(Duration(minutes: notificationintervel), (timer) {
     showNotification();
+    // showWarningDialog(context, 'test', 'test', () {});
   });
 }

@@ -1,9 +1,8 @@
-import 'package:animated_toggle_switch/animated_toggle_switch.dart';
 import 'package:flutter/material.dart';
 
 import 'package:strongify/common/color_extension.dart';
 import 'package:strongify/common_widget/dropdown_widget.dart';
-import 'package:strongify/common_widget/show_warning.dart';
+
 import 'package:strongify/db/get_user_details.dart';
 import 'package:strongify/functions/profile_functions.dart';
 import 'package:strongify/functions/shared_pref.dart';

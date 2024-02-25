@@ -60,15 +60,15 @@ Future<void> edituserdetails({
 //   print('Length is ${allSchedules.length}');
 // }
 
-// Future<void> retriveDate(date) async {
-//   final scheduledb = await Hive.openBox<Schedule>('schedules');
-//   final test = scheduledb.get(date);
-//   print(test);
-// }
+Future<void> retriveDate(date) async {
+  final scheduledb = await Hive.openBox<Schedule>('schedules');
+  final test = scheduledb.get(date);
+  print(test);
+}
+
 Future<void> addschedule(Schedule value) async {
   final scheduledb = await Hive.openBox<List>('schedules');
-  final dateKey = value
-      .date; // Ensure this is a string or a format that can be used as a key.
+  final dateKey = value.date;
   List<Schedule> schedulesForDate = [];
 
   // Check if there's already a list for that date
@@ -120,33 +120,36 @@ Future<double> retriveprogress() async {
   return progressList[0].progress;
 }
 
-Future<List<WorkoutProgres>> retrieveLast7DaysProgress(
-    String currentDate) async {
+//terive data fr last 7 days
+Future<List<WorkoutProgres>> retrieveLast7DaysProgress(String date) async {
   final progressdb = await Hive.openBox<WorkoutProgres>('progress');
 
-  // Convert currentDate to DateTime
-  final currentDateDateTime = DateTime.parse(currentDate);
+  // Get the current date
+  final currentDate = DateTime.parse(date);
 
   // Calculate the date 7 days ago
-  final last7Days = currentDateDateTime.subtract(const Duration(days: 7));
+  final last7Days = currentDate.subtract(Duration(days: 8));
 
-  // Retrieve progress list for the last 7 days
+  // Retrieve progress list for the last 7 days (including the current date)
   final progressList = progressdb.values.where((progress) {
     try {
       final progressDate = DateTime.parse(progress.Date);
       return progressDate.isAfter(last7Days) &&
-          progressDate.isBefore(currentDateDateTime);
+          progressDate.isBefore(currentDate
+              .add(Duration(days: 1))); // Add 1 day to include the current date
     } catch (e) {
       print('Error parsing date: ${progress.Date}');
       return false;
     }
   }).toList();
 
-  print('Stored Progress for 7 days:');
+  // Print stored progress for the last 7 days
+  print('Stored Progress for the last 7 days:');
   for (var progress in progressList) {
     print('${progress.Date}: ${progress.progress}');
   }
 
+  // Close the box after use
   await progressdb.close();
 
   return progressList;

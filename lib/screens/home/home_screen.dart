@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:dotted_dashed_line/dotted_dashed_line.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
@@ -11,12 +10,12 @@ import 'package:simple_circular_progress_bar/simple_circular_progress_bar.dart';
 import 'package:strongify/common/color_extension.dart';
 import 'package:strongify/common_widget/round_button.dart';
 import 'package:strongify/db/get_user_details.dart';
-
 import 'package:strongify/functions/calarie_calculator.dart';
 import 'package:strongify/functions/calculate_bmi.dart';
 import 'package:strongify/functions/notification_manager.dart';
 import 'package:strongify/functions/shared_pref.dart';
 import 'package:strongify/screens/profile/activity_tracker_screen.dart';
+import 'package:strongify/test.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({
@@ -48,86 +47,16 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  void onStepCount(StepCount event) {
-    print(event);
-    setState(() {
-      steps = event.steps;
-      print(steps);
-    });
-  }
-
-  // Future<void> _loadSteps() async {
-  //   final prefs = await SharedPreferences.getInstance();
-  //   setState(() {
-  //     steps = (prefs.getInt('steps') ?? 0);
-  //   });
-  // }
-
-  void onPedestrianStatusChanged(PedestrianStatus event) {
-    print(event);
-    setState(() {
-      _status = event.status;
-    });
-  }
-
-  void onPedestrianStatusError(error) {
-    print('onPedestrianStatusError: $error');
-    setState(() {
-      _status = 'Pedestrian Status not available';
-    });
-    print(_status);
-  }
-
-  void onStepCountError(error) {
-    print('onStepCountError: $error');
-    setState(() {
-      steps = 0;
-    });
-  }
-
-  Future<void> initPlatformState() async {
-    await requestPermissions();
-    _pedestrianStatusStream = Pedometer.pedestrianStatusStream;
-    _pedestrianStatusStream
-        .listen(onPedestrianStatusChanged)
-        .onError(onPedestrianStatusError);
-
-    _stepCountStream = Pedometer.stepCountStream;
-    _stepCountStream.listen(onStepCount).onError(onStepCountError);
-
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    lastResetDate = DateTime.parse(prefs.getString('lastResetDate') ?? '');
-
-    if (!mounted) return;
-  }
-
-  Future<void> getTarget() async {
-    SharedPreferences pref = await SharedPreferences.getInstance();
-    setState(() {
-      watertarget = pref.getString('water')!;
-      steptarget = pref.getString('steps')!;
-      double test = double.parse(watertarget);
-      drinksuggetion = (test / 12).toStringAsFixed(3);
-    });
-    print(drinksuggetion);
-    initializeWaterArr();
-  }
-
-  Future<void> loadusername() async {
-    String loadedname = await getusername();
-    username = loadedname;
-  }
-
   @override
   void initState() {
     super.initState();
     requestPermissions();
     initPlatformState();
-    initLocalNotifications();
-    startPeriodicTimer();
+    // initLocalNotifications();
+    // startPeriodicTimer();
     loadusername();
     getTarget();
-    startPeriodicTimerForWater();
+    periodicwaterratio();
   }
 
   @override
@@ -135,49 +64,6 @@ class _HomeScreenState extends State<HomeScreen> {
     _pedestrianStatusStream.drain();
     _stepCountStream.drain();
     super.dispose();
-  }
-
-  void startPeriodicTimerForWater() {
-    DateTime now = DateTime.now();
-
-    // Calculating the time until the next 6 AM
-    DateTime next6AM = DateTime(now.year, now.month, now.day, 6, 0);
-    if (now.isAfter(next6AM)) {
-      next6AM = next6AM.add(Duration(days: 1));
-    }
-
-    // Calculating the duration until the next 6 AM
-    Duration initialDelay = next6AM.difference(now);
-
-    Timer.periodic(Duration(minutes: 1), (Timer timer) {
-      // Checking if the current time is within the 6 AM to 6 PM range
-      if (DateTime.now()
-          .isBefore(DateTime(now.year, now.month, now.day, 18, 0))) {
-        setState(() {
-          waterratio = waterratio + 0.2;
-        });
-
-        print(waterratio);
-        print('Value changed at ${DateTime.now()}');
-      } else {
-        // If it's after 6 PM, cancel the timer
-        timer.cancel();
-      }
-    });
-
-    print('Initial delay until next 6 AM: $initialDelay');
-  }
-
-  void initializeWaterArr() {
-    setState(() {
-      waterArr = [
-        {"title": "6am - 8am", "subtitle": '$drinksuggetion L'},
-        {"title": "9am - 11am", "subtitle": '$drinksuggetion L'},
-        {"title": "11am - 2pm", "subtitle": '$drinksuggetion L'},
-        {"title": "2pm - 4pm", "subtitle": '$drinksuggetion L'},
-        {"title": "4pm - 6", "subtitle": '$drinksuggetion L'},
-      ];
-    });
   }
 
   @override
@@ -267,10 +153,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                       type: RoundButtonType.bgGradient,
                                       fontSize: 12,
                                       onPressed: () {
-                                        startPeriodicTimerForWater();
+                                        periodicwaterratio();
                                         getAge();
                                         getGender();
-                                        print(gender);
+                                        // print(gender);
                                         calculateBMI();
                                         showNotification();
                                       }),
@@ -284,7 +170,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 builder: (context, snapshot) {
                                   if (snapshot.connectionState ==
                                       ConnectionState.waiting) {
-                                    return CircularProgressIndicator();
+                                    return const CircularProgressIndicator();
                                   } else if (snapshot.hasError) {
                                     return Text('Error: ${snapshot.error}');
                                   } else {
@@ -402,8 +288,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                     foreground: Paint()
                                       ..shader = LinearGradient(
                                         colors: Tcolor.secondryGradient,
-                                      ).createShader(
-                                          Rect.fromLTWH(0.0, 0.0, 200.0, 70.0)),
+                                      ).createShader(const Rect.fromLTWH(
+                                          0.0, 0.0, 200.0, 70.0)),
                                     fontSize: 17,
                                     fontWeight: FontWeight.w700,
                                   ),
@@ -421,8 +307,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                     foreground: Paint()
                                       ..shader = LinearGradient(
                                         colors: Tcolor.secondryGradient,
-                                      ).createShader(
-                                          Rect.fromLTWH(0.0, 0.0, 200.0, 70.0)),
+                                      ).createShader(const Rect.fromLTWH(
+                                          0.0, 0.0, 200.0, 70.0)),
                                     fontSize: 17,
                                     fontWeight: FontWeight.w700,
                                   ),
@@ -508,7 +394,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         fontSize: 14),
                                   ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 10,
                                 ),
                                 Text(
@@ -806,4 +692,110 @@ class _HomeScreenState extends State<HomeScreen> {
       },
     );
   }
+
+  void onStepCount(StepCount event) {
+    print(event);
+    setState(() {
+      steps = event.steps;
+      print(steps);
+    });
+  }
+
+  void periodicwaterratio() {
+    Timer.periodic(Duration(minutes: notificationintervel), (timer) {
+      setState(() {
+        if (waterratio < 1) {
+          waterratio = waterratio + 0.2;
+        }
+      });
+    });
+  }
+
+  void initializeWaterArr() {
+    setState(() {
+      waterArr = [
+        {"title": "6am - 8am", "subtitle": '$drinksuggetion L'},
+        {"title": "9am - 11am", "subtitle": '$drinksuggetion L'},
+        {"title": "11am - 2pm", "subtitle": '$drinksuggetion L'},
+        {"title": "2pm - 4pm", "subtitle": '$drinksuggetion L'},
+        {"title": "4pm - 6", "subtitle": '$drinksuggetion L'},
+      ];
+    });
+  }
+
+  void onPedestrianStatusChanged(PedestrianStatus event) {
+    print(event);
+    setState(() {
+      _status = event.status;
+    });
+  }
+
+  void onPedestrianStatusError(error) {
+    print('onPedestrianStatusError: $error');
+    setState(() {
+      _status = 'Pedestrian Status not available';
+    });
+    print(_status);
+  }
+
+  void onStepCountError(error) {
+    print('onStepCountError: $error');
+    setState(() {
+      steps = 0;
+    });
+  }
+
+  Future<void> initPlatformState() async {
+    await requestPermissions();
+    _pedestrianStatusStream = Pedometer.pedestrianStatusStream;
+    _pedestrianStatusStream
+        .listen(onPedestrianStatusChanged)
+        .onError(onPedestrianStatusError);
+
+    _stepCountStream = Pedometer.stepCountStream;
+    _stepCountStream.listen(onStepCount).onError(onStepCountError);
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    lastResetDate = DateTime.parse(prefs.getString('lastResetDate') ?? '');
+
+    if (!mounted) return;
+  }
+
+  Future<void> getTarget() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    setState(() {
+      watertarget = pref.getString('water')!;
+      steptarget = pref.getString('steps')!;
+      double test = double.parse(watertarget);
+      drinksuggetion = (test / 12).toStringAsFixed(3);
+    });
+    print(drinksuggetion);
+    initializeWaterArr();
+  }
+
+  Future<void> loadusername() async {
+    String loadedname = await getusername();
+    username = loadedname;
+  }
 }
+
+// void showWarningDialog2() {
+//   showDialog(
+//     context:
+//         navigatorKey.currentState!.overlay!.context, // Use the overlay context
+//     builder: (BuildContext context) {
+//       return AlertDialog(
+//         title: Text('Warning'),
+//         content: Text('This is your warning message.'),
+//         actions: <Widget>[
+//           TextButton(
+//             onPressed: () {
+//               Navigator.of(context).pop();
+//             },
+//             child: Text('Dismiss'),
+//           ),
+//         ],
+//       );
+//     },
+//   );
+// }

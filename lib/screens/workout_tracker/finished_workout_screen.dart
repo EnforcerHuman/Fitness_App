@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:strongify/common/color_extension.dart';
 import 'package:strongify/db/db_functions.dart';
 import 'package:strongify/db_model/model.dart';
+import 'package:strongify/functions/workout_functions/progress_functions.dart';
 
 import '../../common_widget/round_button.dart';
 
@@ -18,7 +19,6 @@ class _FinishedWorkoutViewState extends State<FinishedWorkoutView> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     setprogressvalue();
   }
@@ -92,23 +92,23 @@ class _FinishedWorkoutViewState extends State<FinishedWorkoutView> {
     );
   }
 
-  String formatTime(int timeInSeconds) {
-    int minutes = timeInSeconds ~/ 60;
-    int seconds = timeInSeconds % 60;
-    return '$minutes:${seconds.toString().padLeft(2, '0')}';
-  }
+  // String formatTime(int timeInSeconds) {
+  //   int minutes = timeInSeconds ~/ 60;
+  //   int seconds = timeInSeconds % 60;
+  //   return '$minutes:${seconds.toString().padLeft(2, '0')}';
+  // }
 
-  Future<void> setprogressvalue() async {
-    String date = DateFormat('yyyy-MM-dd').format(DateTime.now());
-    double existingprogressvalue =
-        await retrieveProgressForSpecificDay('2024-02-23');
-    print('existingprogressvalue $existingprogressvalue');
-    setState(() {
-      progressvalue = existingprogressvalue + 3.33;
-      print('added progress value $progressvalue');
-    });
-    final progress = WorkoutProgres(progressvalue, '2024-02-23');
-    addprogress(progress);
-    retriveprogress();
-  }
+  // Future<void> setprogressvalue() async {
+  //   String date = DateFormat('yyyy-MM-dd').format(DateTime.now());
+  //   double existingprogressvalue =
+  //       await retrieveProgressForSpecificDay('2024-02-29');
+  //   print('existingprogressvalue $existingprogressvalue');
+
+  //   progressvalue = existingprogressvalue + 3.33;
+  //   print('added progress value $progressvalue');
+
+  //   final progress = WorkoutProgres(progressvalue, '2024-02-29');
+  //   await addprogress(progress);
+  //   retriveprogress();
+  // }
 }

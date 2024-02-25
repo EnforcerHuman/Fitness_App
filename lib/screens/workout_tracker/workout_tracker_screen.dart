@@ -71,11 +71,12 @@ class _WorkoutTrackerScreenState extends State<WorkoutTrackerScreen> {
   void initState() {
     super.initState();
     test();
+    retrieveLast7DaysProgress('2024-02-30');
   }
 
   Future<void> test() async {
+    await setdateforchart();
     await retrivedates();
-    await setvaluesforchart();
   }
 
   @override
@@ -374,9 +375,10 @@ class _WorkoutTrackerScreenState extends State<WorkoutTrackerScreen> {
                         return InkWell(
                             onTap: () {
                               print('index is : ${index}');
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (ctx) =>
-                                      WorkoutDetailScreen(dObj: wObj)));
+                              Navigator.of(context).pushReplacement(
+                                  MaterialPageRoute(
+                                      builder: (ctx) =>
+                                          WorkoutDetailScreen(dObj: wObj)));
                             },
                             child: WhatTrainRow(
                               wObj: wObj,
@@ -446,7 +448,7 @@ class _WorkoutTrackerScreenState extends State<WorkoutTrackerScreen> {
             return makeGroupData(0, value1, Tcolor.primaryGradient,
                 isTouched: i == touchedIndex);
           case 1:
-            return makeGroupData(1, value2, Tcolor.secondryGradient,
+            return makeGroupData(1, value1, Tcolor.secondryGradient,
                 isTouched: i == touchedIndex);
           case 2:
             return makeGroupData(2, value3, Tcolor.primaryGradient,
@@ -502,9 +504,11 @@ class _WorkoutTrackerScreenState extends State<WorkoutTrackerScreen> {
 
   Future<void> retrivedates() async {
     String date = DateFormat('yyyy-MM-dd').format(DateTime.now());
-    final last7days = await retrieveLast7DaysProgress('2024-02-29');
+    final last7days = await retrieveLast7DaysProgress('2024-02-30');
+
     setState(() {
       if (last7days.isNotEmpty) value1 = last7days[0].progress;
+      print('testing value received $value1');
       if (last7days.length >= 2) value2 = last7days[1].progress;
       if (last7days.length >= 3) value3 = last7days[2].progress;
       if (last7days.length >= 4) value4 = last7days[3].progress;
@@ -517,7 +521,6 @@ class _WorkoutTrackerScreenState extends State<WorkoutTrackerScreen> {
   String removeYearFromDate(String date) {
     List<String> dateParts = date.split('-');
     if (dateParts.length == 3) {
-      // Assuming the date is in the format 'yyyy-MM-dd'
       return '${dateParts[1]}-${dateParts[2]}';
     } else {
       // Handle other cases or return the original date if the format is unexpected
@@ -525,9 +528,9 @@ class _WorkoutTrackerScreenState extends State<WorkoutTrackerScreen> {
     }
   }
 
-  Future<void> setvaluesforchart() async {
+  Future<void> setdateforchart() async {
     String date = DateFormat('yyyy-MM-dd').format(DateTime.now());
-    final last7days = await retrieveLast7DaysProgress('2024-02-29');
+    final last7days = await retrieveLast7DaysProgress('2024-02-30');
     setState(() {
       if (last7days.isNotEmpty) date1 = removeYearFromDate(last7days[0].Date);
       if (last7days.length >= 2) date2 = removeYearFromDate(last7days[1].Date);
