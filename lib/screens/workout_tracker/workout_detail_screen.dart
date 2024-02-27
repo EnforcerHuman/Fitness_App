@@ -5,7 +5,7 @@ import 'package:strongify/common_widget/icon_title_nex_row.dart';
 import 'package:strongify/screens/workout_tracker/excercise_step_detail.dart';
 import 'package:strongify/screens/workout_tracker/workout_schedule.dart';
 import 'package:strongify/screens/workout_tracker/workout_tracker_screen.dart';
-import 'package:strongify/utilities/workout_details.dart';
+import 'package:strongify/utils/workout_details.dart';
 
 class WorkoutDetailScreen extends StatefulWidget {
   final Map dObj;
@@ -281,7 +281,7 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen> {
                           shrinkWrap: true,
                           itemCount: exercisesArr.length,
                           itemBuilder: (context, index) {
-                            var aObj = exercisesArr[index] ?? {};
+                            var aObj = exercisesArr[index];
                             var bObj = lowerBodyWorkoutArr[index];
                             var cObj = abWorkoutArr[index];
 
@@ -311,15 +311,6 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen> {
                     ],
                   ),
                 ),
-                // SafeArea(
-                //   child: Column(
-                //     mainAxisSize: MainAxisSize.max,
-                //     mainAxisAlignment: MainAxisAlignment.end,
-                //     children: [
-                //       RoundButton(title: "Start Workout", onPressed: () {})
-                //     ],
-                //   ),
-                // )
               ],
             ),
           ),

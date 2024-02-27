@@ -6,7 +6,6 @@ import 'package:strongify/db/db_functions.dart';
 import 'package:strongify/screens/workout_tracker/workout_detail_screen.dart';
 import 'package:strongify/screens/workout_tracker/workout_schedule.dart';
 import '../../common_widget/round_button.dart';
-import '../../common_widget/upcoming_workout_row.dart';
 import '../../common_widget/what_train_row.dart';
 
 class WorkoutTrackerScreen extends StatefulWidget {
@@ -17,6 +16,18 @@ class WorkoutTrackerScreen extends StatefulWidget {
 }
 
 class _WorkoutTrackerScreenState extends State<WorkoutTrackerScreen> {
+  late var dayschedules = [];
+  Future<void> loadSchedulesForSelectedDate() async {
+    String formattedDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
+
+    var schedules = await retrieveSchedulesForDate(formattedDate);
+    print('sendig date to retive $formattedDate');
+
+    setState(() {
+      dayschedules = schedules ?? [];
+    });
+  }
+
   String date1 = '',
       date2 = '',
       date3 = '',
@@ -32,36 +43,24 @@ class _WorkoutTrackerScreenState extends State<WorkoutTrackerScreen> {
       value6 = 0,
       value7 = 0;
   int touchedIndex = -1;
-  List latestArr = [
-    {
-      "image": "assets/img/Workout1.png",
-      "title": "Fullbody Workout",
-      "time": "Today, 03:00pm"
-    },
-    {
-      "image": "assets/img/Workout2.png",
-      "title": "Upperbody Workout",
-      "time": "June 05, 02:00pm"
-    },
-  ];
 
   List whatArr = [
     {
       "image": "assets/img/what_1.png",
       "title": "Fullbody Workout",
-      "exercises": "11 Exercises",
+      "exercises": "10 Exercises",
       "time": "32mins"
     },
     {
       "image": "assets/img/what_2.png",
       "title": "Lowebody Workout",
-      "exercises": "12 Exercises",
+      "exercises": "10 Exercises",
       "time": "40mins"
     },
     {
       "image": "assets/img/what_3.png",
       "title": "AB Workout",
-      "exercises": "14 Exercises",
+      "exercises": "10 Exercises",
       "time": "20mins"
     }
   ];
@@ -287,6 +286,9 @@ class _WorkoutTrackerScreenState extends State<WorkoutTrackerScreen> {
                       gridData: const FlGridData(show: false),
                     )),
                   ),
+                  SizedBox(
+                    height: media.width * 0.05,
+                  ),
                   Container(
                     padding: const EdgeInsets.symmetric(
                         vertical: 15, horizontal: 15),
@@ -329,27 +331,6 @@ class _WorkoutTrackerScreenState extends State<WorkoutTrackerScreen> {
                   SizedBox(
                     height: media.width * 0.05,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Upcoming Workout",
-                        style: TextStyle(
-                            color: Tcolor.black,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w700),
-                      ),
-                    ],
-                  ),
-                  ListView.builder(
-                      padding: EdgeInsets.zero,
-                      physics: const NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      itemCount: latestArr.length,
-                      itemBuilder: (context, index) {
-                        var wObj = latestArr[index] as Map? ?? {};
-                        return UpcomingWorkoutRow(wObj: wObj);
-                      }),
                   SizedBox(
                     height: media.width * 0.05,
                   ),

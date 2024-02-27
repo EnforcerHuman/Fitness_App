@@ -40,31 +40,7 @@ Future<void> edituserdetails({
 }
 
 ///---------------------------------------------------------------------------------------------------
-
-// Future<void> addschedule(Schedule value) async {
-//   final scheduledb = await Hive.openBox<Schedule>('schedules');
-//   scheduledb.put(value.date, value);
-//   print('added ');
-// }
-
-// Future<void> retriveschedules() async {
-//   final scheduledb = await Hive.openBox<Schedule>('schedules');
-
-//   // Retrieve all schedules using the values property
-//   List<Schedule> allSchedules = scheduledb.values.toList();
-
-//   // Print all retrieved schedules
-//   for (var i = 0; i < allSchedules.length; i++) {
-//     print(allSchedules[i]);
-//   }
-//   print('Length is ${allSchedules.length}');
-// }
-
-Future<void> retriveDate(date) async {
-  final scheduledb = await Hive.openBox<Schedule>('schedules');
-  final test = scheduledb.get(date);
-  print(test);
-}
+//schedule data base
 
 Future<void> addschedule(Schedule value) async {
   final scheduledb = await Hive.openBox<List>('schedules');
@@ -77,7 +53,13 @@ Future<void> addschedule(Schedule value) async {
     schedulesForDate.addAll(existingSchedules!.cast<Schedule>());
   }
 
-  // Add the new schedule to the list
+  //for test purpose
+  Future<void> retriveDate(date) async {
+    final scheduledb = await Hive.openBox<Schedule>('schedules');
+    final test = scheduledb.get(date);
+    print(test);
+  }
+
   schedulesForDate.add(value);
 
   // Put the updated list back into the box
@@ -91,17 +73,14 @@ Future<List?> retrieveSchedulesForDate(String date) async {
 
   if (schedulesForDate != null) {
     List<Schedule> schedules = schedulesForDate.cast<Schedule>();
-    // Process your schedules list
     for (Schedule schedule in schedules) {
-      print(schedule); // Or however you want to handle the schedule object
+      print(schedule);
     }
   }
   return schedulesForDate;
 }
 
-Future<void> deleteSchedule() async {}
-
-//******Progress database functions********//
+//******Progress database functions********
 
 Future<void> addprogress(WorkoutProgres value) async {
   final progressdb = await Hive.openBox<WorkoutProgres>('progress');
@@ -111,7 +90,6 @@ Future<void> addprogress(WorkoutProgres value) async {
 Future<double> retriveprogress() async {
   final progressdb = await Hive.openBox<WorkoutProgres>('progress');
   final progressList = progressdb.values.toList();
-  // print('progresslist $progresslist');
 
   print('Stored Progress:');
   for (var progress in progressList) {
@@ -120,36 +98,31 @@ Future<double> retriveprogress() async {
   return progressList[0].progress;
 }
 
-//terive data fr last 7 days
 Future<List<WorkoutProgres>> retrieveLast7DaysProgress(String date) async {
   final progressdb = await Hive.openBox<WorkoutProgres>('progress');
 
-  // Get the current date
   final currentDate = DateTime.parse(date);
 
-  // Calculate the date 7 days ago
-  final last7Days = currentDate.subtract(Duration(days: 8));
+  // 1
+  final last7Days = currentDate.subtract(const Duration(days: 8));
 
-  // Retrieve progress list for the last 7 days (including the current date)
+  //2
   final progressList = progressdb.values.where((progress) {
     try {
       final progressDate = DateTime.parse(progress.Date);
       return progressDate.isAfter(last7Days) &&
-          progressDate.isBefore(currentDate
-              .add(Duration(days: 1))); // Add 1 day to include the current date
+          progressDate.isBefore(currentDate.add(const Duration(days: 1)));
     } catch (e) {
       print('Error parsing date: ${progress.Date}');
       return false;
     }
   }).toList();
 
-  // Print stored progress for the last 7 days
   print('Stored Progress for the last 7 days:');
   for (var progress in progressList) {
     print('${progress.Date}: ${progress.progress}');
   }
 
-  // Close the box after use
   await progressdb.close();
 
   return progressList;

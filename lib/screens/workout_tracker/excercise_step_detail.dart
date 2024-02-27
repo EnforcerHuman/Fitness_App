@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:readmore/readmore.dart';
 import 'package:strongify/common/color_extension.dart';
 import 'package:strongify/screens/workout_tracker/workout_timer.dart';
-import 'package:strongify/utilities/excercise_steps.dart';
+import 'package:strongify/utils/excercise_steps.dart';
 
 import '../../common_widget/round_button.dart';
 import '../../common_widget/step_detail_row.dart';

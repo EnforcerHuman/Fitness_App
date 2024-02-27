@@ -107,12 +107,6 @@ class _WorkoutScheduleScreenState extends State<WorkoutScheduleScreen> {
                   leading: const Icon(Icons.fitness_center),
                   title: Text('Workout: ${schedule.workout}'),
                   subtitle: Text('Time: ${schedule.time.toString()}'),
-                  trailing: IconButton(
-                    onPressed: () {
-                      // Handle delete logic here
-                    },
-                    icon: const Icon(Icons.delete_forever_outlined),
-                  ),
                 );
               },
             )

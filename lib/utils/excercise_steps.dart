@@ -84,7 +84,6 @@ List squatStepArr = [
     "title": "Stand with Proper Posture",
     "detail":
         "Stand with your feet shoulder-width apart, toes pointing slightly outward. Keep your back straight, shoulders relaxed, and engage your core."
-    // You can add an animation or image here if needed.
   },
   {
     "no": "02",
@@ -111,7 +110,6 @@ List armRaisesStepArr = [
     "title": "Stand with Good Posture",
     "detail":
         "Start by standing with your feet shoulder-width apart. Maintain good posture with your shoulders relaxed, back straight, and core engaged."
-    // You can include an animation or image to demonstrate proper posture.
   },
   {
     "no": "02",
@@ -170,7 +168,6 @@ List burpeesStepArr = [
     "title": "Start in a Standing Position",
     "detail":
         "Begin in a standing position with your feet shoulder-width apart. Engage your core and maintain good posture with your shoulders relaxed."
-    // You may include an animation or image showing the starting position.
   },
   {
     "no": "02",
@@ -235,7 +232,6 @@ List russianTwistsStepArr = [
     "title": "Sit on the Floor",
     "detail":
         "Start by sitting on the floor with your knees bent and feet flat. Lean back slightly, maintaining a comfortable angle to engage your core muscles."
-    // You may include an image or animation showing the starting position.
   },
   {
     "no": "02",
@@ -262,7 +258,6 @@ List dumbbellRowsStepArr = [
     "title": "Set Up Your Position",
     "detail":
         "Stand with your feet shoulder-width apart, holding a dumbbell in each hand. Hinge at your hips to bring your upper body parallel to the ground. Keep your back straight and your knees slightly bent."
-    // You may include an image or animation showing the starting position.
   },
   {
     "no": "02",
@@ -289,7 +284,6 @@ List mountainClimbersStepArr = [
     "title": "Start in Plank Position",
     "detail":
         "Begin in a plank position with your hands directly beneath your shoulders and your body forming a straight line from head to heels. Engage your core and keep your wrists aligned."
-    // You may include an animation or image showing the starting plank position.
   },
   {
     "no": "02",
@@ -320,7 +314,6 @@ List bodyweightSquatsArr = [
     "title": "Stand with Proper Posture",
     "detail":
         "Stand with your feet shoulder-width apart, toes pointing slightly outward. Keep your back straight, shoulders relaxed, and engage your core."
-    // You can add an animation or image here if needed.
   },
   {
     "no": "02",
@@ -347,7 +340,6 @@ List forwardLungesArr = [
     "title": "Stand Tall",
     "detail":
         "Begin by standing tall with your feet together, shoulders back, and core engaged. This is your starting position."
-    // You can add an animation or image here if needed.
   },
   {
     "no": "02",
@@ -380,7 +372,6 @@ List romanianDeadliftsArr = [
     "title": "Stand Tall",
     "detail":
         "Begin by standing tall with your feet hip-width apart, toes pointing forward. Hold a barbell or dumbbells in front of your thighs with an overhand grip. This is your starting position."
-    // You can add an animation or image here if needed.
   },
   {
     "no": "02",
@@ -413,7 +404,6 @@ List calfRaisesArr = [
     "title": "Stand Tall",
     "detail":
         "Begin by standing tall with your feet hip-width apart. You can do calf raises with body weight or hold onto a stable surface, such as a wall or a sturdy piece of furniture, for balance."
-    // You can add an animation or image here if needed.
   },
   {
     "no": "02",
@@ -446,7 +436,6 @@ List gluteBridgesArr = [
     "title": "Lie on Your Back",
     "detail":
         "Lie on your back with knees bent and feet flat on the ground. Place your arms at your sides. This is your starting position."
-    // You can add an animation or image here if needed.
   },
   {
     "no": "02",
@@ -473,7 +462,6 @@ List stepUpArr = [
     "title": "Find a Stable Surface",
     "detail":
         "Locate a stable surface such as a bench, step, or sturdy platform. Ensure it is secure and can support your weight during the exercise."
-    // You can add an animation or image here if needed.
   },
   {
     "no": "02",
@@ -512,7 +500,6 @@ List wallSitArr = [
     "title": "Find an Empty Wall",
     "detail":
         "Locate an empty wall with enough space for you to sit against it. Ensure the wall is clean and free from obstacles."
-    // You can add an animation or image here if needed.
   },
   {
     "no": "02",
@@ -539,7 +526,6 @@ List lateralLegRaisesStepArr = [
     "title": "Lie on Your Side",
     "detail":
         "Lie on your side with your body in a straight line. Support your head with your lower arm and keep your upper arm resting on your hip or placed in front of you for stability."
-    // You can add an animation or image here if needed.
   },
   {
     "no": "02",
@@ -569,7 +555,6 @@ List crunchesArr = [
     "title": "Lie on Your Back",
     "detail":
         "Start by lying on your back with your knees bent and feet flat on the floor. Place your hands behind your head, or cross them over your chest. This is your starting position."
-    // You can add an animation or image here if needed.
   },
   {
     "no": "02",
@@ -608,7 +593,6 @@ List<Map<String, dynamic>> bicycleCrunchesArr = [
     "title": "Lie on Your Back",
     "detail":
         "Start by lying on your back with your lower back pressed to the floor. Place your hands behind your head, and lift your legs slightly off the ground. This is your starting position."
-    // You can add an animation or image here if needed.
   },
   {
     "no": "02",
@@ -635,7 +619,6 @@ List<Map<String, dynamic>> plankArr = [
     "title": "Start in Plank Position",
     "detail":
         "Begin in a plank position with your hands directly beneath your shoulders and your body forming a straight line from head to heels. Engage your core and keep your wrists aligned."
-    // You may include an animation or image showing the starting plank position.
   },
   {
     "no": "02",
@@ -662,7 +645,6 @@ List<Map<String, dynamic>> legRaisesArr = [
     "title": "Lie on Your Back",
     "detail":
         "Start by lying on your back with your legs extended and arms by your sides. Ensure your lower back is pressed against the floor to engage your core."
-    // You can add an animation or image here if needed.
   },
   {
     "no": "02",
@@ -689,7 +671,6 @@ List<Map<String, dynamic>> mountainClimbersArr = [
     "title": "Start in Plank Position",
     "detail":
         "Begin in a plank position with your hands directly beneath your shoulders and your body forming a straight line from head to heels. Engage your core and keep your wrists aligned."
-    // You may include an animation or image showing the starting plank position.
   },
   {
     "no": "02",
@@ -716,7 +697,6 @@ List<Map<String, dynamic>> russianTwistsArr = [
     "title": "Sit on the Floor",
     "detail":
         "Start by sitting on the floor with your knees bent and feet flat. Lean back slightly, maintaining a comfortable angle to engage your core muscles."
-    // You may include an image or animation showing the starting position.
   },
   {
     "no": "02",
@@ -743,7 +723,6 @@ List<Map<String, dynamic>> lyingLegTwistsArr = [
     "title": "Lie on Your Back",
     "detail":
         "Start by lying on your back with your legs extended straight and arms out to the sides. This is your starting position."
-    // You may include an image or animation showing the starting position.
   },
   {
     "no": "02",
@@ -770,7 +749,6 @@ List<Map<String, dynamic>> plankJacksArr = [
     "title": "Start in Plank Position",
     "detail":
         "Begin in a plank position with your hands directly beneath your shoulders and your body forming a straight line from head to heels. Engage your core."
-    // You may include an animation or image showing the starting plank position.
   },
   {
     "no": "02",

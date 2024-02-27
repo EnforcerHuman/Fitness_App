@@ -2,6 +2,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:strongify/common/color_extension.dart';
 import 'package:strongify/common_widget/TodaySleepScheduleRow.dart';
+import 'package:strongify/screens/sleep_tracker/sleep_schedule_screen..dart';
 import '../../common_widget/round_button.dart';
 
 class SleepTrackerScreen extends StatefulWidget {
@@ -289,13 +290,13 @@ class _SleepTrackerScreenState extends State<SleepTrackerScreen> {
                             fontSize: 12,
                             fontWeight: FontWeight.w400,
                             onPressed: () {
-                              // Navigator.push(
-                              //   context,
-                              //   // MaterialPageRoute(
-                              //   //   builder: (context) =>
-                              //   //       const SleepScheduleView(),
-                              //   // ),
-                              // );
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      const SleepScheduleScreen(),
+                                ),
+                              );
                             },
                           ),
                         )

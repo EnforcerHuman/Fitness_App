@@ -45,11 +45,11 @@ class _WelcomeViewState extends State<WelcomeScreen> {
               SizedBox(
                 height: media.width * 0.1,
               ),
-              Image.asset(
-                "assets/img/welocome.png",
-                width: media.width * 0.75,
-                fit: BoxFit.fitWidth,
-              ),
+              // Image.asset(
+              //   "assets/img/welocome.png",
+              //   width: media.width * 0.75,
+              //   fit: BoxFit.fitWidth,
+              // ),
               SizedBox(
                 height: media.width * 0.1,
               ),

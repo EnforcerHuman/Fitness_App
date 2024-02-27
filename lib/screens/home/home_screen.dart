@@ -15,7 +15,6 @@ import 'package:strongify/functions/calculate_bmi.dart';
 import 'package:strongify/functions/notification_manager.dart';
 import 'package:strongify/functions/shared_pref.dart';
 import 'package:strongify/screens/profile/activity_tracker_screen.dart';
-import 'package:strongify/test.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({
@@ -778,24 +777,3 @@ class _HomeScreenState extends State<HomeScreen> {
     username = loadedname;
   }
 }
-
-// void showWarningDialog2() {
-//   showDialog(
-//     context:
-//         navigatorKey.currentState!.overlay!.context, // Use the overlay context
-//     builder: (BuildContext context) {
-//       return AlertDialog(
-//         title: Text('Warning'),
-//         content: Text('This is your warning message.'),
-//         actions: <Widget>[
-//           TextButton(
-//             onPressed: () {
-//               Navigator.of(context).pop();
-//             },
-//             child: Text('Dismiss'),
-//           ),
-//         ],
-//       );
-//     },
-//   );
-// }

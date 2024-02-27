@@ -59,7 +59,7 @@ class _WorkoutTimerScreenState extends State<WorkoutTimerScreen> {
               Padding(
                 padding: const EdgeInsets.only(bottom: 10),
                 child: Text(
-                  'complete your ${widget.workout} for ${widget.value}',
+                  '${widget.workout} | ${widget.value}',
                   style: const TextStyle(color: Colors.white, fontSize: 20),
                 ),
               ),
@@ -70,12 +70,6 @@ class _WorkoutTimerScreenState extends State<WorkoutTimerScreen> {
                 }
                 int remainingTime = (setSeconds + setMinutes * 60) - seconds;
                 if (remainingTime <= 0) {
-                  // setprogressvalue();
-                  // String date = DateFormat('yyyy-MM-dd').format(DateTime.now());
-                  // final progress = WorkoutProgres(progressvalue, '2024-02-21');
-                  // addprogress(progress);
-                  // retriveprogress();
-                  // addProgress(progress);
                   Future.delayed(const Duration(seconds: 1), () {
                     Navigator.of(context).pushReplacement(MaterialPageRoute(
                         builder: (ctx) => const FinishedWorkoutView()));
