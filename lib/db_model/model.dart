@@ -1,4 +1,5 @@
-import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+
 part 'model.g.dart';
 
 @HiveType(typeId: 1)
@@ -41,8 +42,23 @@ class WorkoutProgres {
   @HiveField(1)
   final String Date;
   WorkoutProgres(this.progress, this.Date);
-  // @override
-  // String toString() {
-  //   return 'Date : $Date ,Progress : $progress';
-  // }
+  @override
+  String toString() {
+    return 'Date : $Date ,Progress : $progress';
+  }
+}
+
+@HiveType(typeId: 4)
+class SleepProgres {
+  @HiveField(0)
+  final String date;
+  @HiveField(1)
+  final DateTime sleeptime;
+  @HiveField(2)
+  final DateTime wakeuptime;
+  SleepProgres(this.date, this.sleeptime, this.wakeuptime);
+  @override
+  String toString() {
+    return 'Date : $date ,sleeptime : $sleeptime ,wakeup time : $wakeuptime';
+  }
 }

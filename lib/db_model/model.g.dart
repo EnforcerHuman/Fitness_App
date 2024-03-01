@@ -125,3 +125,43 @@ class WorkoutProgresAdapter extends TypeAdapter<WorkoutProgres> {
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }
+
+class SleepProgresAdapter extends TypeAdapter<SleepProgres> {
+  @override
+  final int typeId = 4;
+
+  @override
+  SleepProgres read(BinaryReader reader) {
+    final numOfFields = reader.readByte();
+    final fields = <int, dynamic>{
+      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
+    };
+    return SleepProgres(
+      fields[0] as String,
+      fields[1] as DateTime,
+      fields[2] as DateTime,
+    );
+  }
+
+  @override
+  void write(BinaryWriter writer, SleepProgres obj) {
+    writer
+      ..writeByte(3)
+      ..writeByte(0)
+      ..write(obj.date)
+      ..writeByte(1)
+      ..write(obj.sleeptime)
+      ..writeByte(2)
+      ..write(obj.wakeuptime);
+  }
+
+  @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is SleepProgresAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
+}

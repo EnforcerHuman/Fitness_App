@@ -5,6 +5,7 @@ import 'package:strongify/main_tab/select_screen.dart';
 import 'package:strongify/screens/home/home_screen.dart';
 import 'package:strongify/screens/photo_progress/photo_progress_screen..dart';
 import 'package:strongify/screens/profile/profile_screen.dart';
+import 'package:strongify/screens/sleep_tracker/sleep_tracker_screen.dart';
 
 class MainTabView extends StatefulWidget {
   const MainTabView({super.key});
@@ -67,17 +68,29 @@ class _MainTabViewState extends State<MainTabView> {
                       }
                     }),
                 TabButton(
-                    icon: "assets/img/profile_tab.png",
-                    selectIcon: "assets/img/profile_tab_select.png",
+                    icon: "assets/img/Bed_Add.png",
+                    selectIcon: "assets/img/Sleep_select.png",
                     isActive: selectTab == 3,
                     onTap: () {
                       selectTab = 3;
+                      currentTab = SleepTrackerScreen();
+                      print('profile screeen');
+                      if (mounted) {
+                        setState(() {});
+                      }
+                    }),
+                TabButton(
+                    icon: "assets/img/profile_tab.png",
+                    selectIcon: "assets/img/profile_tab_select.png",
+                    isActive: selectTab == 4,
+                    onTap: () {
+                      selectTab = 4;
                       currentTab = ProfileView();
                       print('profile screeen');
                       if (mounted) {
                         setState(() {});
                       }
-                    })
+                    }),
               ],
             ),
           )),

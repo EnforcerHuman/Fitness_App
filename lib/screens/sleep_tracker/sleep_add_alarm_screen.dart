@@ -1,8 +1,9 @@
-import 'package:animated_toggle_switch/animated_toggle_switch.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:strongify/common/color_extension.dart';
-import 'package:strongify/common_widget/icon_title_nex_row.dart';
-
+import 'package:strongify/db/db_functions.dart';
+import 'package:strongify/db_model/model.dart';
 import '../../common_widget/round_button.dart';
 
 class SleepAddAlarmView extends StatefulWidget {
@@ -15,11 +16,13 @@ class SleepAddAlarmView extends StatefulWidget {
 
 class _SleepAddAlarmViewState extends State<SleepAddAlarmView> {
   bool positive = false;
-
+  DateTime wakeuptime = DateTime.now();
+  DateTime sleeptime = DateTime.now();
+  int selectedHour = DateTime.now().hour;
   @override
   Widget build(BuildContext context) {
     var media = MediaQuery.of(context).size;
-
+    int selectedHour = DateTime.now().hour;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Tcolor.white,
@@ -78,128 +81,126 @@ class _SleepAddAlarmViewState extends State<SleepAddAlarmView> {
           const SizedBox(
             height: 8,
           ),
-          IconTitleNextRow(
-              icon: "assets/img/Bed_Add.png",
-              title: "Bedtime",
-              time: "09:00 PM",
-              color: Tcolor.lightGray,
-              onPressed: () {}),
+          Row(
+            children: [
+              SizedBox(
+                child: Image.asset('assets/img/Bed_Add.png'),
+                width: 20,
+                height: 20,
+              ),
+              Text(
+                " Bed Time",
+                style: TextStyle(
+                    color: Tcolor.black,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500),
+              ),
+            ],
+          ),
+          SizedBox(
+            height: media.width * 0.35,
+            child: CupertinoDatePicker(
+              onDateTimeChanged: (newTime) {
+                setState(() {
+                  sleeptime = newTime;
+                });
+              },
+              initialDateTime: DateTime.now(),
+              use24hFormat: false,
+              minuteInterval: 1,
+              mode: CupertinoDatePickerMode.time,
+            ),
+          ),
           const SizedBox(
             height: 10,
           ),
-          IconTitleNextRow(
-              icon: "assets/img/HoursTime.png",
-              title: "Hours of sleep",
-              time: "8hours 30minutes",
-              color: Tcolor.lightGray,
-              onPressed: () {}),
-          const SizedBox(
-            height: 10,
-          ),
-          IconTitleNextRow(
-              icon: "assets/img/Repeat.png",
-              title: "Repeat",
-              time: "Mon to Fri",
-              color: Tcolor.lightGray,
-              onPressed: () {}),
-          const SizedBox(
-            height: 10,
-          ),
-          // Container(
-          //   padding: const EdgeInsets.symmetric(vertical: 8),
-          //   decoration: BoxDecoration(
-          //     color: Tcolor.lightGray,
-          //     borderRadius: BorderRadius.circular(15),
-          //   ),
-          //   child: Row(
-          //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //     children: [
-          //       const SizedBox(
-          //         width: 15,
-          //       ),
-          //       Container(
-          //         width: 30,
-          //         height: 30,
-          //         alignment: Alignment.center,
-          //         child: Image.asset(
-          //           "assets/img/Vibrate.png",
-          //           width: 18,
-          //           height: 18,
-          //           fit: BoxFit.contain,
-          //         ),
-          //       ),
-          //       const SizedBox(width: 8),
-          //       Expanded(
-          //         child: Text(
-          //           "Vibrate When Alarm Sound",
-          //           style: TextStyle(color: Tcolor.gray, fontSize: 12),
-          //         ),
-          //       ),
-          //       SizedBox(
-          //         height: 30,
-          //         child: Transform.scale(
-          //           scale: 0.7,
-          //           child: CustomAnimatedToggleSwitch<bool>(
-          //             current: positive,
-          //             values: const [false, true],
-          //             dif: 0.0,
-          //             indicatorSize: const Size.square(30.0),
-          //             animationDuration: const Duration(milliseconds: 200),
-          //             animationCurve: Curves.linear,
-          //             onChanged: (b) => setState(() => positive = b),
-          //             iconBuilder: (context, local, global) {
-          //               return const SizedBox();
-          //             },
-          //             defaultCursor: SystemMouseCursors.click,
-          //             onTap: () => setState(() => positive = !positive),
-          //             iconsTappable: false,
-          //             wrapperBuilder: (context, global, child) {
-          //               return Stack(
-          //                 alignment: Alignment.center,
-          //                 children: [
-          //                   Positioned(
-          //                       left: 10.0,
-          //                       right: 10.0,
-          //                       height: 30.0,
-          //                       child: DecoratedBox(
-          //                         decoration: BoxDecoration(
-          //                           gradient: LinearGradient(
-          //                               colors: Tcolor.secondryGradient),
-          //                           borderRadius: const BorderRadius.all(
-          //                               Radius.circular(50.0)),
-          //                         ),
-          //                       )),
-          //                   child,
-          //                 ],
-          //               );
-          //             },
-          //             foregroundIndicatorBuilder: (context, global) {
-          //               return SizedBox.fromSize(
-          //                 size: const Size(10, 10),
-          //                 child: DecoratedBox(
-          //                   decoration: BoxDecoration(
-          //                     color: Tcolor.white,
-          //                     borderRadius:
-          //                         const BorderRadius.all(Radius.circular(50.0)),
-          //                     boxShadow: const [
-          //                       BoxShadow(
-          //                           color: Colors.black38,
-          //                           spreadRadius: 0.05,
-          //                           blurRadius: 1.1,
-          //                           offset: Offset(0.0, 0.8))
-          //                     ],
-          //                   ),
-          //                 ),
-          //               );
-          //             },
-          //           ),
-          //         ),
-          //       )
-          //     ],
+
+          // Row(
+          //   children: [
+          //     SizedBox(
+          //       child: Image.asset('assets/img/HoursTime.png'),
+          //       width: 20,
+          //       height: 20,
+          //     ),
+          //     Text(
+          //       " Hours of sleep",
+          //       style: TextStyle(
+          //           color: Tcolor.black,
+          //           fontSize: 14,
+          //           fontWeight: FontWeight.w500),
+          //     ),
+          //   ],
+          // ),
+          // SizedBox(
+          //   height: media.width * 0.5,
+          //   child: CupertinoTimerPicker(
+          //     onTimerDurationChanged: (time) {
+          //       setState(() {
+          //         sleeptime = time;
+          //       });
+          //     },
+          //     mode: CupertinoTimerPickerMode.hm,
           //   ),
           // ),
+
+          // IconTitleNextRow(
+          //     icon: "assets/img/HoursTime.png",
+          //     title: "Hours of sleep",
+          //     time: "8hours 30minutes",
+          //     color: Tcolor.lightGray,
+          //     onPressed: () {}),
+          Row(
+            children: [
+              SizedBox(
+                child: Image.asset('assets/img/HoursTime.png'),
+                width: 20,
+                height: 20,
+              ),
+              Text(
+                " Wake up Time",
+                style: TextStyle(
+                    color: Tcolor.black,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500),
+              ),
+            ],
+          ),
+          SizedBox(
+            height: media.width * 0.35,
+            child: CupertinoDatePicker(
+              onDateTimeChanged: (newTime) {
+                setState(() {
+                  //GETTING TIME ONLY AS STRING
+                  // String test = DateFormat('HH:mm').format(newTime);
+                  // print(test);
+                  wakeuptime = newTime;
+                });
+              },
+              initialDateTime: DateTime.now(),
+              use24hFormat: false,
+              minuteInterval: 1,
+              mode: CupertinoDatePickerMode.time,
+            ),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          const SizedBox(
+            height: 10,
+          ),
           const Spacer(),
-          RoundButton(title: "Add", onPressed: () {}),
+          Text('$sleeptime'),
+          // Text('$time'),
+          RoundButton(
+              title: "Add",
+              onPressed: () async {
+                String formattedDate =
+                    DateFormat('yyyy-MM-dd').format(widget.date);
+                final sleepschedule =
+                    SleepProgres(formattedDate, sleeptime, wakeuptime);
+                addsleepschedule(sleepschedule);
+                setState(() {});
+              }),
           const SizedBox(
             height: 20,
           ),

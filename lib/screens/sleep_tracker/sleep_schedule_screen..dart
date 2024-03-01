@@ -1,8 +1,13 @@
+import 'dart:math';
+
 import 'package:calendar_agenda/calendar_agenda.dart';
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:simple_animation_progress_bar/simple_animation_progress_bar.dart';
 import 'package:strongify/common/color_extension.dart';
+import 'package:strongify/db/db_functions.dart';
+import 'package:strongify/db_model/model.dart';
 import 'package:strongify/screens/sleep_tracker/sleep_add_alarm_screen.dart';
 
 import '../../common_widget/round_button.dart';
@@ -16,31 +21,39 @@ class SleepScheduleScreen extends StatefulWidget {
 }
 
 class _SleepScheduleScreenState extends State<SleepScheduleScreen> {
-  CalendarAgendaController _calendarAgendaControllerAppBar =
-      CalendarAgendaController();
-  late DateTime _selectedDateAppBBar;
+  // CalendarAgendaController _calendarAgendaControllerAppBar =
+  //     CalendarAgendaController();
+  late DateTime _selectedDate;
+  Random random = Random();
+  String bedtime = '';
+  String alarmtime = '';
+  List<Map<String, dynamic>> todaySleepArr = [];
+  // ignore: non_constant_identifier_names
 
-  List todaySleepArr = [
-    {
-      "name": "Bedtime",
-      "image": "assets/img/bed.png",
-      "time": "01/06/2023 09:00 PM",
-      "duration": "in 6hours 22minutes"
-    },
-    {
-      "name": "Alarm",
-      "image": "assets/img/alaarm.png",
-      "time": "02/06/2023 05:10 AM",
-      "duration": "in 14hours 30minutes"
-    },
-  ];
+  void initializeTodaySleepArr() {
+    todaySleepArr = [
+      {
+        "name": "Bedtime",
+        "image": "assets/img/bed.png",
+        "time": bedtime,
+        "duration": "in 6 hours 22 minutes"
+      },
+      {
+        "name": "Alarm",
+        "image": "assets/img/alaarm.png",
+        "time": alarmtime,
+        "duration": "in 14 hours 30 minutes"
+      },
+    ];
+  }
 
   List<int> showingTooltipOnSpots = [4];
 
   @override
   void initState() {
     super.initState();
-    _selectedDateAppBBar = DateTime.now();
+    _selectedDate = DateTime.now();
+    initializeTodaySleepArr();
   }
 
   @override
@@ -148,7 +161,16 @@ class _SleepScheduleScreenState extends State<SleepScheduleScreen> {
                                 child: RoundButton(
                                     title: "Learn More",
                                     fontSize: 12,
-                                    onPressed: () {}),
+                                    onPressed: () async {
+                                      SleepProgres? test =
+                                          await retriveSleepSchedule(
+                                              '2024-03-06');
+                                      print(test?.sleeptime);
+                                      setState(() {
+                                        bedtime = DateFormat('HH:mm')
+                                            .format(test!.sleeptime);
+                                      });
+                                    }),
                               )
                             ]),
                         Image.asset(
@@ -173,71 +195,53 @@ class _SleepScheduleScreenState extends State<SleepScheduleScreen> {
                         fontWeight: FontWeight.w700),
                   ),
                 ),
-                // CalendarAgenda(
-                //   controller: _calendarAgendaControllerAppBar,
-                //   appbar: false,
-                //   selectedDayPosition: SelectedDayPosition.center,
-                //   leading: IconButton(
-                //       onPressed: () {},
-                //       icon: Image.asset(
-                //         "assets/img/ArrowLeft.png",
-                //         width: 15,
-                //         height: 15,
-                //       )),
-                //   training: IconButton(
-                //       onPressed: () {},
-                //       icon: Image.asset(
-                //         "assets/img/ArrowRight.png",
-                //         width: 15,
-                //         height: 15,
-                //       )),
-                //   weekDay: WeekDay.short,
-                //   dayNameFontSize: 12,
-                //   dayNumberFontSize: 16,
-                //   dayBGColor: Colors.grey.withOpacity(0.15),
-                //   titleSpaceBetween: 15,
-                //   backgroundColor: Colors.transparent,
-                //   // fullCalendar: false,
-                //   fullCalendarScroll: FullCalendarScroll.horizontal,
-                //   fullCalendarDay: WeekDay.short,
-                //   selectedDateColor: Colors.white,
-                //   dateColor: Colors.black,
-                //   locale: 'en',
-
-                //   initialDate: DateTime.now(),
-                //   calendarEventColor: Tcolor.primaryColor2,
-                //   firstDate: DateTime.now().subtract(const Duration(days: 140)),
-                //   lastDate: DateTime.now().add(const Duration(days: 60)),
-
-                //   onDateSelected: (date) {
-                //     _selectedDateAppBBar = date;
-                //   },
-                //   selectedDayLogo: Container(
-                //     width: double.maxFinite,
-                //     height: double.maxFinite,
-                //     decoration: BoxDecoration(
-                //       gradient: LinearGradient(
-                //           colors: TColor.primaryG,
-                //           begin: Alignment.topCenter,
-                //           end: Alignment.bottomCenter),
-                //       borderRadius: BorderRadius.circular(10.0),
-                //     ),
-                //   ),
-                // ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    child: CalendarAgenda(
+                      // controller: _calendarAgendaControllerAppBar,
+                      // appbar: true,
+                      selectedDayPosition: SelectedDayPosition.left,
+                      // leading: IconButton(
+                      //   icon: const Icon(
+                      //     Icons.arrow_back_ios_new,
+                      //     color: Colors.white,
+                      //   ),
+                      //   onPressed: () {
+                      //     Navigator.of(context).pop();
+                      //   },
+                      // ),
+                      weekDay: WeekDay.long,
+                      fullCalendarScroll: FullCalendarScroll.horizontal,
+                      fullCalendarDay: WeekDay.long,
+                      selectedDateColor: Colors.green.shade900,
+                      locale: 'en',
+                      initialDate: DateTime.now(),
+                      calendarEventColor: Colors.green,
+                      firstDate:
+                          DateTime.now().subtract(const Duration(days: 140)),
+                      lastDate: DateTime.now().add(const Duration(days: 60)),
+                      events: List.generate(
+                          100,
+                          (index) => DateTime.now().subtract(
+                              Duration(days: index * random.nextInt(5)))),
+                      onDateSelected: (date) {
+                        setState(() {
+                          _selectedDate = date;
+                          updateSelectedDate(_selectedDate);
+                        });
+                      },
+                    ),
+                  ),
+                ),
                 SizedBox(
                   height: media.width * 0.03,
                 ),
-                ListView.builder(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: todaySleepArr.length,
-                    itemBuilder: (context, index) {
-                      var sObj = todaySleepArr[index] as Map? ?? {};
-                      return TodaySleepScheduleRow(
-                        sObj: sObj,
-                      );
-                    }),
+                Text('Alarmtime: $bedtime'),
+                Text('BedTime : $bedtime'),
                 Container(
                     width: double.maxFinite,
                     margin: const EdgeInsets.symmetric(
@@ -301,11 +305,12 @@ class _SleepScheduleScreenState extends State<SleepScheduleScreen> {
       ),
       floatingActionButton: InkWell(
         onTap: () {
+          print(_selectedDate);
           Navigator.push(
             context,
             MaterialPageRoute(
               builder: (context) => SleepAddAlarmView(
-                date: _selectedDateAppBBar,
+                date: _selectedDate,
               ),
             ),
           );
@@ -329,5 +334,21 @@ class _SleepScheduleScreenState extends State<SleepScheduleScreen> {
         ),
       ),
     );
+  }
+
+  Future<void> updateSelectedDate(DateTime date) async {
+    String formattedDate = DateFormat('HH:mm').format(date);
+    SleepProgres? sleepSchedule = await retriveSleepSchedule(formattedDate);
+
+    if (sleepSchedule != null) {
+      setState(() {
+        alarmtime = DateFormat('HH:mm').format(sleepSchedule.wakeuptime);
+      });
+    } else {
+      // Handle the case where sleepSchedule is null, for example:
+      // setState(() {
+      //   alarmtime = ''; // or set a default value
+      // });
+    }
   }
 }

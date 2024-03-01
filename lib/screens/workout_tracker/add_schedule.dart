@@ -12,7 +12,7 @@ import '../../common_widget/round_button.dart';
 class AddScheduleView extends StatefulWidget {
   final DateTime date;
 
-  AddScheduleView({super.key, required this.date});
+  const AddScheduleView({super.key, required this.date});
 
   @override
   State<AddScheduleView> createState() => _AddScheduleViewState();

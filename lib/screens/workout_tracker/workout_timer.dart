@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import 'package:strongify/common/color_extension.dart';
 import 'package:strongify/common_widget/round_button.dart';
+import 'package:strongify/db/db_functions.dart';
+import 'package:strongify/db_model/model.dart';
 
 import 'package:strongify/screens/workout_tracker/finished_workout_screen.dart';
 import 'package:timer_builder/timer_builder.dart';
@@ -70,6 +73,7 @@ class _WorkoutTimerScreenState extends State<WorkoutTimerScreen> {
                 }
                 int remainingTime = (setSeconds + setMinutes * 60) - seconds;
                 if (remainingTime <= 0) {
+                  // setprogressvalue();
                   Future.delayed(const Duration(seconds: 1), () {
                     Navigator.of(context).pushReplacement(MaterialPageRoute(
                         builder: (ctx) => const FinishedWorkoutView()));

@@ -15,6 +15,7 @@ import 'package:strongify/functions/calculate_bmi.dart';
 import 'package:strongify/functions/notification_manager.dart';
 import 'package:strongify/functions/shared_pref.dart';
 import 'package:strongify/screens/profile/activity_tracker_screen.dart';
+import 'package:strongify/screens/workout_tracker/workout_tracker_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({

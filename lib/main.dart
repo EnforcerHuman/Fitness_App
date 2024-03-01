@@ -5,7 +5,6 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:strongify/common/color_extension.dart';
 import 'package:strongify/db_model/model.dart';
 import 'package:strongify/functions/notification_manager.dart';
-import 'package:strongify/screens/home/home_screen.dart';
 
 import 'package:strongify/screens/on_boarding/splash_screen.dart';
 
@@ -23,6 +22,9 @@ Future<void> main() async {
     Hive.registerAdapter(WorkoutProgresAdapter());
   }
 
+  if (!Hive.isAdapterRegistered(SleepProgresAdapter().typeId)) {
+    Hive.registerAdapter(SleepProgresAdapter());
+  }
   initLocalNotifications();
   startPeriodicTimer();
   runApp(const MyApp());

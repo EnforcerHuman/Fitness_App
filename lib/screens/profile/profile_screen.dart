@@ -106,7 +106,7 @@ class _ProfileViewState extends State<ProfileView> {
       backgroundColor: Tcolor.white,
       body: SingleChildScrollView(
         child: Container(
-          padding: EdgeInsets.symmetric(vertical: 15, horizontal: 25),
+          padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 25),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
