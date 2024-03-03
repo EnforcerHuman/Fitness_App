@@ -3,7 +3,8 @@ import 'package:strongify/common/color_extension.dart';
 import 'package:strongify/common_widget/tab_button.dart';
 import 'package:strongify/main_tab/select_screen.dart';
 import 'package:strongify/screens/home/home_screen.dart';
-import 'package:strongify/screens/photo_progress/photo_progress_screen..dart';
+import 'package:strongify/screens/photo_progress/photo_progress_screen.dart';
+
 import 'package:strongify/screens/profile/profile_screen.dart';
 import 'package:strongify/screens/sleep_tracker/sleep_tracker_screen.dart';
 
@@ -26,10 +27,7 @@ class _MainTabViewState extends State<MainTabView> {
       body: PageStorage(bucket: pageBucket, child: currentTab),
       bottomNavigationBar: BottomAppBar(
           color: Tcolor.white,
-          child: Container(
-            // decoration: BoxDecoration(color: Tcolor.white, boxShadow: const [
-            //   BoxShadow(color: Colors.black12, blurRadius: 2, offset: Offset(0, -2))
-            // ]),
+          child: SizedBox(
             height: kToolbarHeight,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -73,8 +71,8 @@ class _MainTabViewState extends State<MainTabView> {
                     isActive: selectTab == 3,
                     onTap: () {
                       selectTab = 3;
-                      currentTab = SleepTrackerScreen();
-                      print('profile screeen');
+                      currentTab = const SleepTrackerScreen();
+
                       if (mounted) {
                         setState(() {});
                       }
@@ -85,8 +83,8 @@ class _MainTabViewState extends State<MainTabView> {
                     isActive: selectTab == 4,
                     onTap: () {
                       selectTab = 4;
-                      currentTab = ProfileView();
-                      print('profile screeen');
+                      currentTab = const ProfileView();
+
                       if (mounted) {
                         setState(() {});
                       }

@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:strongify/common/color_extension.dart';
 import 'package:strongify/db/db_functions.dart';
 import 'package:strongify/db_model/model.dart';
+import 'package:strongify/functions/sleep_tracker_functions/sleep_schedule.dart';
 import '../../common_widget/round_button.dart';
 
 class SleepAddAlarmView extends StatefulWidget {
@@ -190,7 +191,7 @@ class _SleepAddAlarmViewState extends State<SleepAddAlarmView> {
           ),
           const Spacer(),
           Text('$sleeptime'),
-          // Text('$time'),
+          Text('$wakeuptime'),
           RoundButton(
               title: "Add",
               onPressed: () async {

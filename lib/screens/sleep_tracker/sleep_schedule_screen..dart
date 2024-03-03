@@ -1,17 +1,14 @@
-import 'dart:math';
-
 import 'package:calendar_agenda/calendar_agenda.dart';
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:simple_animation_progress_bar/simple_animation_progress_bar.dart';
 import 'package:strongify/common/color_extension.dart';
 import 'package:strongify/db/db_functions.dart';
 import 'package:strongify/db_model/model.dart';
+import 'package:strongify/functions/sleep_tracker_functions/sleep_schedule.dart';
 import 'package:strongify/screens/sleep_tracker/sleep_add_alarm_screen.dart';
 
 import '../../common_widget/round_button.dart';
-import '../../common_widget/today_sleep_schedule_row.dart';
 
 class SleepScheduleScreen extends StatefulWidget {
   const SleepScheduleScreen({super.key});
@@ -24,28 +21,9 @@ class _SleepScheduleScreenState extends State<SleepScheduleScreen> {
   // CalendarAgendaController _calendarAgendaControllerAppBar =
   //     CalendarAgendaController();
   late DateTime _selectedDate;
-  Random random = Random();
-  String bedtime = '';
-  String alarmtime = '';
-  List<Map<String, dynamic>> todaySleepArr = [];
-  // ignore: non_constant_identifier_names
-
-  void initializeTodaySleepArr() {
-    todaySleepArr = [
-      {
-        "name": "Bedtime",
-        "image": "assets/img/bed.png",
-        "time": bedtime,
-        "duration": "in 6 hours 22 minutes"
-      },
-      {
-        "name": "Alarm",
-        "image": "assets/img/alaarm.png",
-        "time": alarmtime,
-        "duration": "in 14 hours 30 minutes"
-      },
-    ];
-  }
+  // Random random = Random();
+  // String bedtime = '';
+  // String alarmtime = '';
 
   List<int> showingTooltipOnSpots = [4];
 
@@ -53,7 +31,7 @@ class _SleepScheduleScreenState extends State<SleepScheduleScreen> {
   void initState() {
     super.initState();
     _selectedDate = DateTime.now();
-    initializeTodaySleepArr();
+    updateSelectedDate(_selectedDate);
   }
 
   @override
@@ -162,14 +140,7 @@ class _SleepScheduleScreenState extends State<SleepScheduleScreen> {
                                     title: "Learn More",
                                     fontSize: 12,
                                     onPressed: () async {
-                                      SleepProgres? test =
-                                          await retriveSleepSchedule(
-                                              '2024-03-06');
-                                      print(test?.sleeptime);
-                                      setState(() {
-                                        bedtime = DateFormat('HH:mm')
-                                            .format(test!.sleeptime);
-                                      });
+                                      getsleephours();
                                     }),
                               )
                             ]),
@@ -231,7 +202,7 @@ class _SleepScheduleScreenState extends State<SleepScheduleScreen> {
                       onDateSelected: (date) {
                         setState(() {
                           _selectedDate = date;
-                          updateSelectedDate(_selectedDate);
+                          updateSelectedDate(date);
                         });
                       },
                     ),
@@ -240,8 +211,106 @@ class _SleepScheduleScreenState extends State<SleepScheduleScreen> {
                 SizedBox(
                   height: media.width * 0.03,
                 ),
-                Text('Alarmtime: $bedtime'),
-                Text('BedTime : $bedtime'),
+                Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: SizedBox(
+                      width: media.width - 20,
+                      height: 75,
+                      child: Container(
+                        decoration: BoxDecoration(
+                            border: Border.all(color: Tcolor.gray),
+                            borderRadius: BorderRadius.circular(20)),
+                        child: Row(
+                          children: [
+                            const SizedBox(
+                              width: 20,
+                            ),
+                            SizedBox(
+                                width: 40,
+                                height: 40,
+                                child: Image.asset("assets/img/bed.png")),
+                            const SizedBox(
+                              width: 20,
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Row(
+                                  children: [
+                                    Text(
+                                      'Bed Time',
+                                      style: TextStyle(fontSize: 20),
+                                    ),
+                                  ],
+                                ),
+                                Text(bedtime)
+                              ],
+                            ),
+                            SizedBox(
+                              width: media.width * 0.2,
+                            ),
+                            Column(
+                              children: [
+                                IconButton(
+                                    onPressed: () {},
+                                    icon:
+                                        const Icon(Icons.do_not_touch_rounded))
+                              ],
+                            )
+                          ],
+                        ),
+                      )),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: SizedBox(
+                      width: media.width - 20,
+                      height: 75,
+                      child: Container(
+                        decoration: BoxDecoration(
+                            border: Border.all(color: Tcolor.gray),
+                            borderRadius: BorderRadius.circular(20)),
+                        child: Row(
+                          children: [
+                            const SizedBox(
+                              width: 20,
+                            ),
+                            SizedBox(
+                                width: 40,
+                                height: 40,
+                                child: Image.asset("assets/img/bed.png")),
+                            const SizedBox(
+                              width: 20,
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Row(
+                                  children: [
+                                    Text(
+                                      'Alarm Time',
+                                      style: TextStyle(fontSize: 20),
+                                    ),
+                                  ],
+                                ),
+                                Text(alarmtime)
+                              ],
+                            ),
+                            SizedBox(
+                              width: media.width * 0.2,
+                            ),
+                            Column(
+                              children: [
+                                IconButton(
+                                    onPressed: () {},
+                                    icon:
+                                        const Icon(Icons.do_not_touch_rounded))
+                              ],
+                            )
+                          ],
+                        ),
+                      )),
+                ),
                 Container(
                     width: double.maxFinite,
                     margin: const EdgeInsets.symmetric(
@@ -336,19 +405,36 @@ class _SleepScheduleScreenState extends State<SleepScheduleScreen> {
     );
   }
 
-  Future<void> updateSelectedDate(DateTime date) async {
-    String formattedDate = DateFormat('HH:mm').format(date);
-    SleepProgres? sleepSchedule = await retriveSleepSchedule(formattedDate);
+  // Future<void> updateSelectedDate(DateTime date) async {
+  //   String formatteddate = DateFormat('yyyy-MM-dd').format(date);
+  //   SleepProgres? sleepSchedule = await retriveSleepSchedule(formatteddate);
 
-    if (sleepSchedule != null) {
-      setState(() {
-        alarmtime = DateFormat('HH:mm').format(sleepSchedule.wakeuptime);
-      });
-    } else {
-      // Handle the case where sleepSchedule is null, for example:
-      // setState(() {
-      //   alarmtime = ''; // or set a default value
-      // });
-    }
-  }
+  //   if (sleepSchedule != null) {
+  //     setState(() {
+  //       int timeindiactorforalarm = sleepSchedule.wakeuptime.hour;
+
+  //       String getalarmtime =
+  //           DateFormat('HH:mm').format(sleepSchedule.wakeuptime);
+  //       int timeindicatorforbed = sleepSchedule.wakeuptime.hour;
+  //       String getbedtime = DateFormat('HH:mm').format(sleepSchedule.sleeptime);
+
+  //       if (timeindiactorforalarm >= 12) {
+  //         alarmtime = '$getalarmtime, P.M';
+  //       } else {
+  //         alarmtime = '$getalarmtime, A.M';
+  //       }
+  //       if (timeindicatorforbed >= 12) {
+  //         bedtime = '$getbedtime, P.M';
+  //       } else {
+  //         bedtime = '$getbedtime, A.M';
+  //       }
+  //     });
+  //   } else {
+  //     // Handle the case where sleepSchedule is null,
+  //     setState(() {
+  //       alarmtime = 'Set your schedule';
+  //       bedtime = 'Set your schedule';
+  //     });
+  //   }
+  // }
 }

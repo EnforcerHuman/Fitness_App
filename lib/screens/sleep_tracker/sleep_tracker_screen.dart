@@ -1,7 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:strongify/common/color_extension.dart';
-import 'package:strongify/common_widget/TodaySleepScheduleRow.dart';
+import 'package:strongify/functions/sleep_tracker_functions/sleep_schedule.dart';
 import 'package:strongify/screens/sleep_tracker/sleep_schedule_screen..dart';
 import '../../common_widget/round_button.dart';
 
@@ -13,31 +13,17 @@ class SleepTrackerScreen extends StatefulWidget {
 }
 
 class _SleepTrackerScreenState extends State<SleepTrackerScreen> {
-  List todaySleepArr = [
-    {
-      "name": "Bedtime",
-      "image": "assets/img/bed.png",
-      "time": "01/06/2023 09:00 PM",
-      "duration": "in 6hours 22minutes"
-    },
-    {
-      "name": "Alarm",
-      "image": "assets/img/alaarm.png",
-      "time": "02/06/2023 05:10 AM",
-      "duration": "in 14hours 30minutes"
-    },
-  ];
-
-  List findEatArr = [
-    {
-      "name": "Breakfast",
-      "image": "assets/img/m_3.png",
-      "number": "120+ Foods"
-    },
-    {"name": "Lunch", "image": "assets/img/m_4.png", "number": "130+ Foods"},
-  ];
+  // String bedtime = '';
+  // String alarmtime = '';
 
   List<int> showingTooltipOnSpots = [4];
+
+  @override
+  void initState() {
+    super.initState();
+    updateSelectedDate(DateTime.now());
+    getsleephours();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,26 +34,6 @@ class _SleepTrackerScreenState extends State<SleepTrackerScreen> {
         backgroundColor: Tcolor.white,
         centerTitle: true,
         elevation: 0,
-        leading: InkWell(
-          onTap: () {
-            Navigator.pop(context);
-          },
-          child: Container(
-            margin: const EdgeInsets.all(8),
-            height: 40,
-            width: 40,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-                color: Tcolor.lightGray,
-                borderRadius: BorderRadius.circular(10)),
-            child: Image.asset(
-              "assets/img/black_btn.png",
-              width: 15,
-              height: 15,
-              fit: BoxFit.contain,
-            ),
-          ),
-        ),
         title: Text(
           "Sleep Tracker",
           style: TextStyle(
@@ -173,14 +139,14 @@ class _SleepTrackerScreenState extends State<SleepTrackerScreen> {
                               getTooltipItems:
                                   (List<LineBarSpot> lineBarsSpot) {
                                 return lineBarsSpot.map((lineBarSpot) {
-                                  return LineTooltipItem(
-                                    "${lineBarSpot.y.toInt()} hours",
-                                    const TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  );
+                                  // return LineTooltipItem(
+                                  //   "${lineBarSpot.y.toInt()} hours",
+                                  //   const TextStyle(
+                                  //     color: Colors.white,
+                                  //     fontSize: 10,
+                                  //     fontWeight: FontWeight.bold,
+                                  //   ),
+                                  // );
                                 }).toList();
                               },
                             ),
@@ -247,7 +213,7 @@ class _SleepTrackerScreenState extends State<SleepTrackerScreen> {
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 15),
                             child: Text(
-                              "8h 20m",
+                              '$totalhour hour $totalminutes minutes',
                               style: TextStyle(
                                   color: Tcolor.white,
                                   fontSize: 16,
@@ -316,19 +282,106 @@ class _SleepTrackerScreenState extends State<SleepTrackerScreen> {
                   SizedBox(
                     height: media.width * 0.03,
                   ),
-                  ListView.builder(
-                      padding: EdgeInsets.zero,
-                      physics: const NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      itemCount: todaySleepArr.length,
-                      itemBuilder: (context, index) {
-                        var sObj = todaySleepArr[index] as Map? ?? {};
-                        return TodaySleepScheduleRow(
-                          sObj: sObj,
-                        );
-                      }),
                 ],
               ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: SizedBox(
+                  width: media.width - 20,
+                  height: 75,
+                  child: Container(
+                    decoration: BoxDecoration(
+                        border: Border.all(color: Tcolor.gray),
+                        borderRadius: BorderRadius.circular(20)),
+                    child: Row(
+                      children: [
+                        const SizedBox(
+                          width: 20,
+                        ),
+                        SizedBox(
+                            width: 40,
+                            height: 40,
+                            child: Image.asset("assets/img/bed.png")),
+                        const SizedBox(
+                          width: 20,
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Row(
+                              children: [
+                                Text(
+                                  'Bed Time',
+                                  style: TextStyle(fontSize: 20),
+                                ),
+                              ],
+                            ),
+                            Text(bedtime)
+                          ],
+                        ),
+                        SizedBox(
+                          width: media.width * 0.2,
+                        ),
+                        Column(
+                          children: [
+                            IconButton(
+                                onPressed: () {},
+                                icon: const Icon(Icons.do_not_touch_rounded))
+                          ],
+                        )
+                      ],
+                    ),
+                  )),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: SizedBox(
+                  width: media.width - 20,
+                  height: 75,
+                  child: Container(
+                    decoration: BoxDecoration(
+                        border: Border.all(color: Tcolor.gray),
+                        borderRadius: BorderRadius.circular(20)),
+                    child: Row(
+                      children: [
+                        const SizedBox(
+                          width: 20,
+                        ),
+                        SizedBox(
+                            width: 40,
+                            height: 40,
+                            child: Image.asset("assets/img/bed.png")),
+                        const SizedBox(
+                          width: 20,
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Row(
+                              children: [
+                                Text(
+                                  'Alarm Time',
+                                  style: TextStyle(fontSize: 20),
+                                ),
+                              ],
+                            ),
+                            Text(alarmtime)
+                          ],
+                        ),
+                        SizedBox(
+                          width: media.width * 0.2,
+                        ),
+                        Column(
+                          children: [
+                            IconButton(
+                                onPressed: () {},
+                                icon: const Icon(Icons.do_not_touch_rounded))
+                          ],
+                        )
+                      ],
+                    ),
+                  )),
             ),
             SizedBox(
               height: media.width * 0.05,
@@ -360,8 +413,8 @@ class _SleepTrackerScreenState extends State<SleepTrackerScreen> {
           ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
         ),
         spots: const [
-          FlSpot(1, 3),
-          FlSpot(2, 5),
+          FlSpot(1, 0),
+          FlSpot(2, 4.5),
           FlSpot(3, 4),
           FlSpot(4, 7),
           FlSpot(5, 4),
@@ -456,4 +509,22 @@ class _SleepTrackerScreenState extends State<SleepTrackerScreen> {
       child: text,
     );
   }
+
+  // Future<void> updateSelectedDate(DateTime date) async {
+  //   String formatteddate = DateFormat('yyyy-MM-dd').format(date);
+  //   SleepProgres? sleepSchedule = await retriveSleepSchedule(formatteddate);
+
+  //   if (sleepSchedule != null) {
+  //     setState(() {
+  //       alarmtime = DateFormat('HH:mm').format(sleepSchedule.wakeuptime);
+  //       bedtime = DateFormat('HH:mm').format(sleepSchedule.sleeptime);
+  //     });
+  //   } else {
+  //     // Handle the case where sleepSchedule is null,
+  //     setState(() {
+  //       alarmtime = 'Set your schedule';
+  //       bedtime = 'Set your schedule';
+  //     });
+  //   }
+  // }
 }

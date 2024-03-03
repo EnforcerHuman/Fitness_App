@@ -193,8 +193,8 @@ class _AddScheduleViewState extends State<AddScheduleView> {
                 // String formattedTime = '${timeOnly.hour}:${timeOnly.minute}';
                 // ignore: unnecessary_null_comparison
                 if (time != null) {
-                  int hour = time!.hour;
-                  int minute = time!.minute;
+                  int hour = time.hour;
+                  int minute = time.minute;
                   actualtime = '$hour:$minute';
                   print('Selected Time: $hour:$minute');
                   print(

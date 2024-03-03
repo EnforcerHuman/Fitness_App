@@ -54,6 +54,8 @@ dependencies:
   calendar_agenda: ^0.0.2+3
   intl: ^0.17.0
   timer_builder: ^2.0.0
+  camera: ^0.10.5+9
+  path_provider: ^2.1.2
   
   
 

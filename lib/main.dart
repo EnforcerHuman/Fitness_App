@@ -25,6 +25,9 @@ Future<void> main() async {
   if (!Hive.isAdapterRegistered(SleepProgresAdapter().typeId)) {
     Hive.registerAdapter(SleepProgresAdapter());
   }
+  if (!Hive.isAdapterRegistered(PhotoAdapter().typeId)) {
+    Hive.registerAdapter(PhotoAdapter());
+  }
   initLocalNotifications();
   startPeriodicTimer();
   runApp(const MyApp());

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:strongify/common/color_extension.dart';
 import 'package:strongify/db/db_functions.dart';
 import 'package:strongify/db_model/model.dart';
@@ -96,5 +95,8 @@ class _FinishedWorkoutViewState extends State<FinishedWorkoutView> {
     return '$minutes:${seconds.toString().padLeft(2, '0')}';
   }
 
-  Future<void> setprogressvalue() async {}
+  Future<void> setprogressvalue() async {
+    final test = WorkoutProgres(20.5, '2024-03-14');
+    addprogress(test);
+  }
 }

@@ -62,3 +62,19 @@ class SleepProgres {
     return 'Date : $date ,sleeptime : $sleeptime ,wakeup time : $wakeuptime';
   }
 }
+
+@HiveType(typeId: 5)
+class Photo {
+  @HiveField(0)
+  final int month;
+
+  @HiveField(1)
+  final String imagepath;
+
+  Photo(this.imagepath, this.month);
+
+  @override
+  String toString() {
+    return 'Month: $month, Image Path: $imagepath';
+  }
+}

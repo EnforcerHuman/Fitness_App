@@ -1,7 +1,12 @@
+import 'dart:io';
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:strongify/common/color_extension.dart';
+import 'package:strongify/db/photo_progress.dart';
+import 'package:strongify/db_model/model.dart';
+import 'package:strongify/functions/photo_progress/month_comparison.dart';
 import 'package:strongify/screens/photo_progress/comparison_view.dart';
-
+import 'package:strongify/screens/photo_progress/opencamera.dart';
 import '../../common_widget/round_button.dart';
 
 class PhotoProgressScreen extends StatefulWidget {
@@ -12,26 +17,18 @@ class PhotoProgressScreen extends StatefulWidget {
 }
 
 class _PhotoProgressScreenState extends State<PhotoProgressScreen> {
-  List photoArr = [
-    {
-      "time": "2 June",
-      "photo": [
-        "assets/img/pp_1.png",
-        "assets/img/pp_2.png",
-        "assets/img/pp_3.png",
-        "assets/img/pp_4.png",
-      ]
-    },
-    {
-      "time": "5 May",
-      "photo": [
-        "assets/img/pp_5.png",
-        "assets/img/pp_6.png",
-        "assets/img/pp_7.png",
-        "assets/img/pp_8.png",
-      ]
-    }
-  ];
+  late final List<CameraDescription> cameras;
+  List<Photo>? list1 = [];
+  List<Photo>? list2 = [];
+  String? month1;
+  String? month2;
+
+  @override
+  void initState() {
+    super.initState();
+    initcamera();
+    getgivenmonthname();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -89,18 +86,13 @@ class _PhotoProgressScreenState extends State<PhotoProgressScreen> {
                     child: Row(
                       children: [
                         Container(
-                          decoration: BoxDecoration(
-                              color: Tcolor.white,
-                              borderRadius: BorderRadius.circular(30)),
-                          width: 50,
-                          height: 50,
-                          alignment: Alignment.center,
-                          child: Image.asset(
-                            "assets/img/date_notifi.png",
-                            width: 30,
-                            height: 30,
-                          ),
-                        ),
+                            decoration: BoxDecoration(
+                                color: Tcolor.white,
+                                borderRadius: BorderRadius.circular(30)),
+                            width: 50,
+                            height: 50,
+                            alignment: Alignment.center,
+                            child: Image.asset('')),
                         const SizedBox(
                           width: 8,
                         ),
@@ -174,7 +166,12 @@ class _PhotoProgressScreenState extends State<PhotoProgressScreen> {
                                 child: RoundButton(
                                     title: "Learn More",
                                     fontSize: 12,
-                                    onPressed: () {}),
+                                    onPressed: () async {
+                                      list1 = await printPhotosForMonth(1);
+                                      list2 = await printPhotosForMonth(2);
+                                      printPhotosForMonth(3);
+                                      setState(() {});
+                                    }),
                               )
                             ]),
                         Image.asset(
@@ -253,10 +250,10 @@ class _PhotoProgressScreenState extends State<PhotoProgressScreen> {
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
-                    itemCount: photoArr.length,
+                    itemCount: 1,
                     itemBuilder: ((context, index) {
-                      var pObj = photoArr[index] as Map? ?? {};
-                      var imaArr = pObj["photo"] as List? ?? [];
+                      // var pObj = photoArr[index] as Map? ?? {};
+                      // var imaArr = pObj["photo"] as List? ?? [];
 
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -264,7 +261,7 @@ class _PhotoProgressScreenState extends State<PhotoProgressScreen> {
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
-                              pObj["time"].toString(),
+                              month1 ?? '',
                               style:
                                   TextStyle(color: Tcolor.gray, fontSize: 12),
                             ),
@@ -274,7 +271,7 @@ class _PhotoProgressScreenState extends State<PhotoProgressScreen> {
                             child: ListView.builder(
                               scrollDirection: Axis.horizontal,
                               padding: EdgeInsets.zero,
-                              itemCount: imaArr.length,
+                              itemCount: list1?.length,
                               itemBuilder: ((context, indexRow) {
                                 return Container(
                                   margin:
@@ -286,8 +283,60 @@ class _PhotoProgressScreenState extends State<PhotoProgressScreen> {
                                   ),
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(10),
-                                    child: Image.asset(
-                                      imaArr[indexRow] as String? ?? "",
+                                    child: Image.file(
+                                      File(list1 != null && list1!.isNotEmpty
+                                          ? list1![indexRow].imagepath
+                                          : ''),
+                                      width: 100,
+                                      height: 100,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                );
+                              }),
+                            ),
+                          ),
+                        ],
+                      );
+                    })),
+                ListView.builder(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: 1,
+                    itemBuilder: ((context, index) {
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              month2 ?? '',
+                              style:
+                                  TextStyle(color: Tcolor.gray, fontSize: 12),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 100,
+                            child: ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              padding: EdgeInsets.zero,
+                              itemCount: list2?.length,
+                              itemBuilder: ((context, indexRow) {
+                                return Container(
+                                  margin:
+                                      const EdgeInsets.symmetric(horizontal: 4),
+                                  width: 100,
+                                  decoration: BoxDecoration(
+                                    color: Tcolor.lightGray,
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(10),
+                                    child: Image.file(
+                                      File(list2 != null && list2!.isNotEmpty
+                                          ? list2![indexRow].imagepath
+                                          : ''),
                                       width: 100,
                                       height: 100,
                                       fit: BoxFit.cover,
@@ -310,14 +359,10 @@ class _PhotoProgressScreenState extends State<PhotoProgressScreen> {
       ),
       floatingActionButton: InkWell(
         onTap: () {
-          // Navigator.push(
-          //   context,
-          //   MaterialPageRoute(
-          //     builder: (context) => SleepAddAlarmView(
-          //       date: _selectedDateAppBBar,
-          //     ),
-          //   ),
-          // );
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const CameraScreen()),
+          );
         },
         child: Container(
           width: 55,
@@ -338,5 +383,18 @@ class _PhotoProgressScreenState extends State<PhotoProgressScreen> {
         ),
       ),
     );
+  }
+
+  void getgivenmonthname() {
+    setState(() {
+      month1 = getMonthName(1);
+      month2 = getMonthName(2);
+    });
+  }
+
+  Future<void> initcamera() async {
+    setState(() async {
+      cameras = await availableCameras();
+    });
   }
 }
