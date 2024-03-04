@@ -99,36 +99,13 @@ class _CameraScreenState extends State<CameraScreen> {
           }
           // ignore: use_build_context_synchronously
           Navigator.of(context).push(MaterialPageRoute(
-              builder: (ctx) => PreviewPage(picture: XFile(_imageFile.path))));
+              builder: (ctx) => PreviewPage(
+                    picture: XFile(_imageFile.path),
+                    imagepath: _imageFile.path,
+                  )));
         },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-    );
-  }
-}
-
-class GalleryScreen extends StatelessWidget {
-  final List<File> imageList;
-
-  const GalleryScreen(this.imageList, {super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Image Gallery'),
-      ),
-      body: GridView.builder(
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 3,
-          crossAxisSpacing: 4.0,
-          mainAxisSpacing: 4.0,
-        ),
-        itemCount: imageList.length,
-        itemBuilder: (context, index) {
-          return Image.file(imageList[index]);
-        },
-      ),
     );
   }
 }

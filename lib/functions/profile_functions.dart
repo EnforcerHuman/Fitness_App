@@ -1,7 +1,7 @@
+import 'package:flutter/material.dart';
+import 'package:strongify/screens/profile/privacy_policy_screen.dart';
+
 void handleItemClick(context, Map<String, String> item) {
-  // You can customize this function based on the item clicked
-  // print("Clicked on item: ${item["name"]} with tag ${item["tag"]}");
-  // Add your logic here
   if (item["name"] == "Contact Us") {
     // Navigate to ContactUsPage
     print('contact us');
@@ -9,7 +9,8 @@ void handleItemClick(context, Map<String, String> item) {
     // Navigate to SettingsView
     print('settings');
   } else if (item["name"] == "Privacy Policy") {
-    // Navigate to SettingsView
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (ctx) => PrivacyPolicyPage()));
     print('privacy policy');
   } else if (item["name"] == "Personal Data") {
     print('Personal Data');

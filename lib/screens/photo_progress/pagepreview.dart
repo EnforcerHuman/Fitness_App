@@ -2,9 +2,11 @@ import 'dart:io';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:strongify/db/photo_progress.dart';
 
 class PreviewPage extends StatelessWidget {
-  const PreviewPage({Key? key, required this.picture}) : super(key: key);
+  final String imagepath;
+  PreviewPage({super.key, required this.picture, required this.imagepath});
 
   final XFile picture;
 
@@ -24,8 +26,8 @@ class PreviewPage extends StatelessWidget {
                 Image.file(File(picture.path), fit: BoxFit.cover, width: 250),
           ),
           Positioned(
-            top: 30, // Adjust the top position as needed
-            left: 10, // Adjust the left position as needed
+            top: 30,
+            left: 10,
             child: IconButton(
               onPressed: () {
                 Navigator.pop(context);
@@ -33,6 +35,19 @@ class PreviewPage extends StatelessWidget {
               icon: const Icon(
                 Icons.arrow_back,
                 color: Colors.amber,
+              ),
+            ),
+          ),
+          Positioned(
+            top: 30,
+            right: 10,
+            child: IconButton(
+              onPressed: () {
+                deletePhoto(2, imagepath);
+              },
+              icon: const Icon(
+                Icons.delete,
+                color: Colors.red,
               ),
             ),
           ),

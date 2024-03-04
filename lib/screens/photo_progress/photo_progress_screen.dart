@@ -6,7 +6,9 @@ import 'package:strongify/db/photo_progress.dart';
 import 'package:strongify/db_model/model.dart';
 import 'package:strongify/functions/photo_progress/month_comparison.dart';
 import 'package:strongify/screens/photo_progress/comparison_view.dart';
+import 'package:strongify/screens/photo_progress/gallery_screen.dart';
 import 'package:strongify/screens/photo_progress/opencamera.dart';
+import 'package:strongify/screens/photo_progress/pagepreview.dart';
 import '../../common_widget/round_button.dart';
 
 class PhotoProgressScreen extends StatefulWidget {
@@ -92,7 +94,7 @@ class _PhotoProgressScreenState extends State<PhotoProgressScreen> {
                             width: 50,
                             height: 50,
                             alignment: Alignment.center,
-                            child: Image.asset('')),
+                            child: Image.asset('assets/img/Calendar.png')),
                         const SizedBox(
                           width: 8,
                         ),
@@ -238,7 +240,10 @@ class _PhotoProgressScreenState extends State<PhotoProgressScreen> {
                             fontWeight: FontWeight.w700),
                       ),
                       TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (ctx) => GalleryScreen()));
+                          },
                           child: Text(
                             "See more",
                             style: TextStyle(color: Tcolor.gray, fontSize: 12),
@@ -252,9 +257,6 @@ class _PhotoProgressScreenState extends State<PhotoProgressScreen> {
                     shrinkWrap: true,
                     itemCount: 1,
                     itemBuilder: ((context, index) {
-                      // var pObj = photoArr[index] as Map? ?? {};
-                      // var imaArr = pObj["photo"] as List? ?? [];
-
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -283,13 +285,28 @@ class _PhotoProgressScreenState extends State<PhotoProgressScreen> {
                                   ),
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(10),
-                                    child: Image.file(
-                                      File(list1 != null && list1!.isNotEmpty
-                                          ? list1![indexRow].imagepath
-                                          : ''),
-                                      width: 100,
-                                      height: 100,
-                                      fit: BoxFit.cover,
+                                    child: InkWell(
+                                      onTap: () {
+                                        print(list1![indexRow].imagepath);
+                                        Navigator.of(context)
+                                            .push(MaterialPageRoute(
+                                                builder: (ctx) => PreviewPage(
+                                                      picture: XFile(
+                                                          list1![indexRow]
+                                                              .imagepath),
+                                                      imagepath:
+                                                          list1![indexRow]
+                                                              .imagepath,
+                                                    )));
+                                      },
+                                      child: Image.file(
+                                        File(list1 != null && list1!.isNotEmpty
+                                            ? list1![indexRow].imagepath
+                                            : ''),
+                                        width: 100,
+                                        height: 100,
+                                        fit: BoxFit.cover,
+                                      ),
                                     ),
                                   ),
                                 );
