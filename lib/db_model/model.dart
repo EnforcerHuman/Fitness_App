@@ -56,7 +56,9 @@ class SleepProgres {
   final DateTime sleeptime;
   @HiveField(2)
   final DateTime wakeuptime;
-  SleepProgres(this.date, this.sleeptime, this.wakeuptime);
+  @HiveField(3)
+  final double sleephours;
+  SleepProgres(this.date, this.sleeptime, this.wakeuptime, this.sleephours);
   @override
   String toString() {
     return 'Date : $date ,sleeptime : $sleeptime ,wakeup time : $wakeuptime';
@@ -71,7 +73,10 @@ class Photo {
   @HiveField(1)
   final String imagepath;
 
-  Photo(this.imagepath, this.month);
+  Photo(
+    this.imagepath,
+    this.month,
+  );
 
   @override
   String toString() {

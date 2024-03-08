@@ -1,6 +1,6 @@
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:strongify/common_widget/snack_bar.dart';
-import 'package:strongify/db/db_functions.dart';
+import 'package:strongify/db_functions/db_functions.dart';
 import 'package:strongify/db_model/model.dart';
 import 'package:strongify/screens/login/whats_your_goal.dart';
 import 'package:flutter/material.dart';

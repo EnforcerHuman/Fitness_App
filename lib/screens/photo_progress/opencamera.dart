@@ -3,7 +3,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart' show join;
 import 'package:path_provider/path_provider.dart';
-import 'package:strongify/db/photo_progress.dart';
+import 'package:strongify/db_functions/photo_progress.dart';
 import 'package:strongify/db_model/model.dart';
 import 'package:strongify/screens/photo_progress/pagepreview.dart';
 
@@ -54,8 +54,8 @@ class _CameraScreenState extends State<CameraScreen> {
     final imagePath =
         join(path, '${DateTime.now().millisecondsSinceEpoch}.png');
     await image.copy(imagePath);
-    final photo = Photo(imagePath, 5);
-    storePhotos(photo);
+    final photo = Photo(imagePath, 2);
+    await storePhotos(photo);
   }
 
   @override

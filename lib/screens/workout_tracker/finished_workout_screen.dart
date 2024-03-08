@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:strongify/common/color_extension.dart';
-import 'package:strongify/db/db_functions.dart';
+import 'package:strongify/db_functions/db_functions.dart';
+import 'package:strongify/db_functions/workoout_progress_function.dart';
 import 'package:strongify/db_model/model.dart';
 import '../../common_widget/round_button.dart';
 
@@ -96,7 +98,10 @@ class _FinishedWorkoutViewState extends State<FinishedWorkoutView> {
   }
 
   Future<void> setprogressvalue() async {
-    final test = WorkoutProgres(20.5, '2024-03-14');
-    addprogress(test);
+    String formattedDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
+    double retrivedvalue = await printProgressForDate('2024-03-11');
+    print(retrivedvalue);
+    final test = WorkoutProgres(retrivedvalue + 3.33, '2024-03-11');
+    await addprogress(test);
   }
 }

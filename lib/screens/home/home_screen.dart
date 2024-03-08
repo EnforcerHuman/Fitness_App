@@ -9,11 +9,12 @@ import 'package:simple_animation_progress_bar/simple_animation_progress_bar.dart
 import 'package:simple_circular_progress_bar/simple_circular_progress_bar.dart';
 import 'package:strongify/common/color_extension.dart';
 import 'package:strongify/common_widget/round_button.dart';
-import 'package:strongify/db/get_user_details.dart';
+import 'package:strongify/db_functions/get_user_details.dart';
 import 'package:strongify/functions/calarie_calculator.dart';
 import 'package:strongify/functions/calculate_bmi.dart';
 import 'package:strongify/functions/notification_manager.dart';
 import 'package:strongify/functions/shared_pref.dart';
+import 'package:strongify/functions/sleep_tracker_functions/alarm_function.dart';
 import 'package:strongify/screens/profile/activity_tracker_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -55,7 +56,6 @@ class _HomeScreenState extends State<HomeScreen> {
     // startPeriodicTimer();
     loadusername();
     getTarget();
-    periodicwaterratio();
   }
 
   @override
@@ -157,7 +157,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                         getGender();
                                         // print(gender);
                                         calculateBMI();
-                                        showNotification();
+                                        // showNotification();
+                                        showalarm();
                                       }),
                                 )
                               ],
@@ -334,163 +335,191 @@ class _HomeScreenState extends State<HomeScreen> {
                 Row(
                   children: [
                     Expanded(
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 20, vertical: 25),
-                        height: media.width * 0.95,
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(25),
-                            boxShadow: const [
-                              BoxShadow(color: Colors.black, blurRadius: 2)
-                            ]),
-                        child: Row(
-                          children: [
-                            SimpleAnimationProgressBar(
-                              height: media.width * 0.9,
-                              width: media.width * 0.07,
-                              backgroundColor: Colors.grey.shade100,
-                              foregrondColor: Colors.purple,
-                              ratio: waterratio,
-                              direction: Axis.vertical,
-                              curve: Curves.fastLinearToSlowEaseIn,
-                              duration: const Duration(seconds: 3),
-                              borderRadius: BorderRadius.circular(25),
-                              gradientColor: LinearGradient(
-                                  colors: Tcolor.secondryGradient,
-                                  begin: Alignment.bottomCenter,
-                                  end: Alignment.topCenter),
-                            ),
-                            // const SizedBox(
-                            //   width: 15,
-                            // ),
-                            Expanded(
-                                child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                      child: Column(
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 25),
+                            height: media.width * 0.95,
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(25),
+                                boxShadow: const [
+                                  BoxShadow(color: Colors.black, blurRadius: 2)
+                                ]),
+                            child: Row(
                               children: [
-                                Text(
-                                  "Water Intake",
-                                  style: TextStyle(
-                                      color: Tcolor.black,
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w700),
+                                SimpleAnimationProgressBar(
+                                  height: media.width * 0.9,
+                                  width: media.width * 0.07,
+                                  backgroundColor: Colors.grey.shade100,
+                                  foregrondColor: Colors.purple,
+                                  ratio: waterratio,
+                                  direction: Axis.vertical,
+                                  curve: Curves.fastLinearToSlowEaseIn,
+                                  duration: const Duration(seconds: 3),
+                                  borderRadius: BorderRadius.circular(25),
+                                  gradientColor: LinearGradient(
+                                      colors: Tcolor.secondryGradient,
+                                      begin: Alignment.bottomCenter,
+                                      end: Alignment.topCenter),
                                 ),
-                                ShaderMask(
-                                  blendMode: BlendMode.srcIn,
-                                  shaderCallback: (bounds) {
-                                    return LinearGradient(
-                                            colors: Tcolor.secondryGradient,
-                                            begin: Alignment.centerLeft,
-                                            end: Alignment.centerRight)
-                                        .createShader(Rect.fromLTRB(
-                                            0, 0, bounds.width, bounds.height));
-                                  },
-                                  child: Text(
-                                    watertarget,
-                                    style: TextStyle(
-                                        color: Tcolor.white.withOpacity(0.7),
-                                        fontWeight: FontWeight.w800,
-                                        fontSize: 14),
-                                  ),
-                                ),
-                                const SizedBox(
-                                  height: 10,
-                                ),
-                                Text(
-                                  "Suggetion",
-                                  style: TextStyle(
-                                    color: Tcolor.gray,
-                                    fontSize: 12,
-                                  ),
-                                ),
-                                Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: waterArr.map((wObj) {
-                                      var isLast = wObj == waterArr.last;
-                                      return Row(
-                                        children: [
-                                          Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
+                                // const SizedBox(
+                                //   width: 15,
+                                // ),
+                                Expanded(
+                                    child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Water Intake",
+                                      style: TextStyle(
+                                          color: Tcolor.black,
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w700),
+                                    ),
+                                    ShaderMask(
+                                      blendMode: BlendMode.srcIn,
+                                      shaderCallback: (bounds) {
+                                        return LinearGradient(
+                                                colors: Tcolor.secondryGradient,
+                                                begin: Alignment.centerLeft,
+                                                end: Alignment.centerRight)
+                                            .createShader(Rect.fromLTRB(0, 0,
+                                                bounds.width, bounds.height));
+                                      },
+                                      child: Text(
+                                        watertarget,
+                                        style: TextStyle(
+                                            color:
+                                                Tcolor.white.withOpacity(0.7),
+                                            fontWeight: FontWeight.w800,
+                                            fontSize: 14),
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    Text(
+                                      "Suggetion",
+                                      style: TextStyle(
+                                        color: Tcolor.gray,
+                                        fontSize: 12,
+                                      ),
+                                    ),
+                                    Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: waterArr.map((wObj) {
+                                          var isLast = wObj == waterArr.last;
+                                          return Row(
                                             children: [
-                                              Container(
-                                                margin:
-                                                    const EdgeInsets.symmetric(
-                                                        vertical: 4),
+                                              Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: [
+                                                  Container(
+                                                    margin: const EdgeInsets
+                                                        .symmetric(vertical: 4),
+                                                    width: 10,
+                                                    height: 10,
+                                                    decoration: BoxDecoration(
+                                                      color: Tcolor
+                                                          .secondryColor1
+                                                          .withOpacity(0.5),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              5),
+                                                    ),
+                                                  ),
+                                                  if (!isLast)
+                                                    DottedDashedLine(
+                                                        height:
+                                                            media.width * 0.078,
+                                                        width: 0,
+                                                        dashColor: Tcolor
+                                                            .secondryColor1
+                                                            .withOpacity(0.5),
+                                                        axis: Axis.vertical)
+                                                ],
+                                              ),
+                                              const SizedBox(
                                                 width: 10,
-                                                height: 10,
-                                                decoration: BoxDecoration(
-                                                  color: Tcolor.secondryColor1
-                                                      .withOpacity(0.5),
-                                                  borderRadius:
-                                                      BorderRadius.circular(5),
-                                                ),
                                               ),
-                                              if (!isLast)
-                                                DottedDashedLine(
-                                                    height: media.width * 0.078,
-                                                    width: 0,
-                                                    dashColor: Tcolor
-                                                        .secondryColor1
-                                                        .withOpacity(0.5),
-                                                    axis: Axis.vertical)
+                                              Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    wObj['title'].toString(),
+                                                    style: TextStyle(
+                                                      color: Tcolor.gray,
+                                                      fontSize: 12,
+                                                    ),
+                                                  ),
+                                                  ShaderMask(
+                                                    blendMode: BlendMode.srcIn,
+                                                    shaderCallback: (bounds) {
+                                                      return LinearGradient(
+                                                              colors: Tcolor
+                                                                  .secondryGradient,
+                                                              begin: Alignment
+                                                                  .centerLeft,
+                                                              end: Alignment
+                                                                  .centerRight)
+                                                          .createShader(
+                                                              Rect.fromLTRB(
+                                                                  0,
+                                                                  0,
+                                                                  bounds.width,
+                                                                  bounds
+                                                                      .height));
+                                                    },
+                                                    child: Text(
+                                                      wObj['subtitle']
+                                                          .toString(),
+                                                      style: TextStyle(
+                                                          color: Tcolor.white
+                                                              .withOpacity(0.7),
+                                                          fontWeight:
+                                                              FontWeight.w800,
+                                                          fontSize: 14),
+                                                    ),
+                                                  ),
+                                                ],
+                                              )
                                             ],
-                                          ),
-                                          const SizedBox(
-                                            width: 10,
-                                          ),
-                                          Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                wObj['title'].toString(),
-                                                style: TextStyle(
-                                                  color: Tcolor.gray,
-                                                  fontSize: 12,
-                                                ),
-                                              ),
-                                              ShaderMask(
-                                                blendMode: BlendMode.srcIn,
-                                                shaderCallback: (bounds) {
-                                                  return LinearGradient(
-                                                          colors: Tcolor
-                                                              .secondryGradient,
-                                                          begin: Alignment
-                                                              .centerLeft,
-                                                          end: Alignment
-                                                              .centerRight)
-                                                      .createShader(
-                                                          Rect.fromLTRB(
-                                                              0,
-                                                              0,
-                                                              bounds.width,
-                                                              bounds.height));
-                                                },
-                                                child: Text(
-                                                  wObj['subtitle'].toString(),
-                                                  style: TextStyle(
-                                                      color: Tcolor.white
-                                                          .withOpacity(0.7),
-                                                      fontWeight:
-                                                          FontWeight.w800,
-                                                      fontSize: 14),
-                                                ),
-                                              ),
-                                            ],
-                                          )
-                                        ],
-                                      );
-                                    }).toList())
+                                          );
+                                        }).toList()),
+                                  ],
+                                ))
                               ],
-                            ))
-                          ],
-                        ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 90, top: 20),
+                            child: Container(
+                                height: 40,
+                                width: 40,
+                                decoration: BoxDecoration(
+                                    gradient: LinearGradient(
+                                        colors: Tcolor.secondryGradient),
+                                    borderRadius: BorderRadius.circular(10)),
+                                child: IconButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        if (waterratio < 1) {
+                                          waterratio = waterratio + 0.2;
+                                        }
+                                      });
+                                    },
+                                    icon: Icon(Icons.add))),
+                          ),
+                        ],
                       ),
                     ),
                     SizedBox(

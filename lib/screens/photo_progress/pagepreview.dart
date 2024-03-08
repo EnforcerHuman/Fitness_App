@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:strongify/db/photo_progress.dart';
+import 'package:strongify/db_functions/photo_progress.dart';
 
 class PreviewPage extends StatelessWidget {
   final String imagepath;

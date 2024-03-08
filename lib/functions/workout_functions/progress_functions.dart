@@ -1,5 +1,5 @@
 import 'package:intl/intl.dart';
-import 'package:strongify/db/db_functions.dart';
+import 'package:strongify/db_functions/db_functions.dart';
 import 'package:strongify/db_model/model.dart';
 
 // double progressvalue = 2;

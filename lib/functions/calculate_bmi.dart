@@ -1,4 +1,4 @@
-import 'package:strongify/db/db_functions.dart';
+import 'package:strongify/db_functions/db_functions.dart';
 
 Future<String> calculateBMI() async {
   List details = await retriveData();

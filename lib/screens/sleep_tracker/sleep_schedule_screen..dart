@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:simple_animation_progress_bar/simple_animation_progress_bar.dart';
 import 'package:strongify/common/color_extension.dart';
-import 'package:strongify/db/db_functions.dart';
-import 'package:strongify/db_model/model.dart';
+import 'package:strongify/db_functions/db_functions.dart';
+import 'package:strongify/db_functions/sleep_schedule.dart';
 import 'package:strongify/functions/sleep_tracker_functions/sleep_schedule.dart';
 import 'package:strongify/screens/sleep_tracker/sleep_add_alarm_screen.dart';
 
@@ -173,18 +173,7 @@ class _SleepScheduleScreenState extends State<SleepScheduleScreen> {
                       borderRadius: BorderRadius.circular(30),
                     ),
                     child: CalendarAgenda(
-                      // controller: _calendarAgendaControllerAppBar,
-                      // appbar: true,
                       selectedDayPosition: SelectedDayPosition.left,
-                      // leading: IconButton(
-                      //   icon: const Icon(
-                      //     Icons.arrow_back_ios_new,
-                      //     color: Colors.white,
-                      //   ),
-                      //   onPressed: () {
-                      //     Navigator.of(context).pop();
-                      //   },
-                      // ),
                       weekDay: WeekDay.long,
                       fullCalendarScroll: FullCalendarScroll.horizontal,
                       fullCalendarDay: WeekDay.long,
@@ -243,6 +232,9 @@ class _SleepScheduleScreenState extends State<SleepScheduleScreen> {
                                     ),
                                   ],
                                 ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
                                 Text(bedtime)
                               ],
                             ),
@@ -252,9 +244,15 @@ class _SleepScheduleScreenState extends State<SleepScheduleScreen> {
                             Column(
                               children: [
                                 IconButton(
-                                    onPressed: () {},
-                                    icon:
-                                        const Icon(Icons.do_not_touch_rounded))
+                                    onPressed: () async {
+                                      String formatteddate =
+                                          DateFormat('yyyy-MM-dd')
+                                              .format(_selectedDate);
+
+                                      await deleteSleepSchedule(formatteddate);
+                                      setState(() {});
+                                    },
+                                    icon: const Icon(Icons.delete))
                               ],
                             )
                           ],
@@ -293,6 +291,9 @@ class _SleepScheduleScreenState extends State<SleepScheduleScreen> {
                                     ),
                                   ],
                                 ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
                                 Text(alarmtime)
                               ],
                             ),
@@ -302,9 +303,13 @@ class _SleepScheduleScreenState extends State<SleepScheduleScreen> {
                             Column(
                               children: [
                                 IconButton(
-                                    onPressed: () {},
-                                    icon:
-                                        const Icon(Icons.do_not_touch_rounded))
+                                    onPressed: () {
+                                      String formatteddate =
+                                          DateFormat('yyyy-MM-dd')
+                                              .format(_selectedDate);
+                                      deleteSleepSchedule(formatteddate);
+                                    },
+                                    icon: const Icon(Icons.delete))
                               ],
                             )
                           ],

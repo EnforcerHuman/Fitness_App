@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:intl/intl.dart';
-import 'package:strongify/db/db_functions.dart';
+import 'package:strongify/db_functions/db_functions.dart';
+import 'package:strongify/db_functions/sleep_schedule.dart';
 import 'package:strongify/db_model/model.dart';
 
 Random random = Random();
@@ -11,7 +12,9 @@ int minutesofsleep = 0;
 int minutesofalarm = 0;
 int timeindiactorforalarm = 0;
 int timeindicatorforbed = 0;
-Future<void> updateSelectedDate(DateTime date) async {
+Future<void> updateSelectedDate(
+  DateTime date,
+) async {
   String formatteddate = DateFormat('yyyy-MM-dd').format(date);
   SleepProgres? sleepSchedule = await retriveSleepSchedule(formatteddate);
 
@@ -38,8 +41,6 @@ Future<void> updateSelectedDate(DateTime date) async {
     alarmtime = 'Set your schedule';
     bedtime = 'Set your schedule';
   }
-  // totalsleephours = double.parse('$timeindiactorforalarm.$timeindicatorforbed');
-  // print('total sleep hours : $totalsleephours');
 }
 
 int? totalhour;

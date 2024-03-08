@@ -3,7 +3,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:strongify/common/color_extension.dart';
 import 'package:strongify/common_widget/image_grid_widget.dart';
-import 'package:strongify/db/photo_progress.dart';
+import 'package:strongify/db_functions/photo_progress.dart';
 import 'package:strongify/db_model/model.dart';
 import 'package:strongify/functions/photo_progress/month_comparison.dart';
 import 'package:strongify/screens/photo_progress/opencamera.dart';

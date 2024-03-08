@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:strongify/common/color_extension.dart';
-import 'package:strongify/db/photo_progress.dart';
+import 'package:strongify/db_functions/photo_progress.dart';
 import 'package:strongify/db_model/model.dart';
 import 'package:strongify/functions/photo_progress/month_comparison.dart';
 import 'package:strongify/screens/photo_progress/comparison_view.dart';
@@ -76,62 +76,6 @@ class _PhotoProgressScreenState extends State<PhotoProgressScreen> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                  child: Container(
-                    width: double.maxFinite,
-                    padding: const EdgeInsets.all(15),
-                    decoration: BoxDecoration(
-                        color: const Color(0xffFFE5E5),
-                        borderRadius: BorderRadius.circular(20)),
-                    child: Row(
-                      children: [
-                        Container(
-                            decoration: BoxDecoration(
-                                color: Tcolor.white,
-                                borderRadius: BorderRadius.circular(30)),
-                            width: 50,
-                            height: 50,
-                            alignment: Alignment.center,
-                            child: Image.asset('assets/img/Calendar.png')),
-                        const SizedBox(
-                          width: 8,
-                        ),
-                        Expanded(
-                          child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const Text(
-                                  "Reminder!",
-                                  style: TextStyle(
-                                      color: Colors.red,
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                                Text(
-                                  "Next Photos Fall On July 08",
-                                  style: TextStyle(
-                                      color: Tcolor.black,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w700),
-                                ),
-                              ]),
-                        ),
-                        Container(
-                            height: 60,
-                            alignment: Alignment.topRight,
-                            child: IconButton(
-                                onPressed: () {},
-                                icon: Icon(
-                                  Icons.close,
-                                  color: Tcolor.gray,
-                                  size: 15,
-                                )))
-                      ],
-                    ),
-                  ),
-                ),
                 Padding(
                   padding:
                       const EdgeInsets.symmetric(vertical: 10, horizontal: 20),

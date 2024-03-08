@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:strongify/common/color_extension.dart';
-import 'package:strongify/db/db_functions.dart';
-import 'package:strongify/db/get_user_details.dart';
+import 'package:strongify/db_functions/db_functions.dart';
+import 'package:strongify/db_functions/get_user_details.dart';
 import 'package:strongify/screens/profile/profile_screen.dart';
 import '../../common_widget/round_button.dart';
 import '../../common_widget/round_textfield.dart';

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:strongify/common_widget/round_button.dart';
-import 'package:strongify/db/db_functions.dart';
+import 'package:strongify/db_functions/sleep_schedule.dart';
 import 'package:strongify/db_model/model.dart';
 import 'package:strongify/screens/workout_tracker/workout_tracker_screen.dart';
 
@@ -42,7 +42,7 @@ class SelectScreen extends StatelessWidget {
                   // // printProgressForDate('2024-3-11');
                   // retrieveLast7DaysProgress('2024-03-18');
                   DateTime date = DateTime.now();
-                  final test2 = SleepProgres('2024-03-11', date, date);
+                  final test2 = SleepProgres('2024-03-11', date, date, 5);
                   addsleepschedule(test2);
                   // retriveSleepSchedule();
                 })

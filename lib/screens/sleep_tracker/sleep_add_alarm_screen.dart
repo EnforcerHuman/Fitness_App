@@ -2,7 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:strongify/common/color_extension.dart';
-import 'package:strongify/db/db_functions.dart';
+import 'package:strongify/db_functions/db_functions.dart';
+import 'package:strongify/db_functions/sleep_schedule.dart';
 import 'package:strongify/db_model/model.dart';
 import 'package:strongify/functions/sleep_tracker_functions/sleep_schedule.dart';
 import '../../common_widget/round_button.dart';
@@ -115,41 +116,6 @@ class _SleepAddAlarmViewState extends State<SleepAddAlarmView> {
           const SizedBox(
             height: 10,
           ),
-
-          // Row(
-          //   children: [
-          //     SizedBox(
-          //       child: Image.asset('assets/img/HoursTime.png'),
-          //       width: 20,
-          //       height: 20,
-          //     ),
-          //     Text(
-          //       " Hours of sleep",
-          //       style: TextStyle(
-          //           color: Tcolor.black,
-          //           fontSize: 14,
-          //           fontWeight: FontWeight.w500),
-          //     ),
-          //   ],
-          // ),
-          // SizedBox(
-          //   height: media.width * 0.5,
-          //   child: CupertinoTimerPicker(
-          //     onTimerDurationChanged: (time) {
-          //       setState(() {
-          //         sleeptime = time;
-          //       });
-          //     },
-          //     mode: CupertinoTimerPickerMode.hm,
-          //   ),
-          // ),
-
-          // IconTitleNextRow(
-          //     icon: "assets/img/HoursTime.png",
-          //     title: "Hours of sleep",
-          //     time: "8hours 30minutes",
-          //     color: Tcolor.lightGray,
-          //     onPressed: () {}),
           Row(
             children: [
               SizedBox(
@@ -177,7 +143,9 @@ class _SleepAddAlarmViewState extends State<SleepAddAlarmView> {
                   wakeuptime = newTime;
                 });
               },
-              initialDateTime: DateTime.now(),
+              initialDateTime: DateTime.now().add(Duration(days: 1)).subtract(
+                    Duration(minutes: DateTime.now().minute),
+                  ),
               use24hFormat: false,
               minuteInterval: 1,
               mode: CupertinoDatePickerMode.time,
@@ -197,10 +165,17 @@ class _SleepAddAlarmViewState extends State<SleepAddAlarmView> {
               onPressed: () async {
                 String formattedDate =
                     DateFormat('yyyy-MM-dd').format(widget.date);
-                final sleepschedule =
-                    SleepProgres(formattedDate, sleeptime, wakeuptime);
+                Duration duration = wakeuptime.difference(sleeptime);
+                int totalHours = duration.inHours;
+                int remainingMinutes = duration.inMinutes % 60;
+                String formattedDuration = '$totalHours.$remainingMinutes';
+                double sleepdutarion = double.parse(formattedDuration);
+                print('Formatted Duration: $sleepdutarion');
+                final sleepschedule = SleepProgres(
+                    formattedDate, sleeptime, wakeuptime, sleepdutarion);
                 addsleepschedule(sleepschedule);
                 setState(() {});
+                Navigator.of(context).pop();
               }),
           const SizedBox(
             height: 20,

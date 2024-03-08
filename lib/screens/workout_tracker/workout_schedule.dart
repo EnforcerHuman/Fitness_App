@@ -6,7 +6,8 @@ import 'package:calendar_agenda/calendar_agenda.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:strongify/common/color_extension.dart';
-import 'package:strongify/db/db_functions.dart';
+
+import 'package:strongify/db_functions/workout_schedule.dart';
 
 import 'package:strongify/screens/workout_tracker/add_schedule.dart';
 
@@ -32,21 +33,6 @@ class _WorkoutScheduleScreenState extends State<WorkoutScheduleScreen> {
     super.initState();
     _selectedDateAppBBar = DateTime.now();
     _loadSchedulesForSelectedDate();
-  }
-
-  Future<void> _loadSchedulesForSelectedDate() async {
-    String formattedDate;
-    if (widget.currentdate != null) {
-      formattedDate = widget.currentdate!;
-    } else {
-      formattedDate = DateFormat('yyyy-MM-dd').format(_selectedDateAppBBar);
-    }
-    var schedules = await retrieveSchedulesForDate(formattedDate);
-    print('sendig date to retive $formattedDate');
-    print('widget.date ${widget.currentdate}');
-    setState(() {
-      dayschedules = schedules ?? [];
-    });
   }
 
   @override
@@ -107,6 +93,14 @@ class _WorkoutScheduleScreenState extends State<WorkoutScheduleScreen> {
                   leading: const Icon(Icons.fitness_center),
                   title: Text('Workout: ${schedule.workout}'),
                   subtitle: Text('Time: ${schedule.time.toString()}'),
+                  trailing: IconButton(
+                      onPressed: () {
+                        String formattedDate = DateFormat('yyyy-MM-dd')
+                            .format(_selectedDateAppBBar);
+                        deleteSchedule(formattedDate, index);
+                        setState(() {});
+                      },
+                      icon: Icon(Icons.delete)),
                 );
               },
             )
@@ -114,5 +108,20 @@ class _WorkoutScheduleScreenState extends State<WorkoutScheduleScreen> {
               child: Text("No schedules for this date."),
             ),
     );
+  }
+
+  Future<void> _loadSchedulesForSelectedDate() async {
+    String formattedDate;
+    if (widget.currentdate != null) {
+      formattedDate = widget.currentdate!;
+    } else {
+      formattedDate = DateFormat('yyyy-MM-dd').format(_selectedDateAppBBar);
+    }
+    var schedules = await retrieveSchedulesForDate(formattedDate);
+    print('sendig date to retive $formattedDate');
+    print('widget.date ${widget.currentdate}');
+    setState(() {
+      dayschedules = schedules ?? [];
+    });
   }
 }

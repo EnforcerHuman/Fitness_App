@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:strongify/common/color_extension.dart';
-import 'package:strongify/db/photo_progress.dart';
+import 'package:strongify/db_functions/photo_progress.dart';
 import 'package:strongify/db_model/model.dart';
 import 'package:strongify/functions/photo_progress/month_comparison.dart';
 import '../../common_widget/round_button.dart';
@@ -119,7 +119,7 @@ class _ResultScreenState extends State<ResultScreen> {
                     ListView.builder(
                         physics: const NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
-                        itemCount: 4,
+                        itemCount: list1!.length,
                         itemBuilder: (context, index) {
                           return Column(
                               crossAxisAlignment: CrossAxisAlignment.center,

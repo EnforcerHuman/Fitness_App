@@ -140,19 +140,22 @@ class SleepProgresAdapter extends TypeAdapter<SleepProgres> {
       fields[0] as String,
       fields[1] as DateTime,
       fields[2] as DateTime,
+      fields[3] as double,
     );
   }
 
   @override
   void write(BinaryWriter writer, SleepProgres obj) {
     writer
-      ..writeByte(3)
+      ..writeByte(4)
       ..writeByte(0)
       ..write(obj.date)
       ..writeByte(1)
       ..write(obj.sleeptime)
       ..writeByte(2)
-      ..write(obj.wakeuptime);
+      ..write(obj.wakeuptime)
+      ..writeByte(3)
+      ..write(obj.sleephours);
   }
 
   @override

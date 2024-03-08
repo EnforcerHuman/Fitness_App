@@ -1,6 +1,8 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:strongify/common/color_extension.dart';
+import 'package:strongify/db_functions/db_functions.dart';
+import 'package:strongify/functions/sleep_tracker_functions/sleep_hours.dart';
 import 'package:strongify/functions/sleep_tracker_functions/sleep_schedule.dart';
 import 'package:strongify/screens/sleep_tracker/sleep_schedule_screen..dart';
 import '../../common_widget/round_button.dart';
@@ -13,16 +15,15 @@ class SleepTrackerScreen extends StatefulWidget {
 }
 
 class _SleepTrackerScreenState extends State<SleepTrackerScreen> {
-  // String bedtime = '';
-  // String alarmtime = '';
-
   List<int> showingTooltipOnSpots = [4];
 
   @override
   void initState() {
     super.initState();
-    updateSelectedDate(DateTime.now());
-    getsleephours();
+    updateSelectedDate(
+      DateTime.now(),
+    );
+    getsleephoursforlastsevendays();
   }
 
   @override
@@ -41,7 +42,9 @@ class _SleepTrackerScreenState extends State<SleepTrackerScreen> {
         ),
         actions: [
           InkWell(
-            onTap: () {},
+            onTap: () async {
+              getsleephoursforlastsevendays();
+            },
             child: Container(
               margin: const EdgeInsets.all(8),
               height: 40,
@@ -323,13 +326,6 @@ class _SleepTrackerScreenState extends State<SleepTrackerScreen> {
                         SizedBox(
                           width: media.width * 0.2,
                         ),
-                        Column(
-                          children: [
-                            IconButton(
-                                onPressed: () {},
-                                icon: const Icon(Icons.do_not_touch_rounded))
-                          ],
-                        )
                       ],
                     ),
                   )),
@@ -372,13 +368,6 @@ class _SleepTrackerScreenState extends State<SleepTrackerScreen> {
                         SizedBox(
                           width: media.width * 0.2,
                         ),
-                        Column(
-                          children: [
-                            IconButton(
-                                onPressed: () {},
-                                icon: const Icon(Icons.do_not_touch_rounded))
-                          ],
-                        )
                       ],
                     ),
                   )),
@@ -412,14 +401,14 @@ class _SleepTrackerScreenState extends State<SleepTrackerScreen> {
             Tcolor.white,
           ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
         ),
-        spots: const [
-          FlSpot(1, 0),
-          FlSpot(2, 4.5),
-          FlSpot(3, 4),
-          FlSpot(4, 7),
-          FlSpot(5, 4),
-          FlSpot(6, 8),
-          FlSpot(7, 5),
+        spots: [
+          FlSpot(1, value7 ?? 0.0),
+          FlSpot(2, value6 ?? 0.0),
+          FlSpot(3, value5 ?? 0.0),
+          FlSpot(4, value4 ?? 0.0),
+          FlSpot(5, value3 ?? 0.0),
+          FlSpot(6, value2 ?? 0.0),
+          FlSpot(7, value1 ?? 0.0),
         ],
       );
 
