@@ -54,8 +54,8 @@ class _CameraScreenState extends State<CameraScreen> {
     final imagePath =
         join(path, '${DateTime.now().millisecondsSinceEpoch}.png');
     await image.copy(imagePath);
-    final photo = Photo(imagePath, 2);
-    await storePhotos(photo);
+    final photo = Photo(imagePath, 1);
+    storePhotos(photo); 
   }
 
   @override
@@ -97,12 +97,14 @@ class _CameraScreenState extends State<CameraScreen> {
           } catch (e) {
             print('Error taking picture: $e');
           }
-          // ignore: use_build_context_synchronously
-          Navigator.of(context).push(MaterialPageRoute(
-              builder: (ctx) => PreviewPage(
-                    picture: XFile(_imageFile.path),
-                    imagepath: _imageFile.path,
-                  )));
+
+          Future.delayed(const Duration(seconds: 1), () {
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (ctx) => PreviewPage(
+                      picture: XFile(_imageFile.path),
+                      imagepath: _imageFile.path,
+                    )));
+          });
         },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,

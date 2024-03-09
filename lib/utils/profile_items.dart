@@ -1,6 +1,6 @@
 List accountArr = [
   {"image": "assets/img/p_personal.png", "name": "Personal Data", "tag": "1"},
-  {"image": "assets/img/p_achi.png", "name": "Achievement", "tag": "2"},
+  {"image": "assets/img/p_achi.png", "name": "feedback", "tag": "2"},
   {
     "image": "assets/img/p_activity.png",
     "name": "Activity History",

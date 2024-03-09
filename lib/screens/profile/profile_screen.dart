@@ -6,7 +6,6 @@ import 'package:strongify/common_widget/dropdown_widget.dart';
 import 'package:strongify/db_functions/get_user_details.dart';
 import 'package:strongify/functions/profile_functions.dart';
 import 'package:strongify/functions/shared_pref.dart';
-import 'package:strongify/functions/sleep_tracker_functions/alarm_function.dart';
 import 'package:strongify/screens/profile/edit_profile.dart';
 import 'package:strongify/utils/profile_items.dart';
 
@@ -262,6 +261,9 @@ class _ProfileViewState extends State<ProfileView> {
                           icon: iObj["image"].toString(),
                           title: iObj["name"].toString(),
                           onPressed: () {
+                            // if (otherArr[index]==) {
+
+                            // }
                             handleItemClick(context, otherArr[index]);
                           },
                         );

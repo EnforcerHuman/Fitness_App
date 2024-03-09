@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-
+import 'package:flutter/widgets.dart';
 import 'package:strongify/common/color_extension.dart';
 import 'package:strongify/common_widget/round_button.dart';
-import 'package:strongify/db_functions/db_functions.dart';
-import 'package:strongify/db_model/model.dart';
-
 import 'package:strongify/screens/workout_tracker/finished_workout_screen.dart';
 import 'package:timer_builder/timer_builder.dart';
 
@@ -43,12 +39,15 @@ class _WorkoutTimerScreenState extends State<WorkoutTimerScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var media = MediaQuery.of(context).size;
     return Scaffold(
-      body: Expanded(
-        child: Container(
-          width: MediaQuery.of(context).size.width,
-          decoration: BoxDecoration(
-              gradient: LinearGradient(colors: Tcolor.secondryGradient)),
+      body: Container(
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(colors: Tcolor.secondryGradient),
+        ),
+        child: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -73,7 +72,6 @@ class _WorkoutTimerScreenState extends State<WorkoutTimerScreen> {
                 }
                 int remainingTime = (setSeconds + setMinutes * 60) - seconds;
                 if (remainingTime <= 0) {
-                  // setprogressvalue();
                   Future.delayed(const Duration(seconds: 1), () {
                     Navigator.of(context).pushReplacement(MaterialPageRoute(
                         builder: (ctx) => const FinishedWorkoutView()));
@@ -102,6 +100,9 @@ class _WorkoutTimerScreenState extends State<WorkoutTimerScreen> {
                   ],
                 );
               }),
+              SizedBox(
+                height: media.width * 0.3,
+              ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: RoundButton(

@@ -52,8 +52,6 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     requestPermissions();
     initPlatformState();
-    // initLocalNotifications();
-    // startPeriodicTimer();
     loadusername();
     getTarget();
   }
@@ -644,7 +642,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                               ),
                                               child: FittedBox(
                                                 child: Text(
-                                                  " $steps \n left",
+                                                  " Burn \n more",
                                                   textAlign: TextAlign.center,
                                                   style: TextStyle(
                                                       color: Tcolor.white,

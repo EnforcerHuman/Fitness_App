@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:strongify/common/color_extension.dart';
-import 'package:strongify/db_functions/db_functions.dart';
 import 'package:strongify/db_functions/workoout_progress_function.dart';
 import 'package:strongify/db_model/model.dart';
 import '../../common_widget/round_button.dart';
@@ -36,10 +35,12 @@ class _FinishedWorkoutViewState extends State<FinishedWorkoutView> {
               const SizedBox(
                 height: 20,
               ),
-              Image.asset(
-                "assets/img/complete_workout.png",
-                height: media.width * 0.8,
-                fit: BoxFit.fitHeight,
+              Expanded(
+                child: Image.asset(
+                  "assets/img/complete_workout.png",
+                  height: media.width * 0.8,
+                  fit: BoxFit.fitHeight,
+                ),
               ),
               const SizedBox(
                 height: 20,
@@ -56,31 +57,40 @@ class _FinishedWorkoutViewState extends State<FinishedWorkoutView> {
               const SizedBox(
                 height: 20,
               ),
-              Text(
-                "Exercises is king and nutrition is queen. Combine the two and you will have a kingdom",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Tcolor.gray,
-                  fontSize: 12,
-                ),
-              ),
-              const SizedBox(
-                height: 8,
-              ),
-              Text(
-                "-Jack Lalanne",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Tcolor.gray,
-                  fontSize: 12,
+              Flexible(
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      Text(
+                        "Exercises are king and nutrition is queen. Combine the two and you will have a kingdom",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Tcolor.gray,
+                          fontSize: 12,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      Text(
+                        "-Jack Lalanne",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Tcolor.gray,
+                          fontSize: 12,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
               const Spacer(),
               RoundButton(
-                  title: "Next Workout",
-                  onPressed: () {
-                    Navigator.pop(context);
-                  }),
+                title: "Next Workout",
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
               const SizedBox(
                 height: 8,
               ),
