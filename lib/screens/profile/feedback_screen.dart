@@ -38,15 +38,24 @@ class _ReviewFormState extends State<ReviewForm> {
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: RoundButton(
-                      title: 'Submit',
-                      onPressed: () {
-                        setState(() {});
-                        submitReview();
-                        reviewController.clear();
-                      }),
+                Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: RoundButton(
+                          title: 'Submit',
+                          onPressed: () {
+                            setState(() {});
+                            submitReview();
+                            reviewController.clear();
+                            Navigator.pop(context);
+                          }),
+                    ),
+                    const Text(
+                      'Note : External applictaion will be used for sharing feedback',
+                      style: TextStyle(fontSize: 7),
+                    )
+                  ],
                 ),
               ],
             ),

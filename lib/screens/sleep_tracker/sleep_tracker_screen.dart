@@ -1,7 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:strongify/common/color_extension.dart';
-import 'package:strongify/db_functions/db_functions.dart';
+import 'package:strongify/db_functions/sleep_schedule.dart';
 import 'package:strongify/functions/sleep_tracker_functions/sleep_hours.dart';
 import 'package:strongify/functions/sleep_tracker_functions/sleep_schedule.dart';
 import 'package:strongify/screens/sleep_tracker/sleep_schedule_screen..dart';
@@ -24,6 +24,7 @@ class _SleepTrackerScreenState extends State<SleepTrackerScreen> {
       DateTime.now(),
     );
     getsleephoursforlastsevendays();
+    getsleephours(DateTime.now());
   }
 
   @override
@@ -498,22 +499,4 @@ class _SleepTrackerScreenState extends State<SleepTrackerScreen> {
       child: text,
     );
   }
-
-  // Future<void> updateSelectedDate(DateTime date) async {
-  //   String formatteddate = DateFormat('yyyy-MM-dd').format(date);
-  //   SleepProgres? sleepSchedule = await retriveSleepSchedule(formatteddate);
-
-  //   if (sleepSchedule != null) {
-  //     setState(() {
-  //       alarmtime = DateFormat('HH:mm').format(sleepSchedule.wakeuptime);
-  //       bedtime = DateFormat('HH:mm').format(sleepSchedule.sleeptime);
-  //     });
-  //   } else {
-  //     // Handle the case where sleepSchedule is null,
-  //     setState(() {
-  //       alarmtime = 'Set your schedule';
-  //       bedtime = 'Set your schedule';
-  //     });
-  //   }
-  // }
 }

@@ -32,12 +32,13 @@ Future<void> deleteSleepSchedule(String date) async {
   }
 }
 
-Future<SleepProgres?> retriveSleepHours(String date) async {
+Future<double> retriveSleepHours(String date) async {
+  // ignore: non_constant_identifier_names
   final SleepProgresScheduledb =
-      await await Hive.openBox<SleepProgres>('sleepschedule');
-  final test = await SleepProgresScheduledb.get(date);
+      await Hive.openBox<SleepProgres>('sleepschedule');
+  final test = SleepProgresScheduledb.get(date);
   print(test!.sleephours);
-  return test;
+  return test.sleephours;
 }
 
 Future<List<double?>> retrieveLast7DaysSleepSchedule() async {

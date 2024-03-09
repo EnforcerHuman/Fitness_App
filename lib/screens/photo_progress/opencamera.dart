@@ -54,8 +54,8 @@ class _CameraScreenState extends State<CameraScreen> {
     final imagePath =
         join(path, '${DateTime.now().millisecondsSinceEpoch}.png');
     await image.copy(imagePath);
-    final photo = Photo(imagePath, 1);
-    storePhotos(photo); 
+    final photo = Photo(imagePath, 6);
+    storePhotos(photo);
   }
 
   @override

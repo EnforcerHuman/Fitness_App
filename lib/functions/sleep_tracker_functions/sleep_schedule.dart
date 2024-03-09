@@ -1,6 +1,5 @@
 import 'dart:math';
 import 'package:intl/intl.dart';
-import 'package:strongify/db_functions/db_functions.dart';
 import 'package:strongify/db_functions/sleep_schedule.dart';
 import 'package:strongify/db_model/model.dart';
 
@@ -45,9 +44,10 @@ Future<void> updateSelectedDate(
 
 int? totalhour;
 int? totalminutes;
-Future<void> getsleephours() async {
-  totalhour = timeindicatorforbed - timeindiactorforalarm;
-  totalminutes = minutesofsleep - minutesofalarm;
-  print(totalhour);
-  // totalsleephours = double.parse('$totalhour.$totalminutes');
+Future<void> getsleephours(DateTime date) async {
+  String formatteddate = DateFormat('yyyy-MM-dd').format(date);
+  double totalsleephours = await retriveSleepHours(formatteddate);
+
+  totalhour = totalsleephours.floor();
+  totalminutes = ((totalsleephours - totalhour!) * 10).toInt();
 }

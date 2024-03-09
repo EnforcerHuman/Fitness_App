@@ -7,6 +7,7 @@ import 'package:strongify/screens/photo_progress/photo_progress_screen.dart';
 
 import 'package:strongify/screens/profile/profile_screen.dart';
 import 'package:strongify/screens/sleep_tracker/sleep_tracker_screen.dart';
+import 'package:strongify/screens/workout_tracker/workout_tracker_screen.dart';
 
 class MainTabView extends StatefulWidget {
   const MainTabView({super.key});
@@ -49,7 +50,7 @@ class _MainTabViewState extends State<MainTabView> {
                     isActive: selectTab == 1,
                     onTap: () {
                       selectTab = 1;
-                      currentTab = const SelectScreen();
+                      currentTab = const WorkoutTrackerScreen();
                       if (mounted) {
                         setState(() {});
                       }

@@ -139,9 +139,7 @@ class _SleepScheduleScreenState extends State<SleepScheduleScreen> {
                                 child: RoundButton(
                                     title: "Learn More",
                                     fontSize: 12,
-                                    onPressed: () async {
-                                      getsleephours();
-                                    }),
+                                    onPressed: () async {}),
                               )
                             ]),
                         Image.asset(

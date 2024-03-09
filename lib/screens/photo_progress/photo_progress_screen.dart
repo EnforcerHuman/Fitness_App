@@ -30,6 +30,7 @@ class _PhotoProgressScreenState extends State<PhotoProgressScreen> {
     super.initState();
     initcamera();
     getgivenmonthname();
+    getfirst2monthphotos();
   }
 
   @override
@@ -112,12 +113,7 @@ class _PhotoProgressScreenState extends State<PhotoProgressScreen> {
                                 child: RoundButton(
                                     title: "Learn More",
                                     fontSize: 12,
-                                    onPressed: () async {
-                                      list1 = await printPhotosForMonth(1);
-                                      list2 = await printPhotosForMonth(2);
-                                      printPhotosForMonth(3);
-                                      setState(() {});
-                                    }),
+                                    onPressed: () async {}),
                               )
                             ]),
                         Image.asset(
@@ -357,5 +353,12 @@ class _PhotoProgressScreenState extends State<PhotoProgressScreen> {
     setState(() async {
       cameras = await availableCameras();
     });
+  }
+
+  Future<void> getfirst2monthphotos() async {
+    list1 = await printPhotosForMonth(1);
+    list2 = await printPhotosForMonth(2);
+
+    setState(() {});
   }
 }

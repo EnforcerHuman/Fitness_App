@@ -2,10 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:strongify/common/color_extension.dart';
-import 'package:strongify/db_functions/db_functions.dart';
 import 'package:strongify/db_functions/sleep_schedule.dart';
 import 'package:strongify/db_model/model.dart';
-import 'package:strongify/functions/sleep_tracker_functions/sleep_schedule.dart';
 import '../../common_widget/round_button.dart';
 
 class SleepAddAlarmView extends StatefulWidget {
