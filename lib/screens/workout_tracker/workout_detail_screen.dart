@@ -4,7 +4,6 @@ import 'package:strongify/common_widget/excersises_set_section.dart';
 import 'package:strongify/common_widget/icon_title_nex_row.dart';
 import 'package:strongify/screens/workout_tracker/excercise_step_detail.dart';
 import 'package:strongify/screens/workout_tracker/workout_schedule.dart';
-import 'package:strongify/screens/workout_tracker/workout_tracker_screen.dart';
 import 'package:strongify/utils/workout_details.dart';
 
 class WorkoutDetailScreen extends StatefulWidget {
@@ -16,22 +15,11 @@ class WorkoutDetailScreen extends StatefulWidget {
 }
 
 class _WorkoutDetailScreenState extends State<WorkoutDetailScreen> {
-  // List latestArr = [
-  //   {"image": "", "title": "Fullbody Workout", "time": "Today, 03:00pm"},
-  //   {
-  //     "image": "assets/img/Workout2.png",
-  //     "title": "Upperbody Workout",
-  //     "time": "June 05, 02:00pm"
-  //   },
-  // ];
-
   List youArr = [
     {"image": "assets/img/barbell.png", "title": "Barbell"},
     {"image": "assets/img/skipping_rope.png", "title": "Skipping Rope"},
     {"image": "assets/img/bottle.png", "title": "Bottle 1 Liters"},
   ];
-
-  //
 
   @override
   Widget build(BuildContext context) {
@@ -42,51 +30,10 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen> {
       child: NestedScrollView(
         headerSliverBuilder: (context, innerBoxIsScrolled) {
           return [
-            SliverAppBar(
+            const SliverAppBar(
               backgroundColor: Colors.transparent,
               centerTitle: true,
               elevation: 0,
-              leading: InkWell(
-                onTap: () {
-                  Navigator.of(context).pushReplacement(MaterialPageRoute(
-                      builder: (ctx) => const WorkoutTrackerScreen()));
-                },
-                child: Container(
-                  margin: const EdgeInsets.all(8),
-                  height: 40,
-                  width: 40,
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                      color: Tcolor.lightGray,
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Image.asset(
-                    "assets/img/black_btn.png",
-                    width: 15,
-                    height: 15,
-                    fit: BoxFit.contain,
-                  ),
-                ),
-              ),
-              actions: [
-                InkWell(
-                  onTap: () {},
-                  child: Container(
-                    margin: const EdgeInsets.all(8),
-                    height: 40,
-                    width: 40,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                        color: Tcolor.lightGray,
-                        borderRadius: BorderRadius.circular(10)),
-                    child: Image.asset(
-                      "assets/img/more_btn.png",
-                      width: 15,
-                      height: 15,
-                      fit: BoxFit.contain,
-                    ),
-                  ),
-                )
-              ],
             ),
             SliverAppBar(
               backgroundColor: Colors.transparent,

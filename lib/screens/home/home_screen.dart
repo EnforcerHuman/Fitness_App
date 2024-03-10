@@ -493,23 +493,34 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.only(left: 90, top: 20),
-                            child: Container(
-                                height: 40,
-                                width: 40,
-                                decoration: BoxDecoration(
-                                    gradient: LinearGradient(
-                                        colors: Tcolor.secondryGradient),
-                                    borderRadius: BorderRadius.circular(10)),
-                                child: IconButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        if (waterratio < 1) {
-                                          waterratio = waterratio + 0.2;
-                                        }
-                                      });
-                                    },
-                                    icon: const Icon(Icons.add))),
+                            padding: EdgeInsets.only(
+                                left: MediaQuery.of(context).size.width * 0.05,
+                                top: 20),
+                            child: Row(
+                              children: [
+                                const Text('Set your \nprogress'),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                Container(
+                                    height: 40,
+                                    width: 40,
+                                    decoration: BoxDecoration(
+                                        gradient: LinearGradient(
+                                            colors: Tcolor.secondryGradient),
+                                        borderRadius:
+                                            BorderRadius.circular(10)),
+                                    child: IconButton(
+                                        onPressed: () {
+                                          setState(() {
+                                            if (waterratio < 1) {
+                                              waterratio = waterratio + 0.2;
+                                            }
+                                          });
+                                        },
+                                        icon: const Icon(Icons.add))),
+                              ],
+                            ),
                           ),
                         ],
                       ),
