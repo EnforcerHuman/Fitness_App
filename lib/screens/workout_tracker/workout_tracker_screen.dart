@@ -6,7 +6,7 @@ import 'package:strongify/db_functions/workoout_progress_function.dart';
 import 'package:strongify/db_functions/workout_schedule.dart';
 import 'package:strongify/screens/workout_tracker/workout_detail_screen.dart';
 import 'package:strongify/screens/workout_tracker/workout_schedule.dart';
-import 'package:strongify/utils/Workout_tracker.dart';
+import 'package:strongify/utils/workout_tracker.dart';
 import '../../common_widget/round_button.dart';
 import '../../common_widget/what_train_row.dart';
 
@@ -23,20 +23,19 @@ class _WorkoutTrackerScreenState extends State<WorkoutTrackerScreen> {
     String formattedDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
 
     var schedules = await retrieveSchedulesForDate(formattedDate);
-    print('sendig date to retive $formattedDate');
 
     setState(() {
       dayschedules = schedules ?? [];
     });
   }
 
-  String date1 = '',
-      date2 = '',
-      date3 = '',
-      date4 = '',
-      date5 = '',
-      date6 = 'nil',
-      date7 = '';
+  String date1 = 'N/A',
+      date2 = 'N/A',
+      date3 = 'N/A',
+      date4 = 'N/A',
+      date5 = 'N/A',
+      date6 = 'N/A',
+      date7 = 'N/A';
   int value1 = 0,
       value2 = 0,
       value3 = 0,
@@ -290,7 +289,6 @@ class _WorkoutTrackerScreenState extends State<WorkoutTrackerScreen> {
                         var wObj = whatArr[index] as Map? ?? {};
                         return InkWell(
                             onTap: () {
-                              print('index is : ${index}');
                               Navigator.of(context).pushReplacement(
                                   MaterialPageRoute(
                                       builder: (ctx) =>
@@ -299,7 +297,6 @@ class _WorkoutTrackerScreenState extends State<WorkoutTrackerScreen> {
                             child: WhatTrainRow(
                               wObj: wObj,
                               viewmore: () {
-                                print('index is : ${index}');
                                 Navigator.of(context).push(MaterialPageRoute(
                                     builder: (ctx) =>
                                         WorkoutDetailScreen(dObj: wObj)));
@@ -364,7 +361,7 @@ class _WorkoutTrackerScreenState extends State<WorkoutTrackerScreen> {
             return makeGroupData(0, value1.toDouble(), Tcolor.primaryGradient,
                 isTouched: i == touchedIndex);
           case 1:
-            return makeGroupData(1, value1.toDouble(), Tcolor.secondryGradient,
+            return makeGroupData(1, value2.toDouble(), Tcolor.secondryGradient,
                 isTouched: i == touchedIndex);
           case 2:
             return makeGroupData(2, value3.toDouble(), Tcolor.primaryGradient,
@@ -420,11 +417,11 @@ class _WorkoutTrackerScreenState extends State<WorkoutTrackerScreen> {
 
   Future<void> retrivedates() async {
     String date = DateFormat('yyyy-MM-dd').format(DateTime.now());
-    final last7days = await retrieveLast7DaysProgress('2024-03-18');
+    final last7days = await retrieveLast7DaysProgress(date);
 
     setState(() {
       if (last7days.isNotEmpty) value1 = last7days[0].progress.round();
-      print('testing value received $value1');
+
       if (last7days.length >= 2) value2 = last7days[1].progress.round();
       if (last7days.length >= 3) value3 = last7days[2].progress.round();
       if (last7days.length >= 4) value4 = last7days[3].progress.round();
@@ -439,14 +436,13 @@ class _WorkoutTrackerScreenState extends State<WorkoutTrackerScreen> {
     if (dateParts.length == 3) {
       return '${dateParts[1]}-${dateParts[2]}';
     } else {
-      // Handle other cases or return the original date if the format is unexpected
       return date;
     }
   }
 
   Future<void> setdateforchart() async {
     String date = DateFormat('yyyy-MM-dd').format(DateTime.now());
-    final last7days = await retrieveLast7DaysProgress('2024-03-18');
+    final last7days = await retrieveLast7DaysProgress(date);
     setState(() {
       if (last7days.isNotEmpty) date1 = removeYearFromDate(last7days[0].Date);
       if (last7days.length >= 2) date2 = removeYearFromDate(last7days[1].Date);

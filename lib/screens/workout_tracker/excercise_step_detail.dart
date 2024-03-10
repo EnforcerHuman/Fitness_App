@@ -203,7 +203,7 @@ class _ExercisesStepDetailsState extends State<ExercisesStepDetails> {
 
 //AB workout
                   var crnchObj = crunchesArr[index] as Map? ?? {};
-                  var bcrchObj = bicycleCrunchesArr[index];
+                  // var bcrchObj = bicycleCrunchesArr[index];
                   var plankObj = plankArr[index];
                   var lgrs2Obj = legRaisesArr[index];
                   var clmbObj = mountainClimbersArr[index];

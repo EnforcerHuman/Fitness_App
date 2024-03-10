@@ -28,19 +28,6 @@ class _ProfileViewState extends State<ProfileView> {
   String age = 'unavilable';
   String selectedValue = 'test';
 
-  Future<void> loaduserDetails() async {
-    String loadedname = await getusername();
-    String loadedage = await getAge();
-    String loadedheight = await getheight();
-    String loadedweight = await getweight();
-    setState(() {
-      username = loadedname;
-      age = loadedage;
-      height = loadedheight;
-      weight = loadedweight;
-    });
-  }
-
   @override
   void initState() {
     super.initState();
@@ -261,9 +248,6 @@ class _ProfileViewState extends State<ProfileView> {
                           icon: iObj["image"].toString(),
                           title: iObj["name"].toString(),
                           onPressed: () {
-                            // if (otherArr[index]==) {
-
-                            // }
                             handleItemClick(context, otherArr[index]);
                           },
                         );
@@ -277,5 +261,18 @@ class _ProfileViewState extends State<ProfileView> {
         ),
       ),
     );
+  }
+
+  Future<void> loaduserDetails() async {
+    String loadedname = await getusername();
+    String loadedage = await getAge();
+    String loadedheight = await getheight();
+    String loadedweight = await getweight();
+    setState(() {
+      username = loadedname;
+      age = loadedage;
+      height = loadedheight;
+      weight = loadedweight;
+    });
   }
 }

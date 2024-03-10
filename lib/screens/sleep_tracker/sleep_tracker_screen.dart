@@ -2,9 +2,8 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:strongify/common/color_extension.dart';
 import 'package:strongify/db_functions/sleep_schedule.dart';
-import 'package:strongify/functions/sleep_tracker_functions/sleep_hours.dart';
 import 'package:strongify/functions/sleep_tracker_functions/sleep_schedule.dart';
-import 'package:strongify/screens/sleep_tracker/sleep_schedule_screen..dart';
+import 'package:strongify/screens/sleep_tracker/sleep_schedule_screen.dart';
 import '../../common_widget/round_button.dart';
 
 class SleepTrackerScreen extends StatefulWidget {
@@ -17,14 +16,27 @@ class SleepTrackerScreen extends StatefulWidget {
 class _SleepTrackerScreenState extends State<SleepTrackerScreen> {
   List<int> showingTooltipOnSpots = [4];
 
+  double? value1;
+  double? value2;
+  double? value3;
+  double? value4;
+  double? value5;
+  double? value6;
+  double? value7;
+  double? value8;
+
   @override
   void initState() {
     super.initState();
     updateSelectedDate(
       DateTime.now(),
     );
+    getdetails();
+  }
+
+  Future<void> getdetails() async {
     getsleephoursforlastsevendays();
-    getsleephours(DateTime.now());
+    await getsleephours(DateTime.now().subtract(const Duration(days: 1)));
   }
 
   @override
@@ -120,7 +132,7 @@ class _SleepTrackerScreenState extends State<SleepTrackerScreen> {
                                 List<int> spotIndexes) {
                               return spotIndexes.map((index) {
                                 return TouchedSpotIndicatorData(
-                                  FlLine(
+                                  const FlLine(
                                     color: Colors.transparent,
                                   ),
                                   FlDotData(
@@ -142,16 +154,9 @@ class _SleepTrackerScreenState extends State<SleepTrackerScreen> {
                               tooltipRoundedRadius: 5,
                               getTooltipItems:
                                   (List<LineBarSpot> lineBarsSpot) {
-                                return lineBarsSpot.map((lineBarSpot) {
-                                  // return LineTooltipItem(
-                                  //   "${lineBarSpot.y.toInt()} hours",
-                                  //   const TextStyle(
-                                  //     color: Colors.white,
-                                  //     fontSize: 10,
-                                  //     fontWeight: FontWeight.bold,
-                                  //   ),
-                                  // );
-                                }).toList();
+                                return lineBarsSpot
+                                    .map((lineBarSpot) {})
+                                    .toList();
                               },
                             ),
                           ),
@@ -498,5 +503,24 @@ class _SleepTrackerScreenState extends State<SleepTrackerScreen> {
       space: 10,
       child: text,
     );
+  }
+
+  getsleephoursforlastsevendays() async {
+    final last7daysprogress = await retrieveLast7DaysSleepSchedule();
+
+    setState(() {
+      value1 = last7daysprogress[0];
+
+      value2 = last7daysprogress[1];
+
+      value3 = last7daysprogress[2];
+
+      value4 = last7daysprogress[3];
+
+      value5 = last7daysprogress[4];
+
+      value6 = last7daysprogress[5];
+      value7 = last7daysprogress[6];
+    });
   }
 }

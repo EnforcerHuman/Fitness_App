@@ -14,12 +14,12 @@ class ImageGridWidget extends StatelessWidget {
   final VoidCallback onTap;
 
   ImageGridWidget({
-    Key? key,
+    super.key,
     required this.month,
     this.list,
     required this.imagepath,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

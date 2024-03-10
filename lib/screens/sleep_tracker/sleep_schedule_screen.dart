@@ -1,9 +1,7 @@
 import 'package:calendar_agenda/calendar_agenda.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:simple_animation_progress_bar/simple_animation_progress_bar.dart';
 import 'package:strongify/common/color_extension.dart';
-import 'package:strongify/db_functions/db_functions.dart';
 import 'package:strongify/db_functions/sleep_schedule.dart';
 import 'package:strongify/functions/sleep_tracker_functions/sleep_schedule.dart';
 import 'package:strongify/screens/sleep_tracker/sleep_add_alarm_screen.dart';
@@ -18,12 +16,7 @@ class SleepScheduleScreen extends StatefulWidget {
 }
 
 class _SleepScheduleScreenState extends State<SleepScheduleScreen> {
-  // CalendarAgendaController _calendarAgendaControllerAppBar =
-  //     CalendarAgendaController();
   late DateTime _selectedDate;
-  // Random random = Random();
-  // String bedtime = '';
-  // String alarmtime = '';
 
   List<int> showingTooltipOnSpots = [4];
 
@@ -329,7 +322,7 @@ class _SleepScheduleScreenState extends State<SleepScheduleScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "You will get 8hours 10minutes\nfor tonight",
+                          "Sleep is the golden chain that ties health and our bodies together.",
                           style: TextStyle(
                             color: Tcolor.black,
                             fontSize: 12,
@@ -337,33 +330,6 @@ class _SleepScheduleScreenState extends State<SleepScheduleScreen> {
                         ),
                         const SizedBox(
                           height: 15,
-                        ),
-                        Stack(
-                          alignment: Alignment.center,
-                          children: [
-                            SimpleAnimationProgressBar(
-                              height: 15,
-                              width: media.width - 80,
-                              backgroundColor: Colors.grey.shade100,
-                              foregrondColor: Colors.purple,
-                              ratio: 0.96,
-                              direction: Axis.horizontal,
-                              curve: Curves.fastLinearToSlowEaseIn,
-                              duration: const Duration(seconds: 3),
-                              borderRadius: BorderRadius.circular(7.5),
-                              gradientColor: LinearGradient(
-                                  colors: Tcolor.secondryGradient,
-                                  begin: Alignment.centerLeft,
-                                  end: Alignment.centerRight),
-                            ),
-                            Text(
-                              "96%",
-                              style: TextStyle(
-                                color: Tcolor.black,
-                                fontSize: 12,
-                              ),
-                            ),
-                          ],
                         ),
                       ],
                     )),
@@ -377,7 +343,6 @@ class _SleepScheduleScreenState extends State<SleepScheduleScreen> {
       ),
       floatingActionButton: InkWell(
         onTap: () {
-          print(_selectedDate);
           Navigator.push(
             context,
             MaterialPageRoute(
@@ -407,37 +372,4 @@ class _SleepScheduleScreenState extends State<SleepScheduleScreen> {
       ),
     );
   }
-
-  // Future<void> updateSelectedDate(DateTime date) async {
-  //   String formatteddate = DateFormat('yyyy-MM-dd').format(date);
-  //   SleepProgres? sleepSchedule = await retriveSleepSchedule(formatteddate);
-
-  //   if (sleepSchedule != null) {
-  //     setState(() {
-  //       int timeindiactorforalarm = sleepSchedule.wakeuptime.hour;
-
-  //       String getalarmtime =
-  //           DateFormat('HH:mm').format(sleepSchedule.wakeuptime);
-  //       int timeindicatorforbed = sleepSchedule.wakeuptime.hour;
-  //       String getbedtime = DateFormat('HH:mm').format(sleepSchedule.sleeptime);
-
-  //       if (timeindiactorforalarm >= 12) {
-  //         alarmtime = '$getalarmtime, P.M';
-  //       } else {
-  //         alarmtime = '$getalarmtime, A.M';
-  //       }
-  //       if (timeindicatorforbed >= 12) {
-  //         bedtime = '$getbedtime, P.M';
-  //       } else {
-  //         bedtime = '$getbedtime, A.M';
-  //       }
-  //     });
-  //   } else {
-  //     // Handle the case where sleepSchedule is null,
-  //     setState(() {
-  //       alarmtime = 'Set your schedule';
-  //       bedtime = 'Set your schedule';
-  //     });
-  //   }
-  // }
 }

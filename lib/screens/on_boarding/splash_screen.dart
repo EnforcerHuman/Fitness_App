@@ -25,10 +25,12 @@ class _SplashScreenState extends State<SplashScreen> {
       islogged = pref.getBool('islogged') ?? false;
     });
     if (islogged) {
+      // ignore: use_build_context_synchronously
       Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(builder: (ctx) => const WelcomeScreen()),
           (route) => false);
     } else {
+      // ignore: use_build_context_synchronously
       Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(builder: (ctx) => const StartingScreen()),
           (route) => false);

@@ -196,18 +196,9 @@ class _AddScheduleViewState extends State<AddScheduleView> {
                   int hour = time.hour;
                   int minute = time.minute;
                   actualtime = '$hour:$minute';
-                  print('Selected Time: $hour:$minute');
-                  print(
-                      'you have added a wrrkout for $selectedOption on ${newdate} @ $hour:$minute');
-                } else {
-                  print("Time is null. Please select a valid time.");
-                }
+                } else {}
                 String formattedDate =
                     DateFormat('yyyy-MM-dd').format(widget.date);
-                // String formattedDateTime =
-                //     DateFormat('yyyy-MM-dd ').format(widget.date);
-                print('formatted date : $formattedDate ');
-                // print('formated time $formattedTime');
                 final scheduleadd = Schedule(
                     date: formattedDate,
                     time: actualtime,
@@ -215,16 +206,17 @@ class _AddScheduleViewState extends State<AddScheduleView> {
                 await addschedule(
                   scheduleadd,
                 );
-                // await retrieveSchedulesForDate(formattedDate);
 
+                // ignore: use_build_context_synchronously
                 Navigator.of(context).push(MaterialPageRoute(
                     builder: (ctx) => WorkoutScheduleScreen(
                           currentDate: widget.date,
                           currentdate: formattedDate,
                         )));
                 showWarningDialog(
+                    // ignore: use_build_context_synchronously
                     context,
-                    'you have added a $selectedOption workout  on ${newdate} @ $actualtime',
+                    'you have added a $selectedOption workout  on $newdate @ $actualtime',
                     '', () {
                   Navigator.of(context).pop();
                 });

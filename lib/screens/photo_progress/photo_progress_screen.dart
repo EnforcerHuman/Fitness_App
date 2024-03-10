@@ -182,7 +182,7 @@ class _PhotoProgressScreenState extends State<PhotoProgressScreen> {
                       TextButton(
                           onPressed: () {
                             Navigator.of(context).push(MaterialPageRoute(
-                                builder: (ctx) => GalleryScreen()));
+                                builder: (ctx) => const GalleryScreen()));
                           },
                           child: Text(
                             "See more",
@@ -227,7 +227,6 @@ class _PhotoProgressScreenState extends State<PhotoProgressScreen> {
                                     borderRadius: BorderRadius.circular(10),
                                     child: InkWell(
                                       onTap: () {
-                                        print(list1![indexRow].imagepath);
                                         Navigator.of(context)
                                             .push(MaterialPageRoute(
                                                 builder: (ctx) => PreviewPage(

@@ -6,7 +6,8 @@ import 'package:strongify/db_functions/photo_progress.dart';
 
 class PreviewPage extends StatelessWidget {
   final String imagepath;
-  PreviewPage({super.key, required this.picture, required this.imagepath});
+  const PreviewPage(
+      {super.key, required this.picture, required this.imagepath});
 
   final XFile picture;
 

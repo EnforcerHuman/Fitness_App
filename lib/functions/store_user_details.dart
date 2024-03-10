@@ -30,10 +30,7 @@ void storeUserData(
     final List<UserDetails> users = userDetailsBox.values.toList();
 
     if (users.isNotEmpty) {
-      print('Age of the first user: ${users[0].gender}');
-    } else {
-      print('No users found');
-    }
+    } else {}
 
     Navigator.push(
       context,
@@ -42,6 +39,5 @@ void storeUserData(
   } else {
     // Handle invalid input or show an error message
     showSnackBar(context, 'Fill all the fields before proceding', Colors.red);
-    print("Please fill in all the details");
   }
 }

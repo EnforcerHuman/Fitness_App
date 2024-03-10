@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:strongify/common/color_extension.dart';
@@ -7,8 +6,6 @@ import 'package:strongify/db_functions/photo_progress.dart';
 import 'package:strongify/db_model/model.dart';
 import 'package:strongify/functions/photo_progress/month_comparison.dart';
 import 'package:strongify/screens/photo_progress/opencamera.dart';
-import 'package:strongify/screens/photo_progress/pagepreview.dart';
-import 'package:strongify/test2.dart';
 
 class GalleryScreen extends StatefulWidget {
   const GalleryScreen({super.key});
@@ -63,7 +60,7 @@ class _GalleryScreenState extends State<GalleryScreen> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 Padding(

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:strongify/common/color_extension.dart';
 import 'package:strongify/common_widget/tab_button.dart';
-import 'package:strongify/main_tab/select_screen.dart';
 import 'package:strongify/screens/home/home_screen.dart';
 import 'package:strongify/screens/photo_progress/photo_progress_screen.dart';
 

@@ -73,7 +73,7 @@ class _LoginViewState extends State<LoginScreen> {
                           height: 20,
                           child: IconButton(
                               onPressed: () {},
-                              icon: Icon(Icons.visibility_off)))),
+                              icon: const Icon(Icons.visibility_off)))),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,

@@ -22,7 +22,6 @@ class _SleepAddAlarmViewState extends State<SleepAddAlarmView> {
   @override
   Widget build(BuildContext context) {
     var media = MediaQuery.of(context).size;
-    int selectedHour = DateTime.now().hour;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Tcolor.white,
@@ -49,7 +48,7 @@ class _SleepAddAlarmViewState extends State<SleepAddAlarmView> {
           ),
         ),
         title: Text(
-          "Add Alarm",
+          "Add Schedule",
           style: TextStyle(
               color: Tcolor.black, fontSize: 16, fontWeight: FontWeight.w700),
         ),
@@ -84,9 +83,9 @@ class _SleepAddAlarmViewState extends State<SleepAddAlarmView> {
           Row(
             children: [
               SizedBox(
-                child: Image.asset('assets/img/Bed_Add.png'),
                 width: 20,
                 height: 20,
+                child: Image.asset('assets/img/Bed_Add.png'),
               ),
               Text(
                 " Bed Time",
@@ -117,9 +116,9 @@ class _SleepAddAlarmViewState extends State<SleepAddAlarmView> {
           Row(
             children: [
               SizedBox(
-                child: Image.asset('assets/img/HoursTime.png'),
                 width: 20,
                 height: 20,
+                child: Image.asset('assets/img/HoursTime.png'),
               ),
               Text(
                 " Wake up Time",
@@ -135,15 +134,13 @@ class _SleepAddAlarmViewState extends State<SleepAddAlarmView> {
             child: CupertinoDatePicker(
               onDateTimeChanged: (newTime) {
                 setState(() {
-                  //GETTING TIME ONLY AS STRING
-                  // String test = DateFormat('HH:mm').format(newTime);
-                  // print(test);
                   wakeuptime = newTime;
                 });
               },
-              initialDateTime: DateTime.now().add(Duration(days: 1)).subtract(
-                    Duration(minutes: DateTime.now().minute),
-                  ),
+              initialDateTime:
+                  DateTime.now().add(const Duration(days: 1)).subtract(
+                        Duration(minutes: DateTime.now().minute),
+                      ),
               use24hFormat: false,
               minuteInterval: 1,
               mode: CupertinoDatePickerMode.time,
@@ -156,8 +153,6 @@ class _SleepAddAlarmViewState extends State<SleepAddAlarmView> {
             height: 10,
           ),
           const Spacer(),
-          Text('$sleeptime'),
-          Text('$wakeuptime'),
           RoundButton(
               title: "Add",
               onPressed: () async {
@@ -168,7 +163,6 @@ class _SleepAddAlarmViewState extends State<SleepAddAlarmView> {
                 int remainingMinutes = duration.inMinutes % 60;
                 String formattedDuration = '$totalHours.$remainingMinutes';
                 double sleepdutarion = double.parse(formattedDuration);
-                print('Formatted Duration: $sleepdutarion');
                 final sleepschedule = SleepProgres(
                     formattedDate, sleeptime, wakeuptime, sleepdutarion);
                 addsleepschedule(sleepschedule);

@@ -122,7 +122,6 @@ class _ComparisonScreenState extends State<ComparisonScreen> {
                       onChanged: (String? newValue) {
                         setState(() {
                           firstmonth = newValue!;
-                          print(firstmonth);
                         });
                       },
                     ),
@@ -164,7 +163,6 @@ class _ComparisonScreenState extends State<ComparisonScreen> {
                       onChanged: (String? newValue) {
                         setState(() {
                           secondmonth = newValue!;
-                          print(secondmonth);
                         });
                       },
                     ),

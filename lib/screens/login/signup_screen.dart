@@ -6,7 +6,7 @@ import 'package:strongify/functions/user_registration.dart';
 import 'package:strongify/screens/login/login_screen.dart';
 
 class SignUpScreen extends StatefulWidget {
-  const SignUpScreen({Key? key}) : super(key: key);
+  const SignUpScreen({super.key});
 
   @override
   State<SignUpScreen> createState() => _SignUpViewState();

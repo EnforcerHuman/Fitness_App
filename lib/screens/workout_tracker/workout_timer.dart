@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+
 import 'package:strongify/common/color_extension.dart';
 import 'package:strongify/common_widget/round_button.dart';
 import 'package:strongify/screens/workout_tracker/finished_workout_screen.dart';

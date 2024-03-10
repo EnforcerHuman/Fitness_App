@@ -9,20 +9,14 @@ Future<void> storeSignUpDetails(firstname, lastname, email, password) async {
   pref.setString('Lastname', lastname);
   pref.setString("email", email);
   pref.setString("password", password);
-  String? mail = pref.getString('email');
-  print(mail);
+  pref.getString('email');
 }
-
-//function to check login
 
 Future<bool> checkLogin(String enteredEmail, String enteredPassword) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String? storedEmail = prefs.getString('email');
   String? storedPassword = prefs.getString('password');
-  print('Stored Email: $storedEmail');
-  print('Entered Email: $enteredEmail');
-  print('Stored password: $storedPassword');
-  print('Entered password: $enteredPassword');
+
   if (storedEmail == enteredEmail && storedPassword == enteredPassword) {
     prefs.setBool('islogged', true);
     return true;
@@ -35,7 +29,7 @@ Future<void> logout(context) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   prefs.setBool('islogged', false);
   Navigator.of(context).pushAndRemoveUntil(
-      MaterialPageRoute(builder: (context) => SignUpScreen()),
+      MaterialPageRoute(builder: (context) => const SignUpScreen()),
       (route) => false);
 }
 

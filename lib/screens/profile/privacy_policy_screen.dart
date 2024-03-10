@@ -28,30 +28,26 @@ class PrivacyPolicyPage extends StatelessWidget {
     We may update this Privacy Policy from time to time. You will be notified of any significant changes.
 
     Contact Us:
-    If you have any questions or concerns about our Privacy Policy, please contact us at [contact@email.com].
+    If you have any questions or concerns about our Privacy Policy, please contact us at melbinbabu66@gmail.com.
   ''';
+
+  const PrivacyPolicyPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Privacy Policy'),
+        title: const Text('Privacy Policy'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
           child: Text(
             privacyPolicyData,
-            style: TextStyle(fontSize: 16.0),
+            style: const TextStyle(fontSize: 16.0),
           ),
         ),
       ),
     );
   }
-}
-
-void main() {
-  runApp(MaterialApp(
-    home: PrivacyPolicyPage(),
-  ));
 }

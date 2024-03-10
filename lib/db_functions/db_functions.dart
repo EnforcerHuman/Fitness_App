@@ -30,11 +30,7 @@ Future<void> edituserdetails({
           weight: newWeight,
           height: newHeight,
         ));
-
-    print('User details edited successfully.');
-  } else {
-    print('No user found.');
-  }
+  } else {}
 
   await userDetailsBox.close();
 }

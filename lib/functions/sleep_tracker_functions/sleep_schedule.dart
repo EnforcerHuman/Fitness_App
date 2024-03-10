@@ -11,39 +11,30 @@ int minutesofsleep = 0;
 int minutesofalarm = 0;
 int timeindiactorforalarm = 0;
 int timeindicatorforbed = 0;
-Future<void> updateSelectedDate(
-  DateTime date,
-) async {
+
+Future<void> updateSelectedDate(DateTime date) async {
   String formatteddate = DateFormat('yyyy-MM-dd').format(date);
   SleepProgres? sleepSchedule = await retriveSleepSchedule(formatteddate);
 
   if (sleepSchedule != null) {
     timeindiactorforalarm = sleepSchedule.sleeptime.hour;
     minutesofsleep = sleepSchedule.sleeptime.minute;
-    print('minutes of sleep : $minutesofsleep');
-    String getalarmtime = DateFormat('HH:mm').format(sleepSchedule.wakeuptime);
+
+    String getalarmtime = DateFormat('h:mm a').format(sleepSchedule.wakeuptime);
     timeindicatorforbed = sleepSchedule.wakeuptime.hour;
     minutesofalarm = sleepSchedule.wakeuptime.minute;
-    String getbedtime = DateFormat('HH:mm').format(sleepSchedule.sleeptime);
+    String getbedtime = DateFormat('h:mm a').format(sleepSchedule.sleeptime);
 
-    if (timeindiactorforalarm >= 12) {
-      alarmtime = '$getalarmtime, A.M';
-    } else {
-      alarmtime = '$getalarmtime, P.M';
-    }
-    if (timeindicatorforbed >= 12) {
-      bedtime = '$getbedtime, A.M';
-    } else {
-      bedtime = '$getbedtime, P.M';
-    }
+    alarmtime = getalarmtime;
+    bedtime = getbedtime;
   } else {
     alarmtime = 'Set your schedule';
     bedtime = 'Set your schedule';
   }
 }
 
-int? totalhour;
-int? totalminutes;
+int? totalhour = 0;
+int? totalminutes = 0;
 Future<void> getsleephours(DateTime date) async {
   String formatteddate = DateFormat('yyyy-MM-dd').format(date);
   double totalsleephours = await retriveSleepHours(formatteddate);

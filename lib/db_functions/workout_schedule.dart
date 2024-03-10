@@ -15,29 +15,20 @@ Future<void> addschedule(Schedule value) async {
   }
 
   //for test purpose
-  Future<void> retriveDate(date) async {
-    final scheduledb = await Hive.openBox<Schedule>('schedules');
-    final test = scheduledb.get(date);
-    print(test);
-  }
+  // Future<void> retriveDate(date) async {
+  //   final scheduledb = await Hive.openBox<Schedule>('schedules');
+
+  // }
 
   schedulesForDate.add(value);
 
   // Put the updated list back into the box
   await scheduledb.put(dateKey, schedulesForDate);
-  print('Schedule added');
 }
 
 Future<List?> retrieveSchedulesForDate(String date) async {
   final scheduledb = await Hive.openBox<List>('schedules');
   final schedulesForDate = scheduledb.get(date);
-
-  if (schedulesForDate != null) {
-    List<Schedule> schedules = schedulesForDate.cast<Schedule>();
-    for (Schedule schedule in schedules) {
-      print(schedule);
-    }
-  }
   return schedulesForDate;
 }
 
@@ -52,12 +43,6 @@ Future<void> deleteSchedule(String date, int index) async {
 
       // Put the updated list back into the box
       await scheduledb.put(date, schedulesForDate);
-
-      print('Schedule deleted');
-    } else {
-      print('Invalid index for deletion');
-    }
-  } else {
-    print('No schedules found for the given date');
-  }
+    } else {}
+  } else {}
 }

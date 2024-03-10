@@ -100,7 +100,7 @@ class _WorkoutScheduleScreenState extends State<WorkoutScheduleScreen> {
                         deleteSchedule(formattedDate, index);
                         setState(() {});
                       },
-                      icon: Icon(Icons.delete)),
+                      icon: const Icon(Icons.delete)),
                 );
               },
             )
@@ -118,8 +118,7 @@ class _WorkoutScheduleScreenState extends State<WorkoutScheduleScreen> {
       formattedDate = DateFormat('yyyy-MM-dd').format(_selectedDateAppBBar);
     }
     var schedules = await retrieveSchedulesForDate(formattedDate);
-    print('sendig date to retive $formattedDate');
-    print('widget.date ${widget.currentdate}');
+
     setState(() {
       dayschedules = schedules ?? [];
     });

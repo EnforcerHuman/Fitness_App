@@ -1,10 +1,8 @@
 import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:path/path.dart' show join;
-import 'package:path_provider/path_provider.dart';
-import 'package:strongify/db_functions/photo_progress.dart';
-import 'package:strongify/db_model/model.dart';
+
+import 'package:strongify/functions/photo_progress/camera_functions.dart';
 import 'package:strongify/screens/photo_progress/pagepreview.dart';
 
 class CameraScreen extends StatefulWidget {
@@ -16,47 +14,47 @@ class CameraScreen extends StatefulWidget {
 }
 
 class _CameraScreenState extends State<CameraScreen> {
-  late CameraController _controller;
-  late Future<void> _initializeControllerFuture;
-  late File _imageFile;
-  final List<File> _imageList = [];
+  // late CameraController _controller;
+  // late Future<void> _initializeControllerFuture;
+  // late File _imageFile;
+  // final List<File> _imageList = [];
 
   @override
   void initState() {
     super.initState();
-    _initializeControllerFuture = initializeCamera();
+    initializeControllerFuture = initializeCamera();
   }
 
-  Future<void> initializeCamera() async {
-    List<CameraDescription> cameras = await availableCameras();
-    _controller = CameraController(
-      cameras[0],
-      ResolutionPreset.medium,
-    );
-    await _controller.initialize();
-  }
+  // Future<void> initializeCamera() async {
+  //   List<CameraDescription> cameras = await availableCameras();
+  //   _controller = CameraController(
+  //     cameras[0],
+  //     ResolutionPreset.medium,
+  //   );
+  //   await _controller.initialize();
+  // }
 
   @override
   void dispose() {
-    _controller.dispose();
+    controller.dispose();
     super.dispose();
   }
 
-  Future<String> get _localPath async {
-    final directory = await getApplicationDocumentsDirectory();
-    final photoProgressDirectory = join(directory.path, 'photoprogress');
-    await Directory(photoProgressDirectory).create(recursive: true);
-    return photoProgressDirectory;
-  }
+  // Future<String> get _localPath async {
+  //   final directory = await getApplicationDocumentsDirectory();
+  //   final photoProgressDirectory = join(directory.path, 'photoprogress');
+  //   await Directory(photoProgressDirectory).create(recursive: true);
+  //   return photoProgressDirectory;
+  // }
 
-  Future<void> _saveImage(File image) async {
-    final path = await _localPath;
-    final imagePath =
-        join(path, '${DateTime.now().millisecondsSinceEpoch}.png');
-    await image.copy(imagePath);
-    final photo = Photo(imagePath, 6);
-    storePhotos(photo);
-  }
+  // Future<void> _saveImage(File image) async {
+  //   final path = await _localPath;
+  //   final imagePath =
+  //       join(path, '${DateTime.now().millisecondsSinceEpoch}.png');
+  //   await image.copy(imagePath);
+  //   final photo = Photo(imagePath, 6);
+  //   storePhotos(photo);
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -71,10 +69,10 @@ class _CameraScreenState extends State<CameraScreen> {
             width: media.width,
             height: media.height,
             child: FutureBuilder(
-              future: _initializeControllerFuture,
+              future: initializeControllerFuture,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.done) {
-                  return CameraPreview(_controller);
+                  return CameraPreview(controller);
                 } else {
                   return const Center(child: CircularProgressIndicator());
                 }
@@ -87,22 +85,21 @@ class _CameraScreenState extends State<CameraScreen> {
         child: const Icon(Icons.camera),
         onPressed: () async {
           try {
-            await _initializeControllerFuture;
-            final image = await _controller.takePicture();
+            await initializeControllerFuture;
+            final image = await controller.takePicture();
             setState(() {
-              _imageFile = File(image.path);
-              _imageList.add(_imageFile);
+              imageFile = File(image.path);
+              imageList.add(imageFile);
             });
-            await _saveImage(_imageFile);
-          } catch (e) {
-            print('Error taking picture: $e');
-          }
+            await saveImage(imageFile);
+            // ignore: empty_catches
+          } catch (e) {}
 
           Future.delayed(const Duration(seconds: 1), () {
             Navigator.of(context).push(MaterialPageRoute(
                 builder: (ctx) => PreviewPage(
-                      picture: XFile(_imageFile.path),
-                      imagepath: _imageFile.path,
+                      picture: XFile(imageFile.path),
+                      imagepath: imageFile.path,
                     )));
           });
         },

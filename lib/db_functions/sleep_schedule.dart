@@ -5,17 +5,16 @@ import 'package:intl/intl.dart';
 import 'package:strongify/db_model/model.dart';
 
 Future<void> addsleepschedule(SleepProgres value) async {
-  final SleepScheduleScreendb =
+  final sleepScheduleScreendb =
       await Hive.openBox<SleepProgres>('sleepschedule');
-  SleepScheduleScreendb.put(value.date, value);
-  print(SleepScheduleScreendb.values);
+  sleepScheduleScreendb.put(value.date, value);
 }
 
 Future<SleepProgres?> retriveSleepSchedule(String date) async {
-  final SleepProgresScheduledb =
-      await await Hive.openBox<SleepProgres>('sleepschedule');
-  final test = await SleepProgresScheduledb.get(date);
-  print(test);
+  final sleepProgresScheduledb =
+      await Hive.openBox<SleepProgres>('sleepschedule');
+  final test = sleepProgresScheduledb.get(date);
+
   return test;
 }
 
@@ -26,10 +25,7 @@ Future<void> deleteSleepSchedule(String date) async {
 
   if (SleepScheduleScreendb.containsKey(date)) {
     await SleepScheduleScreendb.delete(date);
-    print('Deleted sleep schedule for date: $date');
-  } else {
-    print('No sleep schedule found for date: $date');
-  }
+  } else {}
 }
 
 Future<double> retriveSleepHours(String date) async {
@@ -37,12 +33,11 @@ Future<double> retriveSleepHours(String date) async {
   final SleepProgresScheduledb =
       await Hive.openBox<SleepProgres>('sleepschedule');
   final test = SleepProgresScheduledb.get(date);
-  print(test!.sleephours);
-  return test.sleephours;
+  return test!.sleephours;
 }
 
 Future<List<double?>> retrieveLast7DaysSleepSchedule() async {
-  final SleepProgresScheduledb =
+  final sleepProgresScheduledb =
       await Hive.openBox<SleepProgres>('sleepschedule');
 
   // Get the current date
@@ -58,12 +53,8 @@ Future<List<double?>> retrieveLast7DaysSleepSchedule() async {
 
     // Retrieve sleep schedule for the current date
     SleepProgres? sleepProgress =
-        await SleepProgresScheduledb.get(formattedDate);
-
-    // Print sleep schedule
-    print('Sleep schedule for $formattedDate:');
-    print(sleepProgress?.sleephours);
-    print('---------------------');
+        // ignore: await_only_futures
+        await sleepProgresScheduledb.get(formattedDate);
 
     // Add sleep hours to the list
     sleepHoursList.add(sleepProgress?.sleephours);

@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 
 class DropdownPage extends StatefulWidget {
+  const DropdownPage({super.key});
+
   @override
+  // ignore: library_private_types_in_public_api
   _DropdownPageState createState() => _DropdownPageState();
 }
 
@@ -13,7 +16,7 @@ class _DropdownPageState extends State<DropdownPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Dropdown Page'),
+        title: const Text('Dropdown Page'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -36,10 +39,10 @@ class _DropdownPageState extends State<DropdownPage> {
                 });
               },
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Text(
               'Selected Option: $selectedOption',
-              style: TextStyle(fontSize: 16),
+              style: const TextStyle(fontSize: 16),
             ),
           ],
         ),

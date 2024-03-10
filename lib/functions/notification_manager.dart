@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
-int notificationintervel = 1;
+int notificationInterval = 1;
 late FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin;
 
 Future<void> initLocalNotifications() async {
@@ -19,35 +19,40 @@ Future<void> initLocalNotifications() async {
 }
 
 Future<void> showNotification() async {
-  const AndroidNotificationDetails androidPlatformChannelSpecifics =
-      AndroidNotificationDetails(
-    '1',
-    'water_reminder',
-    importance: Importance.defaultImportance,
-    priority: Priority.defaultPriority,
-    actions: [
-      AndroidNotificationAction(
-        'action_button_id',
-        '',
-      ),
-    ],
-  );
+  DateTime now = DateTime.now();
+  DateTime startTime = DateTime(now.year, now.month, now.day, 6, 0, 0);
+  DateTime endTime = DateTime(now.year, now.month, now.day, 20, 0, 0);
 
-  const NotificationDetails platformChannelSpecifics =
-      NotificationDetails(android: androidPlatformChannelSpecifics);
+  if (now.isAfter(startTime) && now.isBefore(endTime)) {
+    const AndroidNotificationDetails androidPlatformChannelSpecifics =
+        AndroidNotificationDetails(
+      '1',
+      'water_reminder',
+      importance: Importance.defaultImportance,
+      priority: Priority.defaultPriority,
+      actions: [
+        AndroidNotificationAction(
+          'action_button_id',
+          '',
+        ),
+      ],
+    );
 
-  await _flutterLocalNotificationsPlugin.show(
-    0,
-    'Hello, user!',
-    'Its time to DRINK WATER ',
-    platformChannelSpecifics,
-    payload: 'notification_payload',
-  );
+    const NotificationDetails platformChannelSpecifics =
+        NotificationDetails(android: androidPlatformChannelSpecifics);
+
+    await _flutterLocalNotificationsPlugin.show(
+      0,
+      'Hello, user!',
+      'It\'s time to DRINK WATER ',
+      platformChannelSpecifics,
+      payload: 'notification_payload',
+    );
+  }
 }
 
 void startPeriodicTimer() {
-  Timer.periodic(Duration(minutes: notificationintervel), (timer) {
+  Timer.periodic(Duration(minutes: notificationInterval), (timer) {
     showNotification();
-    // showWarningDialog(context, 'test', 'test', () {});
   });
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:strongify/common/color_extension.dart';
-import 'package:strongify/common_widget/Excersises_set_section.dart';
+import 'package:strongify/common_widget/excersises_set_section.dart';
 import 'package:strongify/common_widget/icon_title_nex_row.dart';
 import 'package:strongify/screens/workout_tracker/excercise_step_detail.dart';
 import 'package:strongify/screens/workout_tracker/workout_schedule.dart';
@@ -49,7 +49,7 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen> {
               leading: InkWell(
                 onTap: () {
                   Navigator.of(context).pushReplacement(MaterialPageRoute(
-                      builder: (ctx) => WorkoutTrackerScreen()));
+                      builder: (ctx) => const WorkoutTrackerScreen()));
                 },
                 child: Container(
                   margin: const EdgeInsets.all(8),
@@ -69,9 +69,7 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen> {
               ),
               actions: [
                 InkWell(
-                  onTap: () {
-                    print('tappped');
-                  },
+                  onTap: () {},
                   child: Container(
                     margin: const EdgeInsets.all(8),
                     height: 40,

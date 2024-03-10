@@ -1,3 +1,4 @@
+// ignore: file_names
 List whatArr = [
   {
     "image": "assets/img/what_1.png",

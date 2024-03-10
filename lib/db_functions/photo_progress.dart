@@ -15,7 +15,6 @@ Future<void> storePhotos(Photo value) async {
 
   photoformonth.add(value);
   await photodb.put(datakey, photoformonth);
-  print('Added');
 }
 
 Future<List<Photo>?> printPhotosForMonth(int month) async {
@@ -33,26 +32,22 @@ Future<List<Photo>?> printPhotosForMonth(int month) async {
           existingPhotos.add(item);
         } else {
           // Handle non-Photo items (if needed)
-          print('Found an item that is not of type Photo: $item');
         }
       }
     } catch (error) {
       // Handle errors gracefully
-      print('Error retrieving photos: $error');
+
       return null;
     }
 
     if (existingPhotos.isNotEmpty) {
-      for (var photo in existingPhotos) {
-        print(photo.toString());
-      }
+      // ignore: unused_local_variable
+      for (var photo in existingPhotos) {}
       return existingPhotos;
     } else {
-      print('No photos found for month $month');
       return null;
     }
   } else {
-    print('No photos found for month $month');
     return null;
   }
 }
@@ -73,20 +68,14 @@ Future<void> deletePhoto(int month, String imagePath) async {
         final file = File(imagePath);
         if (await file.exists()) {
           await file.delete();
-        } else {
-          print('Image file not found: $imagePath');
-        }
+        } else {}
       } catch (error) {
-        print('Error deleting photo file: $error');
+        //
       }
 
       await photodb.put(datakey, newPhotos);
-      print('Deleted photo with path: $imagePath');
-      print('Remaining photos: ${newPhotos.length}');
-    } else {
-      print('No photos found for month $month');
-    }
+    } else {}
   } catch (error) {
-    print('Error deleting photo from Hive: $error');
+//
   }
 }

@@ -1,3 +1,4 @@
+// ignore: file_names
 import 'package:animated_toggle_switch/animated_toggle_switch.dart';
 import 'package:flutter/material.dart';
 import 'package:strongify/common/color_extension.dart';
@@ -97,7 +98,7 @@ class _TodaySleepScheduleRowState extends State<TodaySleepScheduleRow> {
                     scale: 0.7,
                     child: CustomAnimatedToggleSwitch<bool>(
                       current: positive,
-                      values: [false, true],
+                      values: const [false, true],
                       dif: 0.0,
                       indicatorSize: const Size.square(30.0),
                       animationDuration: const Duration(milliseconds: 200),

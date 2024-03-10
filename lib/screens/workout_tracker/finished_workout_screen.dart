@@ -109,9 +109,8 @@ class _FinishedWorkoutViewState extends State<FinishedWorkoutView> {
 
   Future<void> setprogressvalue() async {
     String formattedDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
-    double retrivedvalue = await printProgressForDate('2024-03-11');
-    print(retrivedvalue);
-    final test = WorkoutProgres(retrivedvalue + 3.33, '2024-03-11');
+    double retrivedvalue = await printProgressForDate(formattedDate);
+    final test = WorkoutProgres(retrivedvalue + 3.33, formattedDate);
     await addprogress(test);
   }
 }

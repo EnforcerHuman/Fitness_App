@@ -9,12 +9,10 @@ import 'package:simple_animation_progress_bar/simple_animation_progress_bar.dart
 import 'package:simple_circular_progress_bar/simple_circular_progress_bar.dart';
 import 'package:strongify/common/color_extension.dart';
 import 'package:strongify/common_widget/round_button.dart';
-import 'package:strongify/db_functions/get_user_details.dart';
 import 'package:strongify/functions/calarie_calculator.dart';
 import 'package:strongify/functions/calculate_bmi.dart';
-import 'package:strongify/functions/notification_manager.dart';
 import 'package:strongify/functions/shared_pref.dart';
-import 'package:strongify/functions/sleep_tracker_functions/alarm_function.dart';
+import 'package:strongify/functions/sleep_tracker_functions/sleep_schedule.dart';
 import 'package:strongify/screens/profile/activity_tracker_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -29,7 +27,6 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   late Stream<StepCount> _stepCountStream;
   late Stream<PedestrianStatus> _pedestrianStatusStream;
-  String _status = '?';
   int steps = 0;
   late SharedPreferences prefs;
   String username = 'user';
@@ -52,8 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     requestPermissions();
     initPlatformState();
-    loadusername();
-    getTarget();
+    test();
   }
 
   @override
@@ -61,6 +57,12 @@ class _HomeScreenState extends State<HomeScreen> {
     _pedestrianStatusStream.drain();
     _stepCountStream.drain();
     super.dispose();
+  }
+
+  Future<void> test() async {
+    loadusername();
+    getTarget();
+    await getsleephours(DateTime.now().subtract(const Duration(days: 1)));
   }
 
   @override
@@ -149,15 +151,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       title: 'View More',
                                       type: RoundButtonType.bgGradient,
                                       fontSize: 12,
-                                      onPressed: () {
-                                        periodicwaterratio();
-                                        getAge();
-                                        getGender();
-                                        // print(gender);
-                                        calculateBMI();
-                                        // showNotification();
-                                        showalarm();
-                                      }),
+                                      onPressed: () {}),
                                 )
                               ],
                             ),
@@ -515,7 +509,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         }
                                       });
                                     },
-                                    icon: Icon(Icons.add))),
+                                    icon: const Icon(Icons.add))),
                           ),
                         ],
                       ),
@@ -561,7 +555,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 bounds.width, bounds.height));
                                       },
                                       child: Text(
-                                        "8h 20m",
+                                        '$totalhour hour $totalminutes minutes',
                                         style: TextStyle(
                                             color:
                                                 Tcolor.white.withOpacity(0.7),
@@ -725,16 +719,6 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  void periodicwaterratio() {
-    Timer.periodic(Duration(minutes: notificationintervel), (timer) {
-      setState(() {
-        if (waterratio < 1) {
-          waterratio = waterratio + 0.2;
-        }
-      });
-    });
-  }
-
   void initializeWaterArr() {
     setState(() {
       waterArr = [
@@ -747,22 +731,7 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  void onPedestrianStatusChanged(PedestrianStatus event) {
-    setState(() {
-      _status = event.status;
-    });
-  }
-
-  void onPedestrianStatusError(error) {
-    print('onPedestrianStatusError: $error');
-    setState(() {
-      _status = 'Pedestrian Status not available';
-    });
-    print(_status);
-  }
-
   void onStepCountError(error) {
-    print('onStepCountError: $error');
     setState(() {
       steps = 0;
     });
@@ -771,9 +740,6 @@ class _HomeScreenState extends State<HomeScreen> {
   Future<void> initPlatformState() async {
     await requestPermissions();
     _pedestrianStatusStream = Pedometer.pedestrianStatusStream;
-    _pedestrianStatusStream
-        .listen(onPedestrianStatusChanged)
-        .onError(onPedestrianStatusError);
 
     _stepCountStream = Pedometer.stepCountStream;
     _stepCountStream.listen(onStepCount).onError(onStepCountError);
@@ -792,7 +758,6 @@ class _HomeScreenState extends State<HomeScreen> {
       double test = double.parse(watertarget);
       drinksuggetion = (test / 12).toStringAsFixed(3);
     });
-    print(drinksuggetion);
     initializeWaterArr();
   }
 
