@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:strongify/common/color_extension.dart';
 import 'package:strongify/common_widget/on_boarding_page.dart';
 import 'package:strongify/screens/login/signup_screen.dart';
+import 'package:strongify/utils/onboarding_items.dart';
 
 class OnBoardingScreen extends StatefulWidget {
-  const OnBoardingScreen({super.key});
+  const OnBoardingScreen({Key? key}) : super(key: key);
 
   @override
   State<OnBoardingScreen> createState() => _OnBoardingScreenState();
@@ -24,115 +25,106 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
     });
   }
 
-  List<Map<String, String>> pageArr = [
-    {
-      "title": 'Track Your Goal',
-      "subtitle":
-          "Don't worry if you have trouble determining your goals, We can help you determine your goals and track your goals",
-      "image": "assets/img/on_1.png"
-    },
-    {
-      "title": 'Get Burn',
-      "subtitle":
-          "Lets keep burning, to achive yours goals, it hurts only temporarily, if you give up now you will be in pain forever",
-      "image": "assets/img/On_2.png"
-    },
-    {
-      "title": 'Eat Well',
-      "subtitle":
-          "Let's start a healthy lifestyle with us, we can determine your diet every day. healthy eating is fun",
-      "image": "assets/img/on_3.png"
-    },
-    {
-      "title": 'Improve Sleep \n  Quality',
-      "subtitle":
-          "Improve the quality of your sleep with us, good quality sleep can bring a good mood in the morning",
-      "image": "assets/img/on_4.png"
-    },
-  ];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Tcolor.white,
-      body: Stack(
-        alignment: Alignment.bottomRight,
-        children: [
-          PageView.builder(
-            controller: controller,
-            itemCount: pageArr.length,
-            itemBuilder: (context, index) {
-              var pObj = pageArr[index];
-              return OnBoardingPage(pObj: pObj);
-            },
-          ),
-          Positioned(
-            top: 20,
-            right: 20,
-            child: TextButton(
-              onPressed: () {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => const SignUpScreen()),
-                );
-              },
-              child: Text(
-                'Skip',
-                style: TextStyle(color: Tcolor.primaryColor1),
-              ),
-            ),
-          ),
-          SizedBox(
-            width: 120,
-            height: 120,
-            child: Stack(
-              alignment: Alignment.center,
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          return SingleChildScrollView(
+            child: Column(
               children: [
                 SizedBox(
-                  width: 70,
-                  height: 70,
-                  child: CircularProgressIndicator(
-                    value: selectPage / 3,
-                    strokeWidth: 2,
-                    color: Tcolor.primaryColor1,
-                  ),
-                ),
-                Container(
-                  decoration: BoxDecoration(
-                    color: Tcolor.primaryColor1,
-                    borderRadius: BorderRadius.circular(35),
-                  ),
-                  margin:
-                      const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-                  child: IconButton(
-                    onPressed: () {
-                      if (selectPage < 3) {
-                        selectPage = selectPage + 1;
-                        controller.animateToPage(selectPage,
-                            duration: const Duration(microseconds: 600),
-                            curve: Curves.bounceIn);
-                        controller.jumpToPage(selectPage);
-                        setState(() {});
-                      } else {
-                        //welcome screen
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const SignUpScreen()));
-                        // ignore: avoid_print
-                        print('open welcome screen');
-                      }
-                    },
-                    icon: Icon(
-                      Icons.navigate_next,
-                      color: Tcolor.white,
-                    ),
+                  height: constraints.maxHeight,
+                  child: Stack(
+                    alignment: Alignment.bottomRight,
+                    children: [
+                      PageView.builder(
+                        controller: controller,
+                        itemCount: pageArr.length,
+                        itemBuilder: (context, index) {
+                          var pObj = pageArr[index];
+                          return OnBoardingPage(pObj: pObj);
+                        },
+                      ),
+                      Positioned(
+                        top: constraints.maxHeight * 0.02,
+                        right: constraints.maxWidth * 0.02,
+                        child: TextButton(
+                          onPressed: () {
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const SignUpScreen()),
+                            );
+                          },
+                          child: Text(
+                            'Skip',
+                            style: TextStyle(color: Tcolor.primaryColor1),
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        bottom: constraints.maxHeight * 0.05,
+                        right: constraints.maxWidth * 0.05,
+                        child: SizedBox(
+                          width: constraints.maxWidth * 0.25,
+                          height: constraints.maxWidth * 0.25,
+                          child: Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              SizedBox(
+                                width: constraints.maxWidth * 0.15,
+                                height: constraints.maxWidth * 0.15,
+                                child: CircularProgressIndicator(
+                                  value: selectPage / (pageArr.length - 1),
+                                  strokeWidth: 2,
+                                  color: Tcolor.primaryColor1,
+                                ),
+                              ),
+                              Container(
+                                decoration: BoxDecoration(
+                                  color: Tcolor.primaryColor1,
+                                  borderRadius: BorderRadius.circular(
+                                      constraints.maxWidth * 0.075),
+                                ),
+                                margin: const EdgeInsets.symmetric(
+                                    horizontal: 15, vertical: 15),
+                                child: IconButton(
+                                  onPressed: () {
+                                    if (selectPage < pageArr.length - 1) {
+                                      selectPage = selectPage + 1;
+                                      controller.animateToPage(selectPage,
+                                          duration:
+                                              const Duration(milliseconds: 600),
+                                          curve: Curves.bounceIn);
+                                      controller.jumpToPage(selectPage);
+                                      setState(() {});
+                                    } else {
+                                      Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const SignUpScreen()));
+                                    }
+                                  },
+                                  icon: Icon(
+                                    Icons.navigate_next,
+                                    color: Tcolor.white,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ],
             ),
-          ),
-        ],
+          );
+        },
       ),
     );
   }

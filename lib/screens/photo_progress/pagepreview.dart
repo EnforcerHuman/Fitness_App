@@ -39,19 +39,6 @@ class PreviewPage extends StatelessWidget {
               ),
             ),
           ),
-          Positioned(
-            top: 30,
-            right: 10,
-            child: IconButton(
-              onPressed: () {
-                deletePhoto(2, imagepath);
-              },
-              icon: const Icon(
-                Icons.delete,
-                color: Colors.red,
-              ),
-            ),
-          ),
         ],
       ),
     );

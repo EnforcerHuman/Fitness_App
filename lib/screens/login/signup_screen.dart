@@ -178,27 +178,6 @@ class _SignUpViewState extends State<SignUpScreen> {
                           passwordController.text,
                           isCheck,
                           context);
-                      // if (!_showError && !passworderror && !nameerror) {
-                      //   storeSignUpDetails(
-                      //       firstnameController.text,
-                      //       lastnameController.text,
-                      //       emailController.text,
-                      //       passwordController.text);
-                      //   if (!isCheck) {
-                      //     showWarningDialog(context, 'ACCEPT TERMS OF USE',
-                      //         'Please acccept terms of use before proceeding!',
-                      //         () {
-                      //       Navigator.of(context).pop();
-                      //     });
-                      //   } else {
-                      //     Navigator.of(context).push(
-                      //       MaterialPageRoute(
-                      //         builder: (context) =>
-                      //             const CompleteProfileSCreen(),
-                      //       ),
-                      //     );
-                      //   }
-                      // }
                     },
                   ),
                   SizedBox(

@@ -52,7 +52,7 @@ Future<void> showNotification() async {
 }
 
 void startPeriodicTimer() {
-  Timer.periodic(Duration(minutes: notificationInterval), (timer) {
+  Timer.periodic(Duration(hours: notificationInterval), (timer) {
     showNotification();
   });
 }

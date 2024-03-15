@@ -189,8 +189,6 @@ class _AddScheduleViewState extends State<AddScheduleView> {
           RoundButton(
               title: "Save",
               onPressed: () async {
-                // TimeOfDay timeOnly = TimeOfDay.fromDateTime(time);
-                // String formattedTime = '${timeOnly.hour}:${timeOnly.minute}';
                 // ignore: unnecessary_null_comparison
                 if (time != null) {
                   int hour = time.hour;
@@ -208,18 +206,11 @@ class _AddScheduleViewState extends State<AddScheduleView> {
                 );
 
                 // ignore: use_build_context_synchronously
-                Navigator.of(context).push(MaterialPageRoute(
+                Navigator.of(context).pushReplacement(MaterialPageRoute(
                     builder: (ctx) => WorkoutScheduleScreen(
                           currentDate: widget.date,
                           currentdate: formattedDate,
                         )));
-                showWarningDialog(
-                    // ignore: use_build_context_synchronously
-                    context,
-                    'you have added a $selectedOption workout  on $newdate @ $actualtime',
-                    '', () {
-                  Navigator.of(context).pop();
-                });
               }),
           const SizedBox(
             height: 20,

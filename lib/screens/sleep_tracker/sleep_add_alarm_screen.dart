@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:strongify/common/color_extension.dart';
 import 'package:strongify/db_functions/sleep_schedule.dart';
 import 'package:strongify/db_model/model.dart';
+import 'package:strongify/screens/sleep_tracker/sleep_schedule_screen.dart';
 import '../../common_widget/round_button.dart';
 
 class SleepAddAlarmView extends StatefulWidget {
@@ -167,7 +168,8 @@ class _SleepAddAlarmViewState extends State<SleepAddAlarmView> {
                     formattedDate, sleeptime, wakeuptime, sleepdutarion);
                 addsleepschedule(sleepschedule);
                 setState(() {});
-                Navigator.of(context).pop();
+                Navigator.of(context).pushReplacement(MaterialPageRoute(
+                    builder: (ctx) => const SleepScheduleScreen()));
               }),
           const SizedBox(
             height: 20,

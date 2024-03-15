@@ -5,7 +5,6 @@ import 'package:strongify/common_widget/image_grid_widget.dart';
 import 'package:strongify/db_functions/photo_progress.dart';
 import 'package:strongify/db_model/model.dart';
 import 'package:strongify/functions/photo_progress/month_comparison.dart';
-import 'package:strongify/screens/photo_progress/opencamera.dart';
 
 class GalleryScreen extends StatefulWidget {
   const GalleryScreen({super.key});
@@ -163,31 +162,6 @@ class _GalleryScreenState extends State<GalleryScreen> {
               height: media.width * 0.05,
             ),
           ],
-        ),
-      ),
-      floatingActionButton: InkWell(
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const CameraScreen()),
-          );
-        },
-        child: Container(
-          width: 55,
-          height: 55,
-          decoration: BoxDecoration(
-              gradient: LinearGradient(colors: Tcolor.secondryGradient),
-              borderRadius: BorderRadius.circular(27.5),
-              boxShadow: const [
-                BoxShadow(
-                    color: Colors.black12, blurRadius: 5, offset: Offset(0, 2))
-              ]),
-          alignment: Alignment.center,
-          child: Icon(
-            Icons.photo_camera,
-            size: 20,
-            color: Tcolor.white,
-          ),
         ),
       ),
     );

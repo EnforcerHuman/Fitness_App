@@ -210,47 +210,58 @@ class _PhotoProgressScreenState extends State<PhotoProgressScreen> {
                           ),
                           SizedBox(
                             height: 100,
-                            child: ListView.builder(
-                              scrollDirection: Axis.horizontal,
-                              padding: EdgeInsets.zero,
-                              itemCount: list1?.length,
-                              itemBuilder: ((context, indexRow) {
-                                return Container(
-                                  margin:
-                                      const EdgeInsets.symmetric(horizontal: 4),
-                                  width: 100,
-                                  decoration: BoxDecoration(
-                                    color: Tcolor.lightGray,
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(10),
-                                    child: InkWell(
-                                      onTap: () {
-                                        Navigator.of(context)
-                                            .push(MaterialPageRoute(
-                                                builder: (ctx) => PreviewPage(
-                                                      picture: XFile(
-                                                          list1![indexRow]
-                                                              .imagepath),
-                                                      imagepath:
-                                                          list1![indexRow]
-                                                              .imagepath,
-                                                    )));
-                                      },
-                                      child: Image.file(
-                                        File(list1 != null && list1!.isNotEmpty
-                                            ? list1![indexRow].imagepath
-                                            : ''),
-                                        width: 100,
-                                        height: 100,
-                                        fit: BoxFit.cover,
-                                      ),
+                            child: list1 == null || list1!.isEmpty
+                                ? Center(
+                                    child: Text(
+                                      'No images available',
+                                      style: TextStyle(color: Tcolor.gray),
                                     ),
+                                  )
+                                : ListView.builder(
+                                    scrollDirection: Axis.horizontal,
+                                    padding: EdgeInsets.zero,
+                                    itemCount: list1?.length ?? 0,
+                                    itemBuilder: ((context, indexRow) {
+                                      return Container(
+                                        margin: const EdgeInsets.symmetric(
+                                            horizontal: 4),
+                                        width: 100,
+                                        decoration: BoxDecoration(
+                                          color: Tcolor.lightGray,
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                        ),
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          child: InkWell(
+                                            onTap: () {
+                                              Navigator.of(context).push(
+                                                  MaterialPageRoute(
+                                                      builder: (ctx) =>
+                                                          PreviewPage(
+                                                            picture: XFile(
+                                                                list1![indexRow]
+                                                                    .imagepath),
+                                                            imagepath:
+                                                                list1![indexRow]
+                                                                    .imagepath,
+                                                          )));
+                                            },
+                                            child: Image.file(
+                                              File(list1 != null &&
+                                                      list1!.isNotEmpty
+                                                  ? list1![indexRow].imagepath
+                                                  : ''),
+                                              width: 100,
+                                              height: 100,
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    }),
                                   ),
-                                );
-                              }),
-                            ),
                           ),
                         ],
                       );
@@ -274,33 +285,43 @@ class _PhotoProgressScreenState extends State<PhotoProgressScreen> {
                           ),
                           SizedBox(
                             height: 100,
-                            child: ListView.builder(
-                              scrollDirection: Axis.horizontal,
-                              padding: EdgeInsets.zero,
-                              itemCount: list2?.length,
-                              itemBuilder: ((context, indexRow) {
-                                return Container(
-                                  margin:
-                                      const EdgeInsets.symmetric(horizontal: 4),
-                                  width: 100,
-                                  decoration: BoxDecoration(
-                                    color: Tcolor.lightGray,
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(10),
-                                    child: Image.file(
-                                      File(list2 != null && list2!.isNotEmpty
-                                          ? list2![indexRow].imagepath
-                                          : ''),
-                                      width: 100,
-                                      height: 100,
-                                      fit: BoxFit.cover,
+                            child: list2 == null || list2!.isEmpty
+                                ? Center(
+                                    child: Text(
+                                      'No images available',
+                                      style: TextStyle(color: Tcolor.gray),
                                     ),
+                                  )
+                                : ListView.builder(
+                                    scrollDirection: Axis.horizontal,
+                                    padding: EdgeInsets.zero,
+                                    itemCount: list2?.length ?? 0,
+                                    itemBuilder: ((context, indexRow) {
+                                      return Container(
+                                        margin: const EdgeInsets.symmetric(
+                                            horizontal: 4),
+                                        width: 100,
+                                        decoration: BoxDecoration(
+                                          color: Tcolor.lightGray,
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                        ),
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          child: Image.file(
+                                            File(list2 != null &&
+                                                    list2!.isNotEmpty
+                                                ? list2![indexRow].imagepath
+                                                : ''),
+                                            width: 100,
+                                            height: 100,
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ),
+                                      );
+                                    }),
                                   ),
-                                );
-                              }),
-                            ),
                           ),
                         ],
                       );

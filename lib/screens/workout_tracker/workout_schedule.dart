@@ -42,7 +42,7 @@ class _WorkoutScheduleScreenState extends State<WorkoutScheduleScreen> {
         focusColor: Tcolor.secondryColor1,
         backgroundColor: Tcolor.secondryColor2,
         onPressed: () {
-          Navigator.of(context).push(MaterialPageRoute(
+          Navigator.of(context).pushReplacement(MaterialPageRoute(
               builder: (ctx) => AddScheduleView(date: _selectedDateAppBBar)));
         },
         child: const Icon(Icons.add),

@@ -343,7 +343,7 @@ class _SleepScheduleScreenState extends State<SleepScheduleScreen> {
       ),
       floatingActionButton: InkWell(
         onTap: () {
-          Navigator.push(
+          Navigator.pushReplacement(
             context,
             MaterialPageRoute(
               builder: (context) => SleepAddAlarmView(

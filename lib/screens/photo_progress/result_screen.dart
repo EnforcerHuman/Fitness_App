@@ -117,78 +117,90 @@ class _ResultScreenState extends State<ResultScreen> {
                       ],
                     ),
                     ListView.builder(
-                        physics: const NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: list1!.length,
-                        itemBuilder: (context, index) {
-                          return Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: (list1 != null &&
+                              list2 != null &&
+                              list1!.isNotEmpty &&
+                              list2!.isNotEmpty)
+                          ? (list1!.length > list2!.length
+                              ? list1!.length
+                              : list2!.length)
+                          : 1, // Display one item to show "No images available" message
+                      itemBuilder: (context, index) {
+                        if (list1 == null ||
+                            list2 == null ||
+                            list1!.isEmpty ||
+                            list2!.isEmpty ||
+                            index >= list1!.length ||
+                            index >= list2!.length) {
+                          return Center(
+                            child: Text(
+                              'No images available to compare',
+                              style: TextStyle(color: Tcolor.gray),
+                            ),
+                          );
+                        }
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            const SizedBox(
+                              height: 8,
+                            ),
+                            const SizedBox(
+                              height: 8,
+                            ),
+                            Row(
                               children: [
-                                const SizedBox(
-                                  height: 8,
-                                ),
-                                const SizedBox(
-                                  height: 8,
-                                ),
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      child: AspectRatio(
-                                        aspectRatio: 1,
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                            color: Tcolor.lightGray,
-                                            borderRadius:
-                                                BorderRadius.circular(20),
-                                          ),
-                                          child: ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(20),
-                                            child: Image.file(
-                                              File(list1 != null &&
-                                                      list1!.isNotEmpty
-                                                  ? list1![index].imagepath
-                                                  : ''),
-                                              width: double.maxFinite,
-                                              height: double.maxFinite,
-                                              fit: BoxFit.cover,
-                                            ),
-                                          ),
+                                Expanded(
+                                  child: AspectRatio(
+                                    aspectRatio: 1,
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        color: Tcolor.lightGray,
+                                        borderRadius: BorderRadius.circular(20),
+                                      ),
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(20),
+                                        child: Image.file(
+                                          File(list1![index].imagepath),
+                                          width: double.maxFinite,
+                                          height: double.maxFinite,
+                                          fit: BoxFit.cover,
                                         ),
                                       ),
                                     ),
-                                    const SizedBox(
-                                      width: 15,
-                                    ),
-                                    Expanded(
-                                      child: AspectRatio(
-                                        aspectRatio: 1,
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                            color: Tcolor.lightGray,
-                                            borderRadius:
-                                                BorderRadius.circular(20),
-                                          ),
-                                          child: ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(20),
-                                            child: Image.file(
-                                              File(list2 != null &&
-                                                      list2!.isNotEmpty
-                                                  ? list2![index].imagepath
-                                                  : ''),
-                                              width: double.maxFinite,
-                                              height: double.maxFinite,
-                                              fit: BoxFit.cover,
-                                            ),
-                                          ),
+                                  ),
+                                ),
+                                const SizedBox(
+                                  width: 15,
+                                ),
+                                Expanded(
+                                  child: AspectRatio(
+                                    aspectRatio: 1,
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        color: Tcolor.lightGray,
+                                        borderRadius: BorderRadius.circular(20),
+                                      ),
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(20),
+                                        child: Image.file(
+                                          File(list2![index].imagepath),
+                                          width: double.maxFinite,
+                                          height: double.maxFinite,
+                                          fit: BoxFit.cover,
                                         ),
                                       ),
-                                    )
-                                  ],
+                                    ),
+                                  ),
                                 )
-                              ]);
-                        }),
+                              ],
+                            )
+                          ],
+                        );
+                      },
+                    ),
                     RoundButton(
                         title: "Back to Home",
                         onPressed: () {

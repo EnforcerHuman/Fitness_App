@@ -24,8 +24,7 @@ class _SetTargetSCreenState extends State<SetTargetSCreen> {
       appBar: AppBar(
         leading: IconButton(
             onPressed: () {
-              Navigator.of(context).pushReplacement(MaterialPageRoute(
-                  builder: (ctx) => const ActivityTrackerScreen()));
+              Navigator.of(context).pop();
             },
             icon: const Icon(Icons.arrow_back_ios_new)),
       ),
