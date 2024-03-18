@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:strongify/common/color_extension.dart';
+import 'package:strongify/functions/Home/water_steps_function.dart';
 import 'package:strongify/screens/profile/set_target.dart';
 import '../../common_widget/today_target_cell.dart';
 
@@ -13,43 +13,15 @@ class ActivityTrackerScreen extends StatefulWidget {
 
 class _ActivityTrackerScreenState extends State<ActivityTrackerScreen> {
   int touchedIndex = -1;
-  double testvalue = 9.0;
-  String watertarget = 'unavilable';
-  String steptarget = 'unavailable';
-
-  List latestArr = [
-    {
-      "image": "assets/img/pic_4.png",
-      "title": "Drinking 300ml Water",
-      "time": "About 1 minutes ago"
-    },
-    {
-      "image": "assets/img/pic_5.png",
-      "title": "Eat Snack (Fitbar)",
-      "time": "About 3 hours ago"
-    },
-  ];
-  Future<void> getTarget() async {
-    SharedPreferences pref = await SharedPreferences.getInstance();
-    setState(() {
-      watertarget = pref.getString('water')!;
-      steptarget = pref.getString('steps')!;
-    });
-  }
-
-  Future<void> loadtarget() async {
-    getTarget();
-  }
 
   @override
   void initState() {
     super.initState();
-    loadtarget();
+    gettargets();
   }
 
   @override
   Widget build(BuildContext context) {
-    var media = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Tcolor.white,
@@ -141,9 +113,10 @@ class _ActivityTrackerScreenState extends State<ActivityTrackerScreen> {
                             ),
                             child: MaterialButton(
                                 onPressed: () {
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                      builder: (ctx) =>
-                                          const SetTargetSCreen()));
+                                  Navigator.of(context).pushReplacement(
+                                      MaterialPageRoute(
+                                          builder: (ctx) =>
+                                              const SetTargetSCreen()));
                                 },
                                 padding: EdgeInsets.zero,
                                 height: 30,
@@ -168,38 +141,34 @@ class _ActivityTrackerScreenState extends State<ActivityTrackerScreen> {
                     Row(
                       children: [
                         Expanded(
-                          child: TodayTargetCell(
-                            icon: "assets/img/water.png",
-                            value: "$watertarget ",
-                            title: "Water Intake",
-                          ),
+                          child: ValueListenableBuilder(
+                              valueListenable: watertargetl,
+                              builder: (context, value, child) {
+                                return TodayTargetCell(
+                                  icon: "assets/img/water.png",
+                                  value: watertargetl.value,
+                                  title: "Water Intake",
+                                );
+                              }),
                         ),
                         const SizedBox(
                           width: 15,
                         ),
                         Expanded(
-                          child: TodayTargetCell(
-                            icon: "assets/img/foot.png",
-                            value: steptarget,
-                            title: "Foot Steps",
-                          ),
+                          child: ValueListenableBuilder(
+                              valueListenable: steptarget,
+                              builder: (context, value, child) {
+                                return TodayTargetCell(
+                                  icon: "assets/img/foot.png",
+                                  value: steptarget.value,
+                                  title: "Foot Steps",
+                                );
+                              }),
                         ),
                       ],
                     )
                   ],
                 ),
-              ),
-              SizedBox(
-                height: media.width * 0.1,
-              ),
-              SizedBox(
-                height: media.width * 0.05,
-              ),
-              SizedBox(
-                height: media.width * 0.05,
-              ),
-              SizedBox(
-                height: media.width * 0.1,
               ),
             ],
           ),

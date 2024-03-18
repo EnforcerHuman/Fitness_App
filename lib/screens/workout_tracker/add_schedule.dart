@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:strongify/common/color_extension.dart';
-import 'package:strongify/common_widget/show_warning.dart';
 import 'package:strongify/db_functions/workout_schedule.dart';
 import 'package:strongify/db_model/model.dart';
 import 'package:strongify/screens/workout_tracker/workout_schedule.dart';
@@ -34,7 +33,6 @@ class _AddScheduleViewState extends State<AddScheduleView> {
   late String actualtime;
   @override
   Widget build(BuildContext context) {
-    var newdate = dateToString(widget.date, formatStr: " dd MMMM yyyy");
     var media = MediaQuery.of(context).size;
 
     return Scaffold(

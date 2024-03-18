@@ -226,7 +226,11 @@ class _SleepScheduleScreenState extends State<SleepScheduleScreen> {
                                 const SizedBox(
                                   height: 10,
                                 ),
-                                Text(bedtime)
+                                ValueListenableBuilder(
+                                    valueListenable: bedtime,
+                                    builder: (context, value, child) {
+                                      return Text(bedtime.value);
+                                    })
                               ],
                             ),
                             SizedBox(
@@ -285,7 +289,11 @@ class _SleepScheduleScreenState extends State<SleepScheduleScreen> {
                                 const SizedBox(
                                   height: 10,
                                 ),
-                                Text(alarmtime)
+                                ValueListenableBuilder(
+                                    valueListenable: alarmtime,
+                                    builder: (context, value, child) {
+                                      return Text(alarmtime.value);
+                                    })
                               ],
                             ),
                             SizedBox(

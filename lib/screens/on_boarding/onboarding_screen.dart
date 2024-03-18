@@ -5,7 +5,7 @@ import 'package:strongify/screens/login/signup_screen.dart';
 import 'package:strongify/utils/onboarding_items.dart';
 
 class OnBoardingScreen extends StatefulWidget {
-  const OnBoardingScreen({Key? key}) : super(key: key);
+  const OnBoardingScreen({super.key});
 
   @override
   State<OnBoardingScreen> createState() => _OnBoardingScreenState();

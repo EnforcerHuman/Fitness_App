@@ -9,14 +9,22 @@ import 'package:strongify/screens/sleep_tracker/sleep_tracker_screen.dart';
 import 'package:strongify/screens/workout_tracker/workout_tracker_screen.dart';
 
 class MainTabView extends StatefulWidget {
-  const MainTabView({super.key});
+  final int selecttab;
+  const MainTabView({super.key, this.selecttab = 0});
 
   @override
   State<MainTabView> createState() => _MainTabViewState();
 }
 
 class _MainTabViewState extends State<MainTabView> {
-  int selectTab = 0;
+  late int selectTab;
+  @override
+  void initState() {
+    super.initState();
+    setState(() {
+      selectTab = widget.selecttab;
+    });
+  }
 
   final PageStorageBucket pageBucket = PageStorageBucket();
   Widget currentTab = const HomeScreen();

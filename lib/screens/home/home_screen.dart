@@ -2,17 +2,18 @@ import 'dart:async';
 import 'package:dotted_dashed_line/dotted_dashed_line.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:pedometer/pedometer.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:simple_animation_progress_bar/simple_animation_progress_bar.dart';
 import 'package:simple_circular_progress_bar/simple_circular_progress_bar.dart';
 import 'package:strongify/common/color_extension.dart';
 import 'package:strongify/common_widget/round_button.dart';
+import 'package:strongify/functions/Home/step_counting_functions.dart';
+import 'package:strongify/functions/Home/water_steps_function.dart';
 import 'package:strongify/functions/calarie_calculator.dart';
 import 'package:strongify/functions/calculate_bmi.dart';
-import 'package:strongify/functions/shared_pref.dart';
+import 'package:strongify/functions/profile/userdetails.dart';
 import 'package:strongify/functions/sleep_tracker_functions/sleep_schedule.dart';
+import 'package:strongify/screens/home/bmi_details_screen.dart';
 import 'package:strongify/screens/profile/activity_tracker_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -25,24 +26,9 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  late Stream<StepCount> _stepCountStream;
-  late Stream<PedestrianStatus> _pedestrianStatusStream;
-  int steps = 0;
   late SharedPreferences prefs;
-  String username = 'user';
   bool gender = false;
-  DateTime lastResetDate = DateTime.now();
-  String watertarget = 'unavilable';
-  String steptarget = 'unavailable';
-  String? drinksuggetion;
   double waterratio = 0;
-  List waterArr = [];
-  Future<void> requestPermissions() async {
-    var status = await Permission.activityRecognition.status;
-    if (!status.isGranted) {
-      await Permission.activityRecognition.request();
-    }
-  }
 
   @override
   void initState() {
@@ -50,24 +36,31 @@ class _HomeScreenState extends State<HomeScreen> {
     requestPermissions();
     initPlatformState();
     test();
+    loaduserDetails();
+    gettargets();
+    initializeData();
+  }
+
+  Future<void> initializeData() async {
+    await gettargets();
+    initializeWaterArr();
+    setState(() {});
   }
 
   @override
   void dispose() {
-    _pedestrianStatusStream.drain();
-    _stepCountStream.drain();
+    pedestrianStatusStream.drain();
+    stepCountStream.drain();
     super.dispose();
   }
 
   Future<void> test() async {
-    loadusername();
-    getTarget();
     await getsleephours(DateTime.now().subtract(const Duration(days: 1)));
   }
 
   @override
   Widget build(BuildContext context) {
-    double calories = estimateCaloriesBurned(steps);
+    double calories = estimateCaloriesBurned(steps.value);
     var media = MediaQuery.of(context).size;
     return Scaffold(
         backgroundColor: Tcolor.white,
@@ -87,13 +80,17 @@ class _HomeScreenState extends State<HomeScreen> {
                           "welcome Back,",
                           style: TextStyle(color: Tcolor.gray, fontSize: 12),
                         ),
-                        Text(
-                          username,
-                          style: TextStyle(
-                              color: Tcolor.black,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w700),
-                        ),
+                        ValueListenableBuilder(
+                            valueListenable: username,
+                            builder: (context, value, child) {
+                              return Text(
+                                username.value,
+                                style: TextStyle(
+                                    color: Tcolor.black,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w700),
+                              );
+                            }),
                         SizedBox(
                           height: media.width * 0.05,
                         ),
@@ -135,11 +132,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                       fontSize: 14,
                                       fontWeight: FontWeight.w700),
                                 ),
-                                Text(
-                                  "You have a normal weight",
-                                  style: TextStyle(
-                                      color: Tcolor.white, fontSize: 12),
-                                ),
                                 SizedBox(
                                   height: media.width * 0.04,
                                 ),
@@ -151,7 +143,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                       title: 'View More',
                                       type: RoundButtonType.bgGradient,
                                       fontSize: 12,
-                                      onPressed: () {}),
+                                      onPressed: () async {
+                                        Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                                builder: (ctx) =>
+                                                    const BmiDetailsScreen()));
+                                      }),
                                 )
                               ],
                             ),
@@ -264,8 +261,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              mainAxisSize:
-                                  MainAxisSize.min, // Set mainAxisSize to min
+                              mainAxisSize: MainAxisSize.min,
                               children: [
                                 const Text(
                                   'Totalsteps',
@@ -274,18 +270,22 @@ class _HomeScreenState extends State<HomeScreen> {
                                       color: Colors.black,
                                       fontSize: 20),
                                 ),
-                                Text(
-                                  steps.toString(),
-                                  style: TextStyle(
-                                    foreground: Paint()
-                                      ..shader = LinearGradient(
-                                        colors: Tcolor.secondryGradient,
-                                      ).createShader(const Rect.fromLTWH(
-                                          0.0, 0.0, 200.0, 70.0)),
-                                    fontSize: 17,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
+                                ValueListenableBuilder<int>(
+                                    valueListenable: steps,
+                                    builder: (context, value, child) {
+                                      return Text(
+                                        steps.value.toString(),
+                                        style: TextStyle(
+                                          foreground: Paint()
+                                            ..shader = LinearGradient(
+                                              colors: Tcolor.secondryGradient,
+                                            ).createShader(const Rect.fromLTWH(
+                                                0.0, 0.0, 200.0, 70.0)),
+                                          fontSize: 17,
+                                          fontWeight: FontWeight.w700,
+                                        ),
+                                      );
+                                    }),
                                 const Text(
                                   'Target',
                                   style: TextStyle(
@@ -293,18 +293,22 @@ class _HomeScreenState extends State<HomeScreen> {
                                       color: Colors.black,
                                       fontSize: 20),
                                 ),
-                                Text(
-                                  steptarget,
-                                  style: TextStyle(
-                                    foreground: Paint()
-                                      ..shader = LinearGradient(
-                                        colors: Tcolor.secondryGradient,
-                                      ).createShader(const Rect.fromLTWH(
-                                          0.0, 0.0, 200.0, 70.0)),
-                                    fontSize: 17,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
+                                ValueListenableBuilder(
+                                    valueListenable: steptarget,
+                                    builder: (context, value, child) {
+                                      return Text(
+                                        steptarget.value,
+                                        style: TextStyle(
+                                          foreground: Paint()
+                                            ..shader = LinearGradient(
+                                              colors: Tcolor.secondryGradient,
+                                            ).createShader(const Rect.fromLTWH(
+                                                0.0, 0.0, 200.0, 70.0)),
+                                          fontSize: 17,
+                                          fontWeight: FontWeight.w700,
+                                        ),
+                                      );
+                                    }),
                               ],
                             ),
                             Expanded(
@@ -380,14 +384,18 @@ class _HomeScreenState extends State<HomeScreen> {
                                             .createShader(Rect.fromLTRB(0, 0,
                                                 bounds.width, bounds.height));
                                       },
-                                      child: Text(
-                                        watertarget,
-                                        style: TextStyle(
-                                            color:
-                                                Tcolor.white.withOpacity(0.7),
-                                            fontWeight: FontWeight.w800,
-                                            fontSize: 14),
-                                      ),
+                                      child: ValueListenableBuilder(
+                                          valueListenable: watertargetl,
+                                          builder: (context, value, child) {
+                                            return Text(
+                                              watertargetl.value,
+                                              style: TextStyle(
+                                                  color: Tcolor.white
+                                                      .withOpacity(0.7),
+                                                  fontWeight: FontWeight.w800,
+                                                  fontSize: 14),
+                                            );
+                                          }),
                                     ),
                                     const SizedBox(
                                       height: 10,
@@ -722,58 +730,5 @@ class _HomeScreenState extends State<HomeScreen> {
         }
       },
     );
-  }
-
-  void onStepCount(StepCount event) {
-    setState(() {
-      steps = event.steps;
-    });
-  }
-
-  void initializeWaterArr() {
-    setState(() {
-      waterArr = [
-        {"title": "6am - 8am", "subtitle": '$drinksuggetion L'},
-        {"title": "9am - 11am", "subtitle": '$drinksuggetion L'},
-        {"title": "11am - 2pm", "subtitle": '$drinksuggetion L'},
-        {"title": "2pm - 4pm", "subtitle": '$drinksuggetion L'},
-        {"title": "4pm - 6", "subtitle": '$drinksuggetion L'},
-      ];
-    });
-  }
-
-  void onStepCountError(error) {
-    setState(() {
-      steps = 0;
-    });
-  }
-
-  Future<void> initPlatformState() async {
-    await requestPermissions();
-    _pedestrianStatusStream = Pedometer.pedestrianStatusStream;
-
-    _stepCountStream = Pedometer.stepCountStream;
-    _stepCountStream.listen(onStepCount).onError(onStepCountError);
-
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    lastResetDate = DateTime.parse(prefs.getString('lastResetDate') ?? '');
-
-    if (!mounted) return;
-  }
-
-  Future<void> getTarget() async {
-    SharedPreferences pref = await SharedPreferences.getInstance();
-    setState(() {
-      watertarget = pref.getString('water')!;
-      steptarget = pref.getString('steps')!;
-      double test = double.parse(watertarget);
-      drinksuggetion = (test / 12).toStringAsFixed(3);
-    });
-    initializeWaterArr();
-  }
-
-  Future<void> loadusername() async {
-    String loadedname = await getusername();
-    username = loadedname;
   }
 }

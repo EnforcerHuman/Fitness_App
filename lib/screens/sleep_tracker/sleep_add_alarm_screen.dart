@@ -4,6 +4,8 @@ import 'package:intl/intl.dart';
 import 'package:strongify/common/color_extension.dart';
 import 'package:strongify/db_functions/sleep_schedule.dart';
 import 'package:strongify/db_model/model.dart';
+import 'package:strongify/functions/sleep_tracker_functions/alarm_function.dart';
+import 'package:strongify/functions/sleep_tracker_functions/sleep_schedule.dart';
 import 'package:strongify/screens/sleep_tracker/sleep_schedule_screen.dart';
 import '../../common_widget/round_button.dart';
 
@@ -105,7 +107,7 @@ class _SleepAddAlarmViewState extends State<SleepAddAlarmView> {
                   sleeptime = newTime;
                 });
               },
-              initialDateTime: DateTime.now(),
+              initialDateTime: widget.date,
               use24hFormat: false,
               minuteInterval: 1,
               mode: CupertinoDatePickerMode.time,
@@ -139,7 +141,7 @@ class _SleepAddAlarmViewState extends State<SleepAddAlarmView> {
                 });
               },
               initialDateTime:
-                  DateTime.now().add(const Duration(days: 1)).subtract(
+                  widget.date.add(const Duration(days: 1)).subtract(
                         Duration(minutes: DateTime.now().minute),
                       ),
               use24hFormat: false,
@@ -167,7 +169,9 @@ class _SleepAddAlarmViewState extends State<SleepAddAlarmView> {
                 final sleepschedule = SleepProgres(
                     formattedDate, sleeptime, wakeuptime, sleepdutarion);
                 addsleepschedule(sleepschedule);
-                setState(() {});
+                await setAlarm([wakeuptime]);
+                retrivesleeptiming(DateTime.now());
+                // ignore: use_build_context_synchronously
                 Navigator.of(context).pushReplacement(MaterialPageRoute(
                     builder: (ctx) => const SleepScheduleScreen()));
               }),

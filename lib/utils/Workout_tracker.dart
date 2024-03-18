@@ -8,7 +8,7 @@ List whatArr = [
   },
   {
     "image": "assets/img/what_2.png",
-    "title": "Lowebody Workout",
+    "title": "Lowerbody Workout",
     "exercises": "10 Exercises",
     "time": "40mins"
   },

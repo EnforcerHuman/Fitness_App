@@ -1,39 +1,31 @@
-import 'dart:async';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:alarm/alarm.dart';
+import 'package:alarm/model/alarm_settings.dart';
 
-late FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin;
+Future<void> setAlarm(List<DateTime> dates) async {
+  for (var date in dates) {
+    final alarmDateTime = DateTime(
+      date.year,
+      date.month,
+      date.day,
+      date.hour,
+      date.minute,
+    );
 
-Future<void> initLocalalarm() async {
-  _flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
-  const AndroidInitializationSettings androidSettings =
-      AndroidInitializationSettings('welocome');
+    final alarmSettings = AlarmSettings(
+        id: dates.indexOf(date) + 1,
+        dateTime: alarmDateTime,
+        notificationTitle: 'Alarm',
+        notificationBody: 'Time to wake up!',
+        assetAudioPath: "assets/iphone_alarm.mp3",
+        enableNotificationOnKill: false,
+        androidFullScreenIntent: true,
+        vibrate: false,
+        volume: 1);
 
-  InitializationSettings initializationSettings = const InitializationSettings(
-    android: androidSettings,
-  );
-
-  await _flutterLocalNotificationsPlugin.initialize(
-    initializationSettings,
-  );
+    await Alarm.set(alarmSettings: alarmSettings);
+  }
 }
 
-Future<void> showalarm() async {
-  const AndroidNotificationDetails androidPlatformChannelSpecifics =
-      AndroidNotificationDetails(
-    '2',
-    'sleep reminder',
-    importance: Importance.defaultImportance,
-    priority: Priority.defaultPriority,
-  );
-
-  const NotificationDetails platformChannelSpecifics =
-      NotificationDetails(android: androidPlatformChannelSpecifics);
-
-  await _flutterLocalNotificationsPlugin.show(
-    1,
-    'Hello, user!',
-    'Its time to Sleep ',
-    platformChannelSpecifics,
-    payload: 'notification_payload',
-  );
+Future<void> stopAlarm(int id) async {
+  await Alarm.stop(id);
 }

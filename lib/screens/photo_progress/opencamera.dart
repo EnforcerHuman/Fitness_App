@@ -14,47 +14,17 @@ class CameraScreen extends StatefulWidget {
 }
 
 class _CameraScreenState extends State<CameraScreen> {
-  // late CameraController _controller;
-  // late Future<void> _initializeControllerFuture;
-  // late File _imageFile;
-  // final List<File> _imageList = [];
-
   @override
   void initState() {
     super.initState();
     initializeControllerFuture = initializeCamera();
   }
 
-  // Future<void> initializeCamera() async {
-  //   List<CameraDescription> cameras = await availableCameras();
-  //   _controller = CameraController(
-  //     cameras[0],
-  //     ResolutionPreset.medium,
-  //   );
-  //   await _controller.initialize();
-  // }
-
   @override
   void dispose() {
     controller.dispose();
     super.dispose();
   }
-
-  // Future<String> get _localPath async {
-  //   final directory = await getApplicationDocumentsDirectory();
-  //   final photoProgressDirectory = join(directory.path, 'photoprogress');
-  //   await Directory(photoProgressDirectory).create(recursive: true);
-  //   return photoProgressDirectory;
-  // }
-
-  // Future<void> _saveImage(File image) async {
-  //   final path = await _localPath;
-  //   final imagePath =
-  //       join(path, '${DateTime.now().millisecondsSinceEpoch}.png');
-  //   await image.copy(imagePath);
-  //   final photo = Photo(imagePath, 6);
-  //   storePhotos(photo);
-  // }
 
   @override
   Widget build(BuildContext context) {

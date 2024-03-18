@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:strongify/common/color_extension.dart';
-import 'package:strongify/db_functions/workoout_progress_function.dart';
-import 'package:strongify/db_model/model.dart';
+import 'package:strongify/functions/workout_functions/finished_workout.dart';
+import 'package:strongify/functions/workout_functions/progress_functions.dart';
 import '../../common_widget/round_button.dart';
 
 class FinishedWorkoutView extends StatefulWidget {
@@ -18,7 +17,12 @@ class _FinishedWorkoutViewState extends State<FinishedWorkoutView> {
   @override
   void initState() {
     super.initState();
-    setprogressvalue();
+    setvalue();
+  }
+
+  Future<void> setvalue() async {
+    await setprogressvalue();
+    setvalues();
   }
 
   @override
@@ -99,18 +103,5 @@ class _FinishedWorkoutViewState extends State<FinishedWorkoutView> {
         ),
       ),
     );
-  }
-
-  String formatTime(int timeInSeconds) {
-    int minutes = timeInSeconds ~/ 60;
-    int seconds = timeInSeconds % 60;
-    return '$minutes:${seconds.toString().padLeft(2, '0')}';
-  }
-
-  Future<void> setprogressvalue() async {
-    String formattedDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
-    double retrivedvalue = await printProgressForDate(formattedDate);
-    final test = WorkoutProgres(retrivedvalue + 3.33, formattedDate);
-    await addprogress(test);
   }
 }

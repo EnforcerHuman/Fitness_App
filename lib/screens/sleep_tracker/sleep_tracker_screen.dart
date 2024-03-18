@@ -2,6 +2,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:strongify/common/color_extension.dart';
 import 'package:strongify/db_functions/sleep_schedule.dart';
+import 'package:strongify/functions/sleep_tracker_functions/alarm_function.dart';
 import 'package:strongify/functions/sleep_tracker_functions/sleep_schedule.dart';
 import 'package:strongify/screens/sleep_tracker/sleep_schedule_screen.dart';
 import '../../common_widget/round_button.dart';
@@ -32,6 +33,7 @@ class _SleepTrackerScreenState extends State<SleepTrackerScreen> {
       DateTime.now(),
     );
     getdetails();
+    retrivesleeptiming(DateTime.now());
   }
 
   Future<void> getdetails() async {
@@ -281,6 +283,42 @@ class _SleepTrackerScreenState extends State<SleepTrackerScreen> {
                   SizedBox(
                     height: media.width * 0.05,
                   ),
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 15, horizontal: 15),
+                    decoration: BoxDecoration(
+                      color: Tcolor.primaryColor2.withOpacity(0.3),
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "click here to stop your Alarm",
+                          style: TextStyle(
+                              color: Tcolor.black,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w700),
+                        ),
+                        SizedBox(
+                          width: 70,
+                          height: 25,
+                          child: RoundButton(
+                            title: "Stop",
+                            type: RoundButtonType.bgSGradient,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w400,
+                            onPressed: () {
+                              stopAlarm(3);
+                            },
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: media.width * 0.05,
+                  ),
                   Text(
                     "Today Schedule",
                     style: TextStyle(
@@ -326,7 +364,11 @@ class _SleepTrackerScreenState extends State<SleepTrackerScreen> {
                                 ),
                               ],
                             ),
-                            Text(bedtime)
+                            ValueListenableBuilder(
+                                valueListenable: currentdatebedtime,
+                                builder: (context, value, child) {
+                                  return Text(currentdatebedtime.value);
+                                })
                           ],
                         ),
                         SizedBox(
@@ -368,7 +410,11 @@ class _SleepTrackerScreenState extends State<SleepTrackerScreen> {
                                 ),
                               ],
                             ),
-                            Text(alarmtime)
+                            ValueListenableBuilder(
+                                valueListenable: currentdatealarmtime,
+                                builder: (context, value, child) {
+                                  return Text(alarmtime.value);
+                                })
                           ],
                         ),
                         SizedBox(

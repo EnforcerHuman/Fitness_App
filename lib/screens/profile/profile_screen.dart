@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
-
 import 'package:strongify/common/color_extension.dart';
 import 'package:strongify/common_widget/dropdown_widget.dart';
-
-import 'package:strongify/db_functions/get_user_details.dart';
+import 'package:strongify/functions/profile/userdetails.dart';
 import 'package:strongify/functions/profile_functions.dart';
-import 'package:strongify/functions/shared_pref.dart';
 import 'package:strongify/screens/profile/edit_profile.dart';
 import 'package:strongify/utils/profile_items.dart';
-
 import '../../common_widget/round_button.dart';
 import '../../common_widget/setting_row.dart';
 import '../../common_widget/title_subtitle_cell.dart';
@@ -22,10 +18,6 @@ class ProfileView extends StatefulWidget {
 
 class _ProfileViewState extends State<ProfileView> {
   bool positive = false;
-  String username = 'user';
-  String height = 'unvailable';
-  String weight = 'unavailable';
-  String age = 'unavilable';
   String selectedValue = 'test';
 
   @override
@@ -95,14 +87,18 @@ class _ProfileViewState extends State<ProfileView> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          username,
-                          style: TextStyle(
-                            color: Tcolor.black,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
+                        ValueListenableBuilder<String>(
+                            valueListenable: username,
+                            builder: (context, value, child) {
+                              return Text(
+                                username.value,
+                                style: TextStyle(
+                                  color: Tcolor.black,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              );
+                            }),
                         Text(
                           "Lose a Fat Program",
                           style: TextStyle(
@@ -139,29 +135,41 @@ class _ProfileViewState extends State<ProfileView> {
               Row(
                 children: [
                   Expanded(
-                    child: TitleSubtitleCell(
-                      title: height,
-                      subtitle: "Height",
-                    ),
+                    child: ValueListenableBuilder<String>(
+                        valueListenable: height,
+                        builder: (context, value, child) {
+                          return TitleSubtitleCell(
+                            title: height.value,
+                            subtitle: "Height",
+                          );
+                        }),
                   ),
                   const SizedBox(
                     width: 15,
                   ),
-                  Expanded(
-                    child: TitleSubtitleCell(
-                      title: weight,
-                      subtitle: "Weight",
-                    ),
-                  ),
+                  ValueListenableBuilder<String>(
+                      valueListenable: weight,
+                      builder: (context, value, child) {
+                        return Expanded(
+                          child: TitleSubtitleCell(
+                            title: weight.value,
+                            subtitle: "Weight",
+                          ),
+                        );
+                      }),
                   const SizedBox(
                     width: 15,
                   ),
-                  Expanded(
-                    child: TitleSubtitleCell(
-                      title: age,
-                      subtitle: "Age",
-                    ),
-                  ),
+                  ValueListenableBuilder<String>(
+                      valueListenable: age,
+                      builder: (context, value, child) {
+                        return Expanded(
+                          child: TitleSubtitleCell(
+                            title: age.value,
+                            subtitle: "Age",
+                          ),
+                        );
+                      }),
                 ],
               ),
               const SizedBox(
@@ -252,7 +260,7 @@ class _ProfileViewState extends State<ProfileView> {
                           },
                         );
                       },
-                    )
+                    ),
                   ],
                 ),
               )
@@ -261,18 +269,5 @@ class _ProfileViewState extends State<ProfileView> {
         ),
       ),
     );
-  }
-
-  Future<void> loaduserDetails() async {
-    String loadedname = await getusername();
-    String loadedage = await getAge();
-    String loadedheight = await getheight();
-    String loadedweight = await getweight();
-    setState(() {
-      username = loadedname;
-      age = loadedage;
-      height = loadedheight;
-      weight = loadedweight;
-    });
   }
 }

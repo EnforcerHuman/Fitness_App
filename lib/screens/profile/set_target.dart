@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:strongify/common/color_extension.dart';
+import 'package:strongify/functions/Home/water_steps_function.dart';
 import 'package:strongify/functions/activity_tracker_functions.dart';
-import 'package:strongify/screens/profile/activity_tracker_screen.dart';
+import 'package:strongify/main_tab/main_tab_view.dart';
 import '../../common_widget/round_button.dart';
 import '../../common_widget/round_textfield.dart';
 
@@ -66,7 +67,7 @@ class _SetTargetSCreenState extends State<SetTargetSCreen> {
                       RoundTextField(
                         keyboardType: TextInputType.number,
                         controller: watertargetcontroller,
-                        hintText: "Wanter intake",
+                        hintText: "Water intake",
                         icon: 'assets/img/water.png',
                       ),
                       SizedBox(
@@ -96,12 +97,14 @@ class _SetTargetSCreenState extends State<SetTargetSCreen> {
                       RoundButton(
                           title: "Confirm",
                           onPressed: () async {
-                            savetarget(steptargetcontroller.text,
+                            await savetarget(steptargetcontroller.text,
                                 watertargetcontroller.text);
-                            Navigator.of(context).pushReplacement(
+                            gettargets();
+                            // ignore: use_build_context_synchronously
+                            Navigator.of(context).pushAndRemoveUntil(
                                 MaterialPageRoute(
-                                    builder: (ctx) =>
-                                        const ActivityTrackerScreen()));
+                                    builder: (ctx) => const MainTabView()),
+                                (route) => false);
                           }),
                     ],
                   ),

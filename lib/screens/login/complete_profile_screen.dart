@@ -22,42 +22,6 @@ class _CompleteProfileViewState extends State<CompleteProfileSCreen> {
   bool heightError = false;
   bool weightError = false;
 
-//   void _storeUserData() async {
-//     if (selectvalue != null &&
-//         txtDate.text.isNotEmpty &&
-//         weight.text.isNotEmpty &&
-//         height.text.isNotEmpty) {
-//       final userDetails = UserDetails(
-//         gender: selectvalue!,
-//         age: int.parse(txtDate.text),
-//         weight: int.parse(weight.text),
-//         height: int.parse(height.text),
-//       );
-
-//       await adduserdetails(userDetails);
-
-// //retriving data for test purpose
-//       final userDetailsBox = await Hive.openBox<UserDetails>('user_details');
-//       final List<UserDetails> users = userDetailsBox.values.toList();
-
-//       if (users.isNotEmpty) {
-//         print('Age of the first user: ${users[0].gender}');
-//       } else {
-//         print('No users found');
-//       }
-
-//       // Navigate to the next screen
-//       // ignore: use_build_context_synchronously
-//       Navigator.push(
-//         context,
-//         MaterialPageRoute(builder: (context) => const WhatsYourGoal()),
-//       );
-//     } else {
-//       // Handle invalid input or show an error message
-//       print("Please fill in all the details");
-//     }
-//   }
-
   @override
   Widget build(BuildContext context) {
     var media = MediaQuery.of(context).size;

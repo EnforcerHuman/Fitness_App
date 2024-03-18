@@ -2,8 +2,8 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:strongify/common/color_extension.dart';
-import 'package:strongify/db_functions/workoout_progress_function.dart';
 import 'package:strongify/db_functions/workout_schedule.dart';
+import 'package:strongify/functions/workout_functions/progress_functions.dart';
 import 'package:strongify/screens/workout_tracker/workout_detail_screen.dart';
 import 'package:strongify/screens/workout_tracker/workout_schedule.dart';
 import 'package:strongify/utils/workout_tracker.dart';
@@ -29,27 +29,13 @@ class _WorkoutTrackerScreenState extends State<WorkoutTrackerScreen> {
     });
   }
 
-  String date1 = 'N/A',
-      date2 = 'N/A',
-      date3 = 'N/A',
-      date4 = 'N/A',
-      date5 = 'N/A',
-      date6 = 'N/A',
-      date7 = 'N/A';
-  int value1 = 0,
-      value2 = 0,
-      value3 = 0,
-      value4 = 0,
-      value5 = 0,
-      value6 = 0,
-      value7 = 0;
   int touchedIndex = -1;
 
   get showingTooltipOnSpots => null;
   @override
   void initState() {
     super.initState();
-    test();
+    setvalues();
   }
 
   @override
@@ -136,25 +122,25 @@ class _WorkoutTrackerScreenState extends State<WorkoutTrackerScreen> {
                             String weekDay;
                             switch (group.x) {
                               case 0:
-                                weekDay = date1;
+                                weekDay = date1.value;
                                 break;
                               case 1:
-                                weekDay = date2;
+                                weekDay = date2.value;
                                 break;
                               case 2:
-                                weekDay = date3;
+                                weekDay = date3.value;
                                 break;
                               case 3:
-                                weekDay = date4;
+                                weekDay = date4.value;
                                 break;
                               case 4:
-                                weekDay = date5;
+                                weekDay = date5.value;
                                 break;
                               case 5:
-                                weekDay = date6;
+                                weekDay = date6.value;
                                 break;
                               case 6:
-                                weekDay = date7;
+                                weekDay = date7.value;
                                 break;
                               default:
                                 throw Error();
@@ -289,9 +275,10 @@ class _WorkoutTrackerScreenState extends State<WorkoutTrackerScreen> {
                         var wObj = whatArr[index] as Map? ?? {};
                         return InkWell(
                             onTap: () {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (ctx) =>
-                                      WorkoutDetailScreen(dObj: wObj)));
+                              Navigator.of(context).pushReplacement(
+                                  MaterialPageRoute(
+                                      builder: (ctx) =>
+                                          WorkoutDetailScreen(dObj: wObj)));
                             },
                             child: WhatTrainRow(
                               wObj: wObj,
@@ -323,25 +310,25 @@ class _WorkoutTrackerScreenState extends State<WorkoutTrackerScreen> {
     Widget text;
     switch (value.toInt()) {
       case 0:
-        text = Text(date1, style: style);
+        text = Text(date1.value, style: style);
         break;
       case 1:
-        text = Text(date2, style: style);
+        text = Text(date2.value, style: style);
         break;
       case 2:
-        text = Text(date3, style: style);
+        text = Text(date3.value, style: style);
         break;
       case 3:
-        text = Text(date4, style: style);
+        text = Text(date4.value, style: style);
         break;
       case 4:
-        text = Text(date5, style: style);
+        text = Text(date5.value, style: style);
         break;
       case 5:
-        text = Text(date6, style: style);
+        text = Text(date6.value, style: style);
         break;
       case 6:
-        text = Text(date7, style: style);
+        text = Text(date7.value, style: style);
         break;
       default:
         text = Text('unavailable', style: style);
@@ -357,25 +344,32 @@ class _WorkoutTrackerScreenState extends State<WorkoutTrackerScreen> {
   List<BarChartGroupData> showingGroups() => List.generate(7, (i) {
         switch (i) {
           case 0:
-            return makeGroupData(0, value1.toDouble(), Tcolor.primaryGradient,
+            return makeGroupData(
+                0, value1.value.toDouble(), Tcolor.primaryGradient,
                 isTouched: i == touchedIndex);
           case 1:
-            return makeGroupData(1, value2.toDouble(), Tcolor.secondryGradient,
+            return makeGroupData(
+                1, value2.value.toDouble(), Tcolor.secondryGradient,
                 isTouched: i == touchedIndex);
           case 2:
-            return makeGroupData(2, value3.toDouble(), Tcolor.primaryGradient,
+            return makeGroupData(
+                2, value3.value.toDouble(), Tcolor.primaryGradient,
                 isTouched: i == touchedIndex);
           case 3:
-            return makeGroupData(3, value4.toDouble(), Tcolor.secondryGradient,
+            return makeGroupData(
+                3, value4.value.toDouble(), Tcolor.secondryGradient,
                 isTouched: i == touchedIndex);
           case 4:
-            return makeGroupData(4, value5.toDouble(), Tcolor.primaryGradient,
+            return makeGroupData(
+                4, value5.value.toDouble(), Tcolor.primaryGradient,
                 isTouched: i == touchedIndex);
           case 5:
-            return makeGroupData(5, value6.toDouble(), Tcolor.secondryGradient,
+            return makeGroupData(
+                5, value6.value.toDouble(), Tcolor.secondryGradient,
                 isTouched: i == touchedIndex);
           case 6:
-            return makeGroupData(6, value7.toDouble(), Tcolor.primaryGradient,
+            return makeGroupData(
+                6, value7.value.toDouble(), Tcolor.primaryGradient,
                 isTouched: i == touchedIndex);
           default:
             return throw Error();
@@ -412,49 +406,5 @@ class _WorkoutTrackerScreenState extends State<WorkoutTrackerScreen> {
       ],
       showingTooltipIndicators: showTooltips,
     );
-  }
-
-  Future<void> retrivedates() async {
-    String date = DateFormat('yyyy-MM-dd').format(DateTime.now());
-    final last7days = await retrieveLast7DaysProgress(date);
-
-    setState(() {
-      if (last7days.isNotEmpty) value1 = last7days[0].progress.round();
-
-      if (last7days.length >= 2) value2 = last7days[1].progress.round();
-      if (last7days.length >= 3) value3 = last7days[2].progress.round();
-      if (last7days.length >= 4) value4 = last7days[3].progress.round();
-      if (last7days.length >= 5) value5 = last7days[4].progress.round();
-      if (last7days.length >= 6) value6 = last7days[5].progress.round();
-      if (last7days.length >= 7) value7 = last7days[6].progress.round();
-    });
-  }
-
-  String removeYearFromDate(String date) {
-    List<String> dateParts = date.split('-');
-    if (dateParts.length == 3) {
-      return '${dateParts[1]}-${dateParts[2]}';
-    } else {
-      return date;
-    }
-  }
-
-  Future<void> setdateforchart() async {
-    String date = DateFormat('yyyy-MM-dd').format(DateTime.now());
-    final last7days = await retrieveLast7DaysProgress(date);
-    setState(() {
-      if (last7days.isNotEmpty) date1 = removeYearFromDate(last7days[0].Date);
-      if (last7days.length >= 2) date2 = removeYearFromDate(last7days[1].Date);
-      if (last7days.length >= 3) date3 = removeYearFromDate(last7days[2].Date);
-      if (last7days.length >= 4) date4 = removeYearFromDate(last7days[3].Date);
-      if (last7days.length >= 5) date5 = removeYearFromDate(last7days[4].Date);
-      if (last7days.length >= 6) date6 = removeYearFromDate(last7days[5].Date);
-      if (last7days.length >= 7) date7 = removeYearFromDate(last7days[6].Date);
-    });
-  }
-
-  Future<void> test() async {
-    await setdateforchart();
-    await retrivedates();
   }
 }

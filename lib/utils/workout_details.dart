@@ -10,7 +10,7 @@ List<Map<String, dynamic>> exercisesArr = [
         "description": "Gentle exercises to warm up your body.",
         "animation": "assets/img/jumping jack animation.gif",
         "calories": 30,
-        "time": 05.00,
+        "time": 00.05,
       },
       {
         "image": "assets/img/jumping jack.jpg",
@@ -19,7 +19,7 @@ List<Map<String, dynamic>> exercisesArr = [
         "description": "A jumping jack, also known as a star jump...",
         "animation": "assets/img/jumping jack animation.gif",
         "calories": 50,
-        "time": 0.05,
+        "time": 2.00,
       },
       {
         "image": "assets/img/skipping.jpg",

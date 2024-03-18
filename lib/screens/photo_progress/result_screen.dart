@@ -91,8 +91,6 @@ class _ResultScreenState extends State<ResultScreen> {
               const SizedBox(
                 height: 20,
               ),
-
-              //Photo Tab UI
               if (selectButton == 0)
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -126,7 +124,7 @@ class _ResultScreenState extends State<ResultScreen> {
                           ? (list1!.length > list2!.length
                               ? list1!.length
                               : list2!.length)
-                          : 1, // Display one item to show "No images available" message
+                          : 1,
                       itemBuilder: (context, index) {
                         if (list1 == null ||
                             list2 == null ||
@@ -136,7 +134,7 @@ class _ResultScreenState extends State<ResultScreen> {
                             index >= list2!.length) {
                           return Center(
                             child: Text(
-                              'No images available to compare',
+                              'No More images available to compare',
                               style: TextStyle(color: Tcolor.gray),
                             ),
                           );

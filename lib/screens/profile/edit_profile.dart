@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:strongify/common/color_extension.dart';
 import 'package:strongify/db_functions/db_functions.dart';
 import 'package:strongify/db_functions/get_user_details.dart';
-import 'package:strongify/screens/profile/profile_screen.dart';
+import 'package:strongify/functions/profile/userdetails.dart';
 import '../../common_widget/round_button.dart';
 import '../../common_widget/round_textfield.dart';
 
@@ -14,38 +14,17 @@ class EditProfileSCreen extends StatefulWidget {
 }
 
 class _EditProfileViewState extends State<EditProfileSCreen> {
-  String username = 'user';
-  String heightvalue = 'unvailable';
-  String weightvalue = 'unavailable';
-  String age = 'unavilable';
-  late TextEditingController weightcontroller;
-  late TextEditingController txtDatecontroller;
-  late TextEditingController heightcontroller;
+  TextEditingController weightcontroller =
+      TextEditingController(text: weight.value);
+  TextEditingController txtDatecontroller =
+      TextEditingController(text: age.value);
+  TextEditingController heightcontroller =
+      TextEditingController(text: height.value);
   String? selectvalue;
-  bool ageError = false;
-  bool heightError = false;
-  bool weightError = false;
-
-  Future<void> loaduserDetails() async {
-    String loadedage = await getAge();
-    String loadedheight = await getheight();
-    String loadedweight = await getweight();
-    String gender = await getGender();
-    setState(() {
-      age = loadedage;
-      heightvalue = loadedheight;
-      weightvalue = loadedweight;
-      selectvalue = gender;
-      weightcontroller = TextEditingController(text: weightvalue);
-      txtDatecontroller = TextEditingController(text: age);
-      heightcontroller = TextEditingController(text: heightvalue);
-    });
-  }
 
   @override
   void initState() {
     super.initState();
-    loaduserDetails();
   }
 
   @override
@@ -167,15 +146,20 @@ class _EditProfileViewState extends State<EditProfileSCreen> {
                       ),
                       RoundButton(
                           title: "Confirm",
-                          onPressed: () {
-                            edituserdetails(
+                          onPressed: () async {
+                            String gender = await getGender();
+                            setState(() {
+                              selectvalue = gender;
+                            });
+                            await edituserdetails(
                                 newGender: selectvalue!,
                                 newAge: int.parse(txtDatecontroller.text),
                                 newWeight: int.parse(weightcontroller.text),
                                 newHeight: int.parse(heightcontroller.text));
-                            Navigator.of(context).pushReplacement(
-                                MaterialPageRoute(
-                                    builder: (ctx) => const ProfileView()));
+                            loaduserDetails();
+
+                            // ignore: use_build_context_synchronously
+                            Navigator.pop(context);
                           }),
                     ],
                   ),
