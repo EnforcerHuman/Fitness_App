@@ -55,5 +55,23 @@
       });
     });
   </script>
+ <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-app.js"></script>
+ <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-firestore.js"></script>
+ <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-analytics.js"></script>
+ <script>
+  //Replace with your config data
+  var firebaseConfig = {
+    apiKey: "AIzaSyB36srkb9IwH2zHOmPc8zzGUeoAKNELS_Q",
+    authDomain: "strongify-d804d.firebaseapp.com",
+    projectId: "strongify-d804d",
+    storageBucket: "strongify-d804d.appspot.com",
+    messagingSenderId: "747801431993",
+    appId: "1:747801431993:web:a0b2d2de51f4574af97068",
+    measurementId: "G-H1LKHC3HGZ"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  firebase.analytics();
+  </script>
 </body>
 </html>
